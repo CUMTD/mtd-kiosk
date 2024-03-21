@@ -11,6 +11,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@sanity/google-maps-input": "^3.0.2",
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/react-loader": "^1.9.5",
 		"@sanity/vision": "^3.35.2",
