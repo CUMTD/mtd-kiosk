@@ -1,0 +1,68 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/' # Location of package manifests
+    schedule:
+      interval: 'monthly'
+      day: 'monday'
+      time: '07:45'
+      timezone: 'America/Chicago'
+    labels:
+      - 'npm'
+      - 'dependabot'
+    target-branch: 'main'
+    pull-request-branch-name:
+      # Separate sections of the branch name with a hyphen
+      separator: '-'
+    commit-message:
+      prefix: '⬆️ '
+    groups:
+      sanity:
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '@sanity/*'
+          - 'sanity'
+          - 'next-sanity'
+          - 'styled-components'
+      next:
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - 'next'
+          - 'react'
+          - 'react-dom'
+      types:
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '@types/*'
+      lint:
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - 'prettier'
+          - 'lint-staged'
+          - 'husky'
+      ts:
+        update-types:
+          - major
+          - minor
+          - patch
+        patterns:
+          - 'typescript'
+      other:
+        update-types:
+          - minor
+          - patch
