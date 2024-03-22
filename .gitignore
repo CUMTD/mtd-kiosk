@@ -80,7 +80,6 @@ jspm_packages
 .idea
 *.iml
 
-
 # Environment files
 # ignore all local .env files
 *.local
