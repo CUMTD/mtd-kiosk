@@ -16,7 +16,12 @@ export default defineConfig({
 	plugins: [
 		structureTool(),
 		googleMapsInput({
-			apiKey
+			apiKey,
+			defaultLocation: {
+				lat: 40.1139125,
+				lng: -88.224896
+			},
+			defaultZoom: 12
 		}),
 		visionTool({ defaultApiVersion: apiVersion })
 	]

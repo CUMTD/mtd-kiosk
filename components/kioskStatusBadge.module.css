@@ -1,0 +1,14 @@
+.kioskStatusBadge {
+	display: flex;
+	gap: 0.5ch;
+	align-items: center;
+	font-size: small;
+}
+
+.indicatorLight {
+	height: 0.7ch;
+	width: 0.7ch;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+}

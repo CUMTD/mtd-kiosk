@@ -1,3 +1,4 @@
+import StopListAutocomplete from '../../components/stopListAutocomplete';
 import { defineField, defineType } from 'sanity';
 
 const kiosk = defineType({
@@ -31,7 +32,15 @@ const kiosk = defineType({
 			title: 'Stop ID',
 			type: 'string',
 			description:
-				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., _SPFLDPRC_) or a boarding point id, (e.g., _LSQ:2_)'
+				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., SPFLDPRC) or a boarding point id, (e.g., LSE:2)',
+			components: {
+				input: StopListAutocomplete
+			}
+		}),
+		defineField({
+			name: 'iStop',
+			title: 'iStop',
+			type: 'boolean'
 		}),
 		defineField({
 			name: 'location',

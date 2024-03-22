@@ -27,6 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
 
 # vercel
@@ -115,3 +116,4 @@ yalc.lock
 
 ## Documentation Report
 scripts/docs-report.md
+.env
