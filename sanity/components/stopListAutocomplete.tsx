@@ -1,5 +1,4 @@
-import fetchStopList from '@/helpers/fetchStopList';
-import { GetStopsReponse, StopPoint } from '@/types/getStopsResponse';
+import fetchStopList from '../../helpers/fetchStopList';
 import { Autocomplete, Box, Card, Code, Flex, Text } from '@sanity/ui';
 import { useEffect, useState } from 'react';
 import { StringInputProps } from 'sanity';

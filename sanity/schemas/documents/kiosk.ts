@@ -1,4 +1,4 @@
-import StopListAutocomplete from '@/sanity/components/stopListAutocomplete';
+import StopListAutocomplete from '../../components/stopListAutocomplete';
 import { defineField, defineType } from 'sanity';
 
 const kiosk = defineType({
