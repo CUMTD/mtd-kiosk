@@ -80,8 +80,6 @@ jspm_packages
 .idea
 *.iml
 
-# VS Code settings
-/.vscode
 
 # Environment files
 # ignore all local .env files
