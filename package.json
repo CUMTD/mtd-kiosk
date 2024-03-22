@@ -1,15 +1,18 @@
 {
-	"name": "mtd-kiosk",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"prettier": "prettier --write .",
-		"prepare": "husky"
+	"author": "MTD",
+	"bugs": {
+		"url": "https://github.com/CUMTD/mtd-kiosk/issues"
 	},
+	"contributors": [
+		{
+			"name": "Matt Novelli",
+			"url": "https://github.com/mattnovelli"
+		},
+		{
+			"name": "Ryan Blackman",
+			"url": "https://github.com/rblackman"
+		}
+	],
 	"dependencies": {
 		"@sanity/google-maps-input": "^3.0.2",
 		"@sanity/image-url": "^1.0.2",
@@ -35,5 +38,27 @@
 		"lint-staged": "^15.2.2",
 		"prettier": "^3.2.5",
 		"typescript": "^5"
-	}
+	},
+	"engines": {
+		"node": ">= 20.10.0",
+		"npm": ">= 10.2.3"
+	},
+	"name": "mtd-kiosk",
+	"nextBundleAnalysis": {
+		"budget": 204800,
+		"budgetPercentIncreaseRed": 10,
+		"minimumChangeThreshold": 100,
+		"showDetails": true
+	},
+	"private": true,
+	"repository": "github:CUMTD/mtd-kiosk",
+	"scripts": {
+		"build": "next build",
+		"dev": "next dev",
+		"lint": "next lint",
+		"prepare": "husky",
+		"prettier": "prettier --write .",
+		"start": "next start"
+	},
+	"version": "0.1.0"
 }
