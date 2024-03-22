@@ -35,7 +35,9 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install Dependancies
-        run: npm ci
+        run: |
+          npm ci
+          npm install -g @sanity/cli@latest
 
       - name: Build Next
         run: npm run build
