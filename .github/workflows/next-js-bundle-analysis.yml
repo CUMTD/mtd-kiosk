@@ -41,7 +41,7 @@ jobs:
         run: npm ci
 
       - name: Build Next
-        run: npm run build
+        run: npm run build:next
 
       - name: Analyze Bundle
         run: npx -p nextjs-bundle-analysis report
