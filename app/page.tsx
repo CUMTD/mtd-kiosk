@@ -1,6 +1,6 @@
-import KioskCards from '@/components/kioskCards';
+import KioskCards from '../components/kioskCards';
+import Toolbar from '../components/toolbar';
 import styles from './page.module.css';
-import Toolbar from '@/components/toolbar';
 
 export default function Home() {
 	return (

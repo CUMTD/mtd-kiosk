@@ -1,18 +1,21 @@
-import { visionTool } from '@sanity/vision';
-import { defineConfig } from 'sanity';
-import { structureTool } from 'sanity/structure';
+import type { DocumentValues, InferSchemaValues } from '@sanity-typed/types';
+import { defineConfig } from '@sanity-typed/types';
 import { googleMapsInput } from '@sanity/google-maps-input';
-import { apiVersion, dataset, projectId } from './sanity/env';
-import { schema } from './sanity/schema';
+import { visionTool } from '@sanity/vision';
+import { structureTool } from 'sanity/structure';
 import throwError from './helpers/throwError';
+import { apiVersion, dataset, projectId } from './sanity/env';
+import kiosk from './sanity/schemas/documents/kiosk';
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
-export default defineConfig({
+const config = defineConfig({
 	basePath: '/studio',
 	projectId,
 	dataset,
-	schema,
+	schema: {
+		types: [kiosk]
+	},
 	plugins: [
 		structureTool(),
 		googleMapsInput({
@@ -26,3 +29,9 @@ export default defineConfig({
 		visionTool({ defaultApiVersion: apiVersion })
 	]
 });
+
+export default config;
+
+export type SanityValues = InferSchemaValues<typeof config>;
+
+export type SanityDocuments = DocumentValues<SanityValues>;

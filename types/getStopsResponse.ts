@@ -1,4 +1,4 @@
-export interface GetStopsReponse {
+export interface GetStopsResponse {
 	time: string;
 	changeset_id: string;
 	new_changeset: boolean;
