@@ -1,11 +1,11 @@
-import Kiosk from '@/sanity/schemas/types/kiosk';
 import { Inter } from 'next/font/google';
+import { SanityValues } from '../sanity.config';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
 import KioskStatusBadge from './kioskStatusBadge';
 
 interface KioskCardProps {
-	kiosk: Kiosk;
+	kiosk: SanityValues['kiosk'];
 }
 
 const inter = Inter({ subsets: ['latin'] });

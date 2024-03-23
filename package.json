@@ -14,6 +14,8 @@
 		}
 	],
 	"dependencies": {
+		"@sanity-typed/client": "^3.1.2",
+		"@sanity-typed/types": "^6.3.3",
 		"@sanity/google-maps-input": "^3.0.2",
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/react-loader": "^1.9.5",
@@ -40,7 +42,6 @@
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
 		"prettier": "^3.2.5",
-		"sanity-codegen": "^1.0.0-alpha.45",
 		"typescript": "^5"
 	},
 	"engines": {
