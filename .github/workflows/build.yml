@@ -41,7 +41,7 @@ jobs:
           npm install -g @sanity/cli@latest
 
       - name: Build Next
-        run: npm run build
+        run: npm run build:next
 
       - name: Build Sanity
-        run: sanity build
+        run: npm run build:sanity

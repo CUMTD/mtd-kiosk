@@ -28,7 +28,9 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop } }: 
 				<a href={`https://kiosk.mtd.org/kiosks/${slug}/`} target="_blank" className={`${inter.className} ${styles.button}`}>
 					View
 				</a>
-				<a className={styles.button}>Manage Ads</a>
+				<a className={styles.button} href="/404">
+					Manage Ads
+				</a>
 			</div>
 		</div>
 	);
