@@ -4,7 +4,7 @@ import throwError from './throwError';
 const GET_STOPS_API_ENDPOINT = process.env.NEXT_PUBLIC_MTD_API_GET_STOPS_URL ?? throwError('Missing NEXT_PUBLIC_MTD_API_GET_STOPS_URL');
 
 export default async function fetchStopList() {
-	var response = null;
+	let response: Response | null = null;
 	try {
 		console.log('querying api for stops');
 		response = await fetch(GET_STOPS_API_ENDPOINT, { cache: 'force-cache' });

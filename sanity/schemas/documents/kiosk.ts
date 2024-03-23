@@ -34,7 +34,7 @@ const kiosk = defineType({
 			title: 'Phonetic Name',
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
-			validation: (rule) => rule.required().error('Phonetic name is required.').min(5).error('Phonetic name must be at least 5 characters')
+			validation: (rule) => rule.min(5).error('Phonetic name must be at least 5 characters')
 		}),
 		defineField({
 			name: 'stopId',
@@ -46,16 +46,13 @@ const kiosk = defineType({
 				input: StopListAutocomplete
 			},
 			validation: (rule) =>
-				rule
-					.required()
-					.error('Stop ID is required.')
-					.custom((val) => {
-						if (val === undefined) {
-							return 'Stop ID is required';
-						}
+				rule.custom((val) => {
+					if (val === undefined) {
+						return 'Stop ID is required';
+					}
 
-						return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
-					})
+					return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
+				})
 		}),
 		defineField({
 			name: 'iStop',
