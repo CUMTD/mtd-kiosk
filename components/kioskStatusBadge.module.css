@@ -3,6 +3,7 @@
 	gap: 0.5ch;
 	align-items: center;
 	font-size: small;
+	width: 30%;
 }
 
 .indicatorLight {
@@ -11,4 +12,20 @@
 	background-color: #bbb;
 	border-radius: 50%;
 	display: inline-block;
+}
+
+.healthy {
+	background-color: var(--kiosk-healthy);
+}
+
+.warning {
+	background-color: var(--kiosk-warning);
+}
+
+.critical {
+	background-color: var(--kiosk-critical);
+}
+
+.unknown {
+	background-color: var(--kiosk-unknown);
 }

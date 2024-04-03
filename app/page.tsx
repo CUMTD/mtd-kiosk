@@ -1,14 +1,15 @@
+'use client';
 import KioskCards from '../components/kioskCards';
-import Toolbar from '../components/toolbar';
+import KioskMap from '../components/kioskMap';
 import styles from './page.module.css';
 
 export default function Home() {
 	return (
-		<>
-			<Toolbar />
+		<div style={{ height: '100vh', overflow: 'clip' }}>
 			<main className={styles.main}>
+				<KioskMap />
 				<KioskCards />
 			</main>
-		</>
+		</div>
 	);
 }

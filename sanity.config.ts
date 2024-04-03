@@ -1,21 +1,22 @@
-import type { DocumentValues, InferSchemaValues } from '@sanity-typed/types';
-import { defineConfig } from '@sanity-typed/types';
 import { googleMapsInput } from '@sanity/google-maps-input';
 import { visionTool } from '@sanity/vision';
 import { structureTool } from 'sanity/structure';
 import throwError from './helpers/throwError';
 import { apiVersion, dataset, projectId } from './sanity/env';
 import kiosk from './sanity/schemas/documents/kiosk';
+import advertisement from './sanity/schemas/documents/advertisement';
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
-const config = defineConfig({
+const config = {
 	basePath: '/studio',
 	projectId,
 	dataset,
 	schema: {
-		types: [kiosk]
+		types: [kiosk, advertisement]
 	},
+	title: 'MTD Kiosks',
+
 	plugins: [
 		structureTool(),
 		googleMapsInput({
@@ -28,10 +29,6 @@ const config = defineConfig({
 		}),
 		visionTool({ defaultApiVersion: apiVersion })
 	]
-});
+};
 
 export default config;
-
-export type SanityValues = InferSchemaValues<typeof config>;
-
-export type SanityDocuments = DocumentValues<SanityValues>;

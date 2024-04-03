@@ -14,20 +14,23 @@
 		}
 	],
 	"dependencies": {
-		"@sanity-typed/client": "^3.1.2",
-		"@sanity-typed/types": "^6.3.3",
 		"@sanity/google-maps-input": "^3.0.2",
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/ui": "^2.0.12",
 		"@sanity/vision": "^3.35.2",
+		"@vis.gl/react-google-maps": "^0.8.1",
+		"clsx": "^2.1.0",
 		"next": "14.1.4",
 		"next-sanity": "^8.5.0",
 		"react": "^18",
 		"react-dom": "^18",
+		"react-icons": "^5.0.1",
+		"recoil": "^0.7.7",
 		"sanity": "^3.35.2",
 		"styled-components": "^6.1.8"
 	},
 	"devDependencies": {
+		"@types/google-map-react": "^2.1.10",
 		"@types/react": "^18",
 		"eslint": "^8",
 		"eslint-config-next": "14.1.4",

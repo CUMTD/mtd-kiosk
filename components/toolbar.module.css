@@ -2,8 +2,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 2.5rem;
+	padding: 3.5rem;
 	height: 3rem;
-	background-color: #2f2f2f;
+	background-color: black;
 	color: white;
 }

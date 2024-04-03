@@ -17,14 +17,7 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.words": [
-		"codegen",
-		"geopoint",
-		"GTFS",
-		"Novelli",
-		"Rqst",
-		"SPFLDPRC"
-	],
+	"cSpell.words": ["codegen", "geopoint", "GTFS", "Novelli", "Rqst", "SPFLDPRC"],
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"files.associations": {
@@ -43,5 +36,6 @@
 	},
 	"files.insertFinalNewline": true,
 	"files.trimFinalNewlines": true,
-	"files.trimTrailingWhitespace": true
+	"files.trimTrailingWhitespace": true,
+	"typescript.tsdk": "node_modules\\typescript\\lib"
 }

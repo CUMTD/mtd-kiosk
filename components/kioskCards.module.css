@@ -1,8 +1,13 @@
 .kioskCardsContainer {
-	display: flex;
-	flex-wrap: wrap;
+	width: 100%;
 	gap: 2em;
+	padding: 2em;
+	margin-bottom: 5em;
+	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	justify-content: center;
-	padding: 3em 1em 5em 1em;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	flex: 1;
 }

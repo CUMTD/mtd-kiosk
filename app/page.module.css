@@ -1,9 +1,10 @@
 .main {
 	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	min-height: 100vh;
+	flex-direction: row;
+	/* justify-content: space-between; */
+	/* align-items: center; */
+	/* min-height: 100vh; */
+	height: 100%;
 }
 
 .description {
@@ -62,7 +63,7 @@
 
 .card h2 {
 	font-weight: 600;
-	margin-bottom: 0.7rem;
+	/* margin-bottom: 0.7rem; */
 }
 
 .card p {
@@ -135,7 +136,7 @@
 
 	.grid {
 		grid-template-columns: 1fr;
-		margin-bottom: 120px;
+		/* margin-bottom: 120px; */
 		max-width: 320px;
 		text-align: center;
 	}

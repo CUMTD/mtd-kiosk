@@ -1,10 +1,12 @@
-import { defineField, defineType } from '@sanity-typed/types';
+import { defineField, defineType } from '@sanity/types';
 import StopListAutocomplete from '../../components/stopListAutocomplete';
+import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({
 	name: 'kiosk',
 	title: 'Kiosk',
 	type: 'document',
+	icon: CgDisplaySpacing,
 	fields: [
 		defineField({
 			name: 'displayName',
@@ -101,3 +103,20 @@ const kiosk = defineType({
 });
 
 export default kiosk;
+
+export type Kiosk = {
+	_id: string;
+	displayName: string;
+	phoneticName: string;
+	slug: {
+		current: string;
+	};
+	stopId: string;
+	iStop: boolean;
+	location: {
+		lat: number;
+		lng: number;
+	};
+	hasLed: boolean;
+	ledIp: string;
+};
