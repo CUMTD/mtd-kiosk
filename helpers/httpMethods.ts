@@ -38,6 +38,7 @@ export async function fetchKioskTickets(id: string) {
 		console.error(error);
 		return [];
 	}
+
 }
 
 // returns true if the ticket was successfully updated

@@ -39,6 +39,7 @@ function KioskStatusBadgePlaceholder() {
 		<div className={styles.kioskStatusBadge}>
 			<span className={styles.indicatorLight}></span>
 			Unknown
+
 		</div>
 	);
 }

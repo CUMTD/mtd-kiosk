@@ -31,6 +31,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 	// state for health status, to be passed into KioskStatusBadge as a prop
 	const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
 
+
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
 
 	useEffect(() => {
