@@ -1,11 +1,8 @@
-.main {
-	display: flex;
-	flex-direction: row;
-	/* justify-content: space-between; */
-	/* align-items: center; */
-	/* min-height: 100vh; */
-	height: 100%;
-}
+/* .content {
+	grid-area: content;
+	grid-template-areas: 'map cards';
+	grid-template-columns: 1fr minmax(20rem, 40rem);
+} */
 
 .description {
 	display: inherit;

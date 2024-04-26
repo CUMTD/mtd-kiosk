@@ -1,0 +1,21 @@
+.loadingAnimation {
+	/* infinite rotate */
+	animation: rotate 2s infinite linear;
+}
+
+.white {
+	color: white;
+}
+
+.large {
+	font-size: 150%;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

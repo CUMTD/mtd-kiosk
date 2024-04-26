@@ -1,0 +1,81 @@
+.button {
+	/* make it like githubs button  todo make variable*/
+	background-color: #2ea44f;
+	color: white;
+	border: 0;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.button:disabled {
+	background-color: #94d3a2;
+}
+
+.addButtonContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 1em;
+	align-items: center;
+}
+
+.label {
+	gap: 1em;
+}
+
+/* add space after label */
+.label > * {
+	margin-top: 1ch;
+}
+
+.newIssueForm {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.description {
+	resize: none;
+}
+
+.title,
+.description {
+	width: 100%;
+}
+
+.dialog {
+	z-index: 1001;
+	padding: 2em;
+	border-radius: var(--border-radius);
+	border: none;
+	border-top: 1.25px dashed rgb(var(--card-border-rgb));
+	/* border-width: 1px; */
+	/* center */
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: var(--card-background-color);
+}
+
+.dialogHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 1em;
+}
+
+.closeButton {
+	cursor: pointer;
+	/* remove all button styling */
+	background: none;
+	border: none;
+}
+
+.closeButton:hover {
+	color: red;
+}
+
+.dialog::backdrop {
+	background: rgba(0, 0, 0, 0.5);
+}

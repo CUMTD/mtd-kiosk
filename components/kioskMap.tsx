@@ -1,3 +1,4 @@
+'use client';
 import { APIProvider, AdvancedMarker, InfoWindow, Map, MapCameraChangedEvent, MapMouseEvent, Marker, useAdvancedMarkerRef } from '@vis.gl/react-google-maps';
 import { client } from '../sanity/lib/client';
 import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
@@ -42,27 +43,27 @@ export default function KioskMap() {
 
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
-			{showMap && (
-				<div style={{ flex: 3 }} className={styles.mapContainer}>
-					<Map
-						defaultCenter={def_position}
-						defaultZoom={13}
-						gestureHandling={'greedy'}
-						disableDefaultUI={true}
-						mapId={'1c910bd63b002525'}
-						onClick={handleMapClick}
-						clickableIcons={false}
+			{/* {showMap && ( */}
+			<aside className={styles.mapContainer}>
+				<Map
+					defaultCenter={def_position}
+					defaultZoom={13}
+					gestureHandling={'greedy'}
+					disableDefaultUI={true}
+					mapId={'1c910bd63b002525'} //todo .env
+					onClick={handleMapClick}
+					clickableIcons={false}
 
-						// center={kiosks.find((kiosk) => kiosk._id === focusedKioskId)?.location ?? def_position}
-					>
-						{kiosks.length > 0 &&
-							kiosks.map((kiosk) => {
-								return <KioskMarker key={kiosk._id} kiosk={kiosk} />;
-							})}
-						{/* <Marker position={position} /> */}
-					</Map>
-				</div>
-			)}
+					// center={kiosks.find((kiosk) => kiosk._id === focusedKioskId)?.location ?? def_position}
+				>
+					{kiosks.length > 0 &&
+						kiosks.map((kiosk) => {
+							return <KioskMarker key={kiosk._id} kiosk={kiosk} />;
+						})}
+					{/* <Marker position={position} /> */}
+				</Map>
+			</aside>
+			{/* )} */}
 		</APIProvider>
 	);
 }
@@ -93,8 +94,7 @@ function KioskMarker({ kiosk }: KioskMarkerProps) {
 			}}
 			// ref={markerRef}
 		>
-			{/* todo wire up to actul health */}
-			<KioskMapIcon status={HealthStatus.HEALTHY} id={kiosk._id} />
+			<KioskMapIcon id={kiosk._id} />
 		</AdvancedMarker>
 	);
 }
@@ -104,3 +104,22 @@ function KioskMarker({ kiosk }: KioskMarkerProps) {
 // 		<KioskCard kiosk={kiosk} index={1} />
 // 		{/* Hello World */}
 // 	</InfoWindow>
+
+interface IndividualKioskMapProps {
+	kiosk: Kiosk;
+}
+export function IndividualKioskMap({ kiosk }: IndividualKioskMapProps) {
+	const position = { lat: kiosk.location.lat, lng: kiosk.location.lng };
+
+	return (
+		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
+			<div className={styles.individualKioskMap}>
+				<Map center={position} defaultZoom={15} gestureHandling={'greedy'} disableDefaultUI={true} mapId={'1c910bd63b002525'} panControl={false}>
+					<AdvancedMarker position={position} key={kiosk._id}>
+						<KioskMapIcon id={kiosk._id} />
+					</AdvancedMarker>
+				</Map>
+			</div>
+		</APIProvider>
+	);
+}

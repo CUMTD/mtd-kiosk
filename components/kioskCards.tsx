@@ -1,27 +1,24 @@
+'use client';
+import { useSetRecoilState } from 'recoil';
 import { Kiosk } from '../sanity/schemas/documents/kiosk';
 import KioskCard from './kioskCard';
 import styles from './kioskCards.module.css';
-import { useEffect, useState } from 'react';
-import fetchKioskList from '../helpers/fetchKioskList';
+import { focusedKioskIdState } from '../state/mapState';
 
-export default function KioskCards() {
-	const [kiosks, setKiosks] = useState<Kiosk[]>([]);
-
-	useEffect(() => {
-		const fetchKiosks = async () => {
-			const kiosks = await fetchKioskList();
-			setKiosks(kiosks);
-		};
-		fetchKiosks();
-	}, []);
+interface KioskCardsProps {
+	kiosks: Kiosk[];
+	readonly?: boolean;
+}
+export default function KioskCards({ kiosks, readonly }: KioskCardsProps) {
+	const setFocusedKioskId = useSetRecoilState(focusedKioskIdState);
 
 	return (
-		<div className={styles.kioskCardsContainer}>
+		<main className={styles.kioskCardsContainer}>
 			{kiosks
 				.sort((a, b) => a.displayName.localeCompare(b.displayName))
 				.map((kiosk, idx) => (
-					<KioskCard key={kiosk._id} kiosk={kiosk} index={idx} />
+					<KioskCard key={kiosk._id} kiosk={kiosk} index={idx} clickable={!readonly} />
 				))}
-		</div>
+		</main>
 	);
 }

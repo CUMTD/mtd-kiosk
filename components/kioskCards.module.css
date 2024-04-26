@@ -1,13 +1,20 @@
-.kioskCardsContainer {
-	width: 100%;
+/* .kioskCards {
 	gap: 2em;
-	padding: 2em;
-	margin-bottom: 5em;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	overflow-y: scroll;
+	/* overflow-y: scroll; */
+
+.kioskCardsContainer {
 	scroll-behavior: smooth;
-	flex: 1;
+	display: flex;
+	flex-direction: column;
+	/* width: 100%; */
+	gap: 1em;
+	align-items: center;
+	grid-area: cards;
+	overflow-y: scroll;
+	padding: 2em;
+	background-color: rgb(var(--background-secondary-rgb));
 }

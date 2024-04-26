@@ -1,24 +1,40 @@
-import ShowMapButton from './showMapButton';
+import Link from 'next/link';
 import styles from './toolbar.module.css';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import UserIcon from './userIcon';
 
-interface ToolbarProps {
-	mapButton?: boolean;
-}
+export default function Toolbar() {
+	const { data: session } = useSession({ required: true });
 
-export default function Toolbar({ mapButton }: ToolbarProps) {
 	return (
 		<div className={styles.toolbar}>
-			<div style={{ display: 'flex', gap: '1ch' }}>
-				<MTDLogo />
+			<Link href="/">
+				<div style={{ display: 'flex', gap: '1ch' }}>
+					<MTDLogo />
 
-				<h1 style={{ fontWeight: '500' }}>Kiosk Dashboard</h1>
-			</div>
-			{mapButton && <ShowMapButton />}
+					<h1 style={{ fontWeight: '500' }}>Kiosks</h1>
+				</div>
+			</Link>
+
+			{session && (
+				<div className={styles.authBox}>
+					<div className={styles.user}>
+						<p>
+							Logged in as <b>{session?.user?.name}</b>
+						</p>
+						<Link className={styles.signOut} href="/api/auth/signout">
+							Sign Out
+						</Link>
+					</div>
+					{/* todo add fallback */}
+					<UserIcon />
+				</div>
+			)}
 		</div>
 	);
 }
 
 export function MTDLogo() {
-	return <Image width={100} height={50} src="/mtd.svg" alt="MTD Logo" />;
+	return <Image className={styles.logo} width={100} height={50} src="/mtd.svg" alt="MTD Logo" />;
 }

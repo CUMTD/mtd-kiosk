@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 export const showMapState = atom<boolean>({
 	key: 'showMapState',
-	default: false
+	default: true
 });
 
 export const focusedKioskIdState = atom<string | null>({

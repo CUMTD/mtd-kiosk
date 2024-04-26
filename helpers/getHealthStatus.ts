@@ -8,7 +8,7 @@ const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? t
 export default async function getStatus(kioskId: string, kioskObj: KioskObject): Promise<HealthStatus> {
 	try {
 		const response = await fetch(
-			`${KIOSK_HEALTH_ENDPOINT}/api/kiosk/${kioskId}/health/${KioskObject[kioskObj].toLowerCase()}`,
+			`${KIOSK_HEALTH_ENDPOINT}/kiosk/${kioskId}/health/${KioskObject[kioskObj].toLowerCase()}`,
 
 			{
 				// cache: 'no-store'

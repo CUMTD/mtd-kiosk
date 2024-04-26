@@ -1,0 +1,13 @@
+.individualKioskMap {
+	max-width: 25em;
+	height: 15em;
+	border-radius: var(--border-radius);
+	overflow: clip;
+	flex: 1;
+}
+
+.mapContainer {
+	grid-area: map;
+	place-self: stretch;
+	width: 100%;
+}

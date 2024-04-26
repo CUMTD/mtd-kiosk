@@ -1,41 +1,46 @@
+'use client';
 import { Inter } from 'next/font/google';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
 import { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { focusedKioskIdState } from '../state/mapState';
 import clsx from 'clsx';
-import { Suspense, useEffect, useRef, useState } from 'react';
-import { KioskObject } from '../types/KioskObjects';
+import { useEffect, useRef, useState } from 'react';
 import { HealthStatus } from '../types/HealthStatus';
-import KioskStatusBadge from './kioskStatusBadge';
-import getStatus from '../helpers/getHealthStatus';
 import Link from 'next/link';
+import getHealthStatuses from '../helpers/getHealthStatuses';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import { KioskObject } from '../types/KioskObjects';
+import KioskStatusBadge from './kioskStatusBadge';
+import { showProblemsOnlyState } from '../state/kioskState';
+import { GoChevronRight } from 'react-icons/go';
 
 interface KioskCardProps {
 	kiosk: Kiosk;
 	index: number;
+	clickable?: boolean;
 }
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, index }: KioskCardProps) {
+export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, index, clickable }: KioskCardProps) {
 	const KioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
 	// state for health status, to be passed into KioskStatusBadge as a prop
-	const [healthStatus, setHealthStatus] = useState(HealthStatus.UNKNOWN);
+	const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses>();
 
-	// // for each KioskObject, get the health status
-	// Object.values(KioskObject).forEach(async (kioskObject) => {
-	// 	if (typeof kioskObject === 'number') {
-	// 		const status = await getStatus(_id, kioskObject);
-	// 		setHealthStatus(status);
-	// 	}
-	// 	// console.log('kioskobj', kioskObject);
-	// 	// const status = await getStatus(_id, kioskObject);
-	// 	// setHealthStatus(status);
-	// });
+	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
+
+	useEffect(() => {
+		async function fetchHealthStatus() {
+			const healthStatuses = await getHealthStatuses(_id);
+			if (healthStatuses) setHealthStatus(healthStatuses);
+		}
+		fetchHealthStatus();
+		setTimeout(() => fetchHealthStatus(), 10000);
+	}, [_id]);
 
 	useEffect(() => {
 		if (focusedKiosk === _id && KioskCardRef.current) {
@@ -44,12 +49,36 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 		}
 	}, [focusedKiosk, _id]);
 
-	// todo wire this up
-	const kioskCardClasses = clsx(styles.kioskCard, {
-		[styles.healthy]: healthStatus === HealthStatus.HEALTHY,
-		[styles.warning]: healthStatus === HealthStatus.WARNING,
-		[styles.critical]: healthStatus === HealthStatus.CRITICAL,
-		[styles.unknown]: healthStatus === HealthStatus.UNKNOWN
+	const [kioskCardClasses, setKioskCardClasses] = useState<string>(styles.kioskCard);
+
+	useEffect(() => {
+		if (healthStatus) {
+			setKioskCardClasses(
+				clsx(styles.kioskCard, {
+					[styles.healthy]: healthStatus.overallHealth === HealthStatus.HEALTHY,
+					[styles.warning]: healthStatus.overallHealth === HealthStatus.WARNING,
+					[styles.critical]: healthStatus.overallHealth === HealthStatus.CRITICAL,
+					[styles.unknown]: healthStatus.overallHealth === HealthStatus.UNKNOWN
+				})
+			);
+		}
+	}, [healthStatus]);
+
+	// const kioskCardClasses =
+	// 	healthStatus &&
+	// 	clsx(styles.kioskCard, {
+	// 		[styles.healthy]: healthStatus.overallHealth === HealthStatus.HEALTHY,
+	// 		[styles.warning]: healthStatus.overallHealth === HealthStatus.WARNING,
+	// 		[styles.critical]: healthStatus.overallHealth === HealthStatus.CRITICAL,
+	// 		[styles.unknown]: healthStatus.overallHealth === HealthStatus.UNKNOWN
+	// 	});
+
+	if (showProblemsOnly && healthStatus?.overallHealth === HealthStatus.HEALTHY) return null;
+
+	const issuesButtonClasses = clsx({
+		[inter.className]: true,
+		[styles.button]: true,
+		[styles.openTicketCount]: healthStatus && healthStatus.openTicketCount > 0
 	});
 
 	return (
@@ -58,33 +87,45 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 			className={kioskCardClasses}
 			id={_id}
 			ref={KioskCardRef}
-			tabIndex={index}
-			onClick={() => setFocusedKiosk(_id)}
+			tabIndex={clickable ? index : undefined}
+			onClick={() => clickable && setFocusedKiosk(_id)}
 			role="button"
-			onBlur={() => setFocusedKiosk(null)}
+			onBlur={() => clickable && setFocusedKiosk(null)}
 		>
-			<div className={styles.badges}>
-				<KioskStatusBadge kioskObject={KioskObject.Button} id={_id} />
-				<KioskStatusBadge kioskObject={KioskObject.LED} id={_id} />
-				<KioskStatusBadge kioskObject={KioskObject.LCD} id={_id} />
-			</div>
+			{
+				<div className={styles.badges}>
+					<KioskStatusBadge kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} />
+					<KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} />
+					<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} />
+				</div>
+			}
+
 			<div className={styles.kioskName}>
 				<h2>{displayName}</h2>
 				{iStop && <IStopIcon />}
 			</div>
 
 			<div className={styles.buttonContainer}>
-				<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className} button`}>
+				<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
 					View
 				</Link>
-				<Link href={`dashboard/issues/${_id}`} className={`${inter.className} button`}>
-					Issue Tracker
+
+				<Link href={`/issues/${_id}`} className={issuesButtonClasses}>
+					{healthStatus && healthStatus.openTicketCount > 0 ? (
+						<>
+							{healthStatus?.openTicketCount} open {healthStatus?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
+						</>
+					) : (
+						'Issue Tracker'
+					)}
 				</Link>
-				{/* <button className={styles.button} onClick={() => router.push(`/kiosks/${slug.current}/manage`)}>
-					Manage Ads
-				</button> */}
+
+				{/* {healthStatus && healthStatus.openTicketCount > 0 && (
+					<div className={styles.openTicketCount}>
+						<span className={styles.openTicketCountText}></span>
+					</div>
+				)} */}
 			</div>
-			{/* </Link> */}
 		</div>
 	);
 }

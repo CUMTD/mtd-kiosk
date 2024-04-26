@@ -2,7 +2,7 @@
 	display: flex;
 	gap: 0.5ch;
 	align-items: center;
-	font-size: small;
+	/* font-size: small; */
 	width: 30%;
 }
 

@@ -1,15 +1,20 @@
-'use client';
+// 'use client';
+import { useSession } from 'next-auth/react';
 import KioskCards from '../components/kioskCards';
 import KioskMap from '../components/kioskMap';
 import styles from './page.module.css';
+import IssuePage from './issues/[id]/page';
+import { Filters } from '../components/Filters';
+import { fetchKiosk, fetchKioskList } from '../helpers/httpMethods';
 
-export default function Home() {
+export default async function Home() {
+	const kiosks = await fetchKioskList();
+
 	return (
-		<div style={{ height: '100vh', overflow: 'clip' }}>
-			<main className={styles.main}>
-				<KioskMap />
-				<KioskCards />
-			</main>
-		</div>
+		<>
+			{/* <Filters /> */}
+			<KioskMap />
+			<KioskCards kiosks={kiosks} />
+		</>
 	);
 }
