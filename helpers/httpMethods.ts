@@ -22,17 +22,22 @@ export async function fetchKiosk(id: string) {
 
 export async function fetchKioskTickets(id: string) {
 	// make fetch request to API_ENDPOINT
-	const response = await fetch(`${API_ENDPOINT}/kiosk/${id}/tickets`, {
-		next: {
-			tags: ['tickets']
-		}
-	});
-	const data = (await response.json()) as KioskTicket[];
+	try {
+		const response = await fetch(`${API_ENDPOINT}/kiosk/${id}/tickets`, {
+			next: {
+				tags: ['tickets']
+			}
+		});
+		const data = (await response.json()) as KioskTicket[];
 
-	//sort by date
-	// data.sort((a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime());
+		//sort by date
+		// data.sort((a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime());
 
-	return data;
+		return data;
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
 }
 
 // returns true if the ticket was successfully updated
