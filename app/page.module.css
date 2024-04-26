@@ -1,10 +1,8 @@
-.main {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	min-height: 100vh;
-}
+/* .content {
+	grid-area: content;
+	grid-template-areas: 'map cards';
+	grid-template-columns: 1fr minmax(20rem, 40rem);
+} */
 
 .description {
 	display: inherit;
@@ -62,7 +60,7 @@
 
 .card h2 {
 	font-weight: 600;
-	margin-bottom: 0.7rem;
+	/* margin-bottom: 0.7rem; */
 }
 
 .card p {
@@ -135,7 +133,7 @@
 
 	.grid {
 		grid-template-columns: 1fr;
-		margin-bottom: 120px;
+		/* margin-bottom: 120px; */
 		max-width: 320px;
 		text-align: center;
 	}

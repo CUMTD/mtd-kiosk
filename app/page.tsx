@@ -1,14 +1,20 @@
+// 'use client';
+import { useSession } from 'next-auth/react';
 import KioskCards from '../components/kioskCards';
-import Toolbar from '../components/toolbar';
+import KioskMap from '../components/kioskMap';
 import styles from './page.module.css';
+import IssuePage from './issues/[id]/page';
+import { Filters } from '../components/Filters';
+import { fetchKiosk, fetchKioskList } from '../helpers/httpMethods';
 
-export default function Home() {
+export default async function Home() {
+	const kiosks = await fetchKioskList();
+
 	return (
 		<>
-			<Toolbar />
-			<main className={styles.main}>
-				<KioskCards />
-			</main>
+			{/* <Filters /> */}
+			<KioskMap />
+			<KioskCards kiosks={kiosks} />
 		</>
 	);
 }

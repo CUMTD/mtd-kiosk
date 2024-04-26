@@ -1,9 +1,63 @@
 .toolbar {
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 2.5rem;
-	height: 3rem;
-	background-color: #2f2f2f;
-	color: white;
+	padding: 3.5rem;
+	/* height: 7rem; */
+	background-color: rgb(var(--background-rgb));
+	color: rgb(var(--foreground-rgb));
+	height: 4em;
+}
+
+@media (prefers-color-scheme: light) {
+	.logo {
+		filter: invert(1);
+	}
+}
+
+.user {
+	display: flex;
+	flex-direction: column;
+	text-align: right;
+	gap: 0.5ch;
+}
+
+.signOut {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 0.8rem;
+	font-weight: 500;
+	padding: 5px;
+	border-radius: var(--border-radius);
+	width: fit-content;
+
+	align-self: flex-end;
+}
+
+.signOut:hover {
+	background-color: rgba(var(--foreground-rgb), 0.1);
+}
+
+.checkbox {
+	margin-right: 1ch;
+}
+
+.checkboxes {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 2em;
+}
+
+.authBox {
+	display: flex;
+	flex-direction: row;
+	gap: 2ch;
+}
+
+.userImage {
+	/* clip image to circle */
+	border-radius: 50%;
+	object-fit: cover;
 }

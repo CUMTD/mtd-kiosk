@@ -1,0 +1,32 @@
+.infoContainer {
+	background-color: rgb(var(--background-rgb));
+	padding: 2em;
+	gap: 2em;
+	/* height: 100%; */
+	height: min-content;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	/* border-radius: var(--border-radius); */
+}
+
+.stopId {
+	opacity: 50%;
+}
+.badgeContainer {
+	display: flex;
+	gap: 0.5em;
+	flex-direction: column;
+}
+
+.kioskName {
+	font-size: 300%;
+	/* font-size: 300%; */
+	margin-bottom: 0.5em;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	flex: 2;
+}

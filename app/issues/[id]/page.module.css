@@ -1,0 +1,18 @@
+.noIssues {
+	text-align: center;
+	margin-top: 2em;
+}
+
+.issuesHeader {
+	display: flex;
+	gap: 1em;
+	/* align center vertically */
+	align-items: center;
+}
+
+.issueList {
+	margin-top: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
