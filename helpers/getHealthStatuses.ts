@@ -21,7 +21,6 @@ export default async function getHealthStatuses(kioskId: string): Promise<Server
 		return healthStatus;
 	} catch (error) {
 		console.error(error);
-
 		return null;
 	}
 }
