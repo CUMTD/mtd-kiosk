@@ -10,11 +10,13 @@
 	/* grid-template-areas: 'header' 'content'; */
 }
 
-/* .singleColumn {
-	grid-template-columns: 1fr;
-	grid-template-areas: 'header ' 'cards';
-} */
-
 .header {
 	grid-area: header;
+}
+
+/* mobile media selector */
+@media (max-width: 768px) {
+	.layoutContainer {
+		display: unset;
+	}
 }

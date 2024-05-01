@@ -30,6 +30,8 @@
 	--kiosk-unknown: #bbb;
 
 	--fade-animation-duration: 0.5s;
+
+	--mobile-threshold: 768px;
 }
 section {
 	/* max-width: 100%; */

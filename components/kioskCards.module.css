@@ -18,3 +18,9 @@
 	padding: 2em;
 	background-color: rgb(var(--background-secondary-rgb));
 }
+
+.collapsed {
+	display: none;
+	grid-area: unset;
+	width: 0;
+}

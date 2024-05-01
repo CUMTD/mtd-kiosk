@@ -1,13 +1,13 @@
 .parent {
 	width: 100%;
 	gap: 1em;
-	border-radius: var(--border-radius);
 	/* background-color: var(--card-background-color); */
 	display: flex;
 	flex-direction: column;
 	/* height: max-content; */
 	overflow-y: scroll;
-	padding: 1em 7rem;
+	/* calculate mobile friendly padding */
+	padding: 1em;
 	background-color: rgb(var(--background-secondary-rgb));
 }
 

@@ -1,7 +1,7 @@
 import { IndividualKioskMap } from '../../../components/kioskMap';
 import KioskStatusBadge from '../../../components/kioskStatusBadge';
 import { fetchKiosk, fetchKioskList } from '../../../helpers/httpMethods';
-import getHealthStatuses from '../../../helpers/getHealthStatuses';
+import getHealthStatuses from '../../../helpers/httpMethods';
 import { Kiosk } from '../../../sanity/schemas/documents/kiosk';
 import { KioskObject } from '../../../types/KioskObjects';
 import styles from './layout.module.css';

@@ -114,6 +114,7 @@
 	width: 100%;
 	padding-right: 2ch;
 	align-items: center;
+	padding: 1.5ch;
 }
 
 .issueActionButton {
@@ -126,9 +127,11 @@
 }
 .issueActions {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	align-items: center;
 	gap: 1ch;
+	justify-content: right;
 }
 
 .closedIssue {

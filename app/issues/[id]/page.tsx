@@ -1,3 +1,4 @@
+import { getToken } from 'next-auth/jwt';
 import { fetchKiosk, fetchKioskTickets } from '../../../helpers/httpMethods';
 import { client } from '../../../sanity/lib/client';
 import { Kiosk } from '../../../sanity/schemas/documents/kiosk';
@@ -22,7 +23,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
 				<NewIssueForm kioskId={kiosk._id} />
 				<span style={{ flex: 1 }}></span>
 				{issues.length > 0 && (
-					<span>
+					<span className={styles.issueCount}>
 						{issues.filter((issue) => issue.status == TicketStatusType.OPEN).length} Open,{' '}
 						{issues.filter((issue) => issue.status == TicketStatusType.RESOLVED).length} Closed
 					</span>
@@ -46,11 +47,7 @@ function IssuesList({ issues }: IssuesListProps) {
 
 	return (
 		<>
-			<div className={styles.issueList}>
-				{issues.map((issue) => (
-					<Issue key={issue.id} issue={issue} />
-				))}
-			</div>
+			<div className={styles.issueList}>{issues && issues.map((issue) => <Issue key={issue.id} issue={issue} />)}</div>
 		</>
 	);
 }
