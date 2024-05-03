@@ -1,11 +1,12 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './newIssueForm.module.css';
 import { GoX } from 'react-icons/go';
 import { createKioskTicket } from '../../../helpers/httpMethods';
 import { useSession } from 'next-auth/react';
 import { revalidateTag } from 'next/cache';
 import { useRouter } from 'next/navigation';
+import { getToken } from 'next-auth/jwt';
 interface NewIssueFormProps {
 	kioskId: string;
 }
@@ -13,7 +14,13 @@ interface NewIssueFormProps {
 export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const { data: session } = useSession({ required: true });
+
 	const router = useRouter();
+
+	useEffect(() => {
+		// console.log(session?.user?.token);
+		// const token = await getToken({ req })
+	}, [session]);
 
 	return (
 		<>

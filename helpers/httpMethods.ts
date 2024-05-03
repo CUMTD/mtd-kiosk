@@ -3,8 +3,39 @@ import { revalidateTag } from 'next/cache';
 import { client } from '../sanity/lib/client';
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import throwError from './throwError';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
+const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
+
+const X_API_KEY = 'mtddev';
+
+const defaultHeaders = {
+	'X-ApiKey': X_API_KEY,
+	'Content-Type': 'application/json'
+};
+
+export default async function getHealthStatuses(kioskId: string): Promise<ServerHealthStatuses | null> {
+	try {
+		const response = await fetch(
+			`${KIOSK_HEALTH_ENDPOINT}/kiosk/${kioskId}/health`,
+
+			{
+				headers: defaultHeaders,
+				cache: 'no-cache'
+				// next: {
+				// 	revalidate: 10000
+				// }
+			}
+		);
+		const healthStatus = (await response.json()) as ServerHealthStatuses;
+		// console.log(healthStatus);
+		return healthStatus;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
 
 export async function fetchKioskList() {
 	const query = `*[_type == 'kiosk']`;
@@ -26,7 +57,8 @@ export async function fetchKioskTickets(id: string) {
 		const response = await fetch(`${API_ENDPOINT}/kiosk/${id}/tickets`, {
 			next: {
 				tags: ['tickets']
-			}
+			},
+			headers: defaultHeaders
 		});
 		const data = (await response.json()) as KioskTicket[];
 
@@ -38,16 +70,13 @@ export async function fetchKioskTickets(id: string) {
 		console.error(error);
 		return [];
 	}
-
 }
 
 // returns true if the ticket was successfully updated
 export async function createKioskTicket(ticket: KioskTicketForm) {
 	const response = await fetch(`${API_ENDPOINT}/ticket`, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
+		headers: defaultHeaders,
 		body: JSON.stringify(ticket)
 	});
 	if (response.status === 201) {
@@ -62,9 +91,7 @@ export async function createKioskTicket(ticket: KioskTicketForm) {
 export async function createTicketComment(ticketId: string, markdownBody: string, createdBy: string) {
 	const response = await fetch(`${API_ENDPOINT}/ticket/${ticketId}/comment`, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
+		headers: defaultHeaders,
 		body: JSON.stringify({ markdownBody, createdBy })
 	});
 	// print body
@@ -79,8 +106,9 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 }
 
 export async function deleteTicketComment(ticketNoteId: string) {
-	const response = await fetch(`${API_ENDPOINT}/ticketnote/${ticketNoteId}`, {
-		method: 'DELETE'
+	const response = await fetch(`${API_ENDPOINT}/ticket-note/${ticketNoteId}`, {
+		method: 'DELETE',
+		headers: defaultHeaders
 	});
 	if (response.ok) {
 		console.log('Comment deleted');
@@ -92,11 +120,9 @@ export async function deleteTicketComment(ticketNoteId: string) {
 }
 
 export async function updateTicketComment(ticketNoteId: string, markdownBody: string) {
-	const response = await fetch(`${API_ENDPOINT}/ticketnote/${ticketNoteId}`, {
+	const response = await fetch(`${API_ENDPOINT}/ticket-note/${ticketNoteId}`, {
 		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json'
-		},
+		headers: defaultHeaders,
 		body: JSON.stringify({ markdownBody })
 	});
 	if (response.ok) {
@@ -110,7 +136,8 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 
 export async function updateTicket(ticketId: string, status: TicketStatusType) {
 	const response = await fetch(`${API_ENDPOINT}/ticket/${ticketId}/status/${status}`, {
-		method: 'PATCH'
+		method: 'PATCH',
+		headers: defaultHeaders
 	});
 	if (response.status === 200) {
 		console.log('Ticket updated');

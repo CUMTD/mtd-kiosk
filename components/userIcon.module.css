@@ -4,7 +4,7 @@
 	aspect-ratio: 1;
 	background-color: gray;
 	/* border-radius: 50%; */
-	overflow: hidden;
+	/* overflow: hidden; */
 	/* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4); */
 	border: 1px solid rgb(139, 139, 139);
 }

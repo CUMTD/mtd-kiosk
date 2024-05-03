@@ -3,7 +3,8 @@
 	height: 15em;
 	border-radius: var(--border-radius);
 	overflow: clip;
-	flex: 1;
+	/* flex: 1; */
+	width: 100%;
 }
 
 .mapContainer {
