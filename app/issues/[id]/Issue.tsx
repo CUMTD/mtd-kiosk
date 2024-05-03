@@ -127,7 +127,7 @@ export function Issue({ issue }: IssueProps) {
 				</div>
 				{issue.ticketNotes && issue.ticketNotes.length > 0 && (
 					<div>
-						{issue.ticketNotes && issue.ticketNotes.length > 0 && <IssueCommentList comments={issue.ticketNotes} />}
+						{issue.ticketNotes && issue.ticketNotes.length > 0 && <IssueCommentList comments={issue.ticketNotes} ticketStatus={issue.status} />}
 						{/* {issue.ticketNotes.length} {issue.ticketNotes.length == 1 ? 'Comment' : 'Comments'} <GoChevronRight /> */}
 					</div>
 				)}
@@ -160,16 +160,17 @@ function IssueActionButton({ text, className, onClick, reactIcon, disabled }: Is
 
 interface IssueCommentListProps {
 	comments: TicketNote[];
+	ticketStatus: TicketStatusType;
 }
 
-function IssueCommentList({ comments }: IssueCommentListProps) {
+function IssueCommentList({ comments, ticketStatus }: IssueCommentListProps) {
 	return (
 		<div className={styles.issueCommentsContainer}>
 			{/* <h3 className={styles.issueComments}>Comments</h3> */}
 
 			<div className={styles.commentContainer}>
 				{comments.map((comment) => (
-					<IssueComment key={comment.id} comment={comment} />
+					<IssueComment key={comment.id} comment={comment} ticketStatus={ticketStatus} />
 				))}
 			</div>
 		</div>
@@ -178,8 +179,9 @@ function IssueCommentList({ comments }: IssueCommentListProps) {
 
 interface IssueCommentProps {
 	comment: TicketNote;
+	ticketStatus: TicketStatusType;
 }
-function IssueComment({ comment }: IssueCommentProps) {
+function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 	const router = useRouter();
 	const { data: session } = useSession({ required: true });
 	const [isEditing, setIsEditing] = useState(false);
@@ -226,6 +228,8 @@ function IssueComment({ comment }: IssueCommentProps) {
 		setEditedComment(comment.markdownBody);
 	};
 
+	const isModifiableByCurrentUser = session?.user?.name === comment.createdBy;
+
 	const deleteButtonClasses = clsx({
 		[styles.commentModifyButton]: true,
 		[styles.commentDeleteConfirm]: confirmDelete
@@ -253,12 +257,17 @@ function IssueComment({ comment }: IssueCommentProps) {
 							rows={editedComment.split('\n').length + 2}
 						/>
 					)}
-					{!isEditing && (
+					{isModifiableByCurrentUser && !isEditing && (
 						<span className={styles.commentModifyButtons}>
-							<button className={styles.commentModifyButton} onClick={() => setIsEditing(!isEditing)}>
+							<button className={styles.commentModifyButton} onClick={() => setIsEditing(!isEditing)} disabled={ticketStatus !== TicketStatusType.OPEN}>
 								<GoPencil />
 							</button>
-							<button className={deleteButtonClasses} onClick={handleCommentDelete} onBlur={() => setConfirmDelete(false)}>
+							<button
+								className={deleteButtonClasses}
+								onClick={handleCommentDelete}
+								onBlur={() => setConfirmDelete(false)}
+								disabled={ticketStatus !== TicketStatusType.OPEN}
+							>
 								{!confirmDelete ? (
 									<GoTrash />
 								) : (

@@ -1,5 +1,16 @@
+/// <reference types="google.maps" />
 'use client';
-import { APIProvider, AdvancedMarker, InfoWindow, Map, MapCameraChangedEvent, MapMouseEvent, Marker, useAdvancedMarkerRef } from '@vis.gl/react-google-maps';
+import {
+	APIProvider,
+	AdvancedMarker,
+	InfoWindow,
+	Map,
+	MapCameraChangedEvent,
+	MapMouseEvent,
+	Marker,
+	useAdvancedMarkerRef,
+	useMap
+} from '@vis.gl/react-google-maps';
 import { client } from '../sanity/lib/client';
 import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -35,6 +46,8 @@ export default function KioskMap() {
 
 	const def_position = { lat: 40.11464841024296, lng: -88.22875539000833 };
 
+	const [currentPosition, setCurrentPosition] = useState(def_position);
+
 	const handleMapClick = useCallback((event: MapMouseEvent) => {
 		if (!event.detail.placeId) {
 			setFocusedKioskIdState(null);
@@ -43,27 +56,22 @@ export default function KioskMap() {
 
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
-			{/* {showMap && ( */}
 			<aside className={styles.mapContainer}>
 				<Map
-					defaultCenter={def_position}
+					defaultCenter={currentPosition}
 					defaultZoom={13}
 					gestureHandling={'greedy'}
 					disableDefaultUI={true}
 					mapId={'1c910bd63b002525'} //todo .env
 					onClick={handleMapClick}
 					clickableIcons={false}
-
-					// center={kiosks.find((kiosk) => kiosk._id === focusedKioskId)?.location ?? def_position}
 				>
 					{kiosks.length > 0 &&
 						kiosks.map((kiosk) => {
 							return <KioskMarker key={kiosk._id} kiosk={kiosk} />;
 						})}
-					{/* <Marker position={position} /> */}
 				</Map>
 			</aside>
-			{/* )} */}
 		</APIProvider>
 	);
 }
@@ -73,9 +81,19 @@ interface KioskMarkerProps {
 }
 
 function KioskMarker({ kiosk }: KioskMarkerProps) {
+	const map = useMap();
+
 	const [focusedKioskId, setFocusedKioskIdState] = useRecoilState(focusedKioskIdState);
 
+	useEffect(() => {
+		if (focusedKioskId === kiosk._id) {
+			map?.panTo(kiosk.location);
+		}
+	}, [focusedKioskId]);
+
 	const handleMarkerClick = (kioskId: string) => {
+		console.log(map);
+		map?.panTo(kiosk.location);
 		setFocusedKioskIdState(kioskId);
 	};
 
@@ -114,7 +132,7 @@ export function IndividualKioskMap({ kiosk }: IndividualKioskMapProps) {
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<div className={styles.individualKioskMap}>
-				<Map center={position} defaultZoom={15} gestureHandling={'greedy'} disableDefaultUI={true} mapId={'1c910bd63b002525'} panControl={false}>
+				<Map center={position} defaultZoom={15} gestureHandling={'greedy'} disableDefaultUI={true} mapId={'1c910bd63b002525'}>
 					<AdvancedMarker position={position} key={kiosk._id}>
 						<KioskMapIcon id={kiosk._id} />
 					</AdvancedMarker>

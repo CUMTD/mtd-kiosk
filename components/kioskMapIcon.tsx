@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { focusedKioskIdState } from '../state/mapState';
 import { HealthStatus } from '../types/HealthStatus';
 import { useEffect, useState } from 'react';
-import getHealthStatuses from '../helpers/getHealthStatuses';
+import getHealthStatuses from '../helpers/httpMethods';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import { showProblemsOnlyState } from '../state/kioskState';
 

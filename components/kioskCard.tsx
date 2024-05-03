@@ -9,8 +9,8 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { HealthStatus } from '../types/HealthStatus';
 import Link from 'next/link';
-import getHealthStatuses from '../helpers/getHealthStatuses';
-import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import getHealthStatuses from '../helpers/httpMethods';
+import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
 import { KioskObject } from '../types/KioskObjects';
 import KioskStatusBadge from './kioskStatusBadge';
 import { showProblemsOnlyState } from '../state/kioskState';
@@ -20,6 +20,7 @@ interface KioskCardProps {
 	kiosk: Kiosk;
 	index: number;
 	clickable?: boolean;
+	// healthStatus?: ServerHealthStatuses | null;
 }
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,7 +31,6 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 
 	// state for health status, to be passed into KioskStatusBadge as a prop
 	const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
-
 
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
 

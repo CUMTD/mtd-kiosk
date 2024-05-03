@@ -6,7 +6,7 @@ export interface ServerHealthStatuses {
 	openTicketCount: number;
 }
 
-interface HealthStatuses {
+export interface HealthStatuses {
 	button: HealthStatus;
 	led: HealthStatus;
 	lcd: HealthStatus;
