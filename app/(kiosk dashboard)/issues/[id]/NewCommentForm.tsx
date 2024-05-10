@@ -2,10 +2,10 @@
 import styles from './newIssueForm.module.css';
 import { GoX } from 'react-icons/go';
 import { useSession } from 'next-auth/react';
-import { createTicketComment } from '../../../helpers/httpMethods';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import LoadingAnimation from '../../../components/loadingAnimation';
+import LoadingAnimation from '../../../../components/loadingAnimation';
+import { createTicketComment } from '../../../../helpers/httpMethods';
 
 interface NewCommentFormProps {
 	issueId: string;

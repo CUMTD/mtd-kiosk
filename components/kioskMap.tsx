@@ -1,33 +1,25 @@
 /// <reference types="google.maps" />
 'use client';
-import {
-	APIProvider,
-	AdvancedMarker,
-	InfoWindow,
-	Map,
-	MapCameraChangedEvent,
-	MapMouseEvent,
-	Marker,
-	useAdvancedMarkerRef,
-	useMap
-} from '@vis.gl/react-google-maps';
+import { APIProvider, AdvancedMarker, Map, MapMouseEvent, useMap } from '@vis.gl/react-google-maps';
 import { client } from '../sanity/lib/client';
-import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { focusedKioskIdState, showMapState } from '../state/mapState';
 import { useRouter } from 'next/navigation';
 import styles from './kioskMap.module.css';
 import throwError from '../helpers/throwError';
 import KioskMapIcon from './kioskMapIcon';
+import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
 import { HealthStatus } from '../types/HealthStatus';
-import { MapOptions } from 'google-map-react';
-import { LatLng } from '@sanity/google-maps-input';
-import KioskCard from './kioskCard';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
-export default function KioskMap() {
+interface KioskMapProps {
+	healthStatuses: ServerHealthStatuses[];
+}
+
+export default function KioskMap({ healthStatuses }: KioskMapProps) {
 	const router = useRouter();
 	const showMap = useRecoilValue(showMapState);
 
@@ -68,7 +60,13 @@ export default function KioskMap() {
 				>
 					{kiosks.length > 0 &&
 						kiosks.map((kiosk) => {
-							return <KioskMarker key={kiosk._id} kiosk={kiosk} />;
+							return (
+								<KioskMarker
+									key={kiosk._id}
+									kiosk={kiosk}
+									health={healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth ?? HealthStatus.UNKNOWN}
+								/>
+							);
 						})}
 				</Map>
 			</aside>
@@ -78,9 +76,10 @@ export default function KioskMap() {
 
 interface KioskMarkerProps {
 	kiosk: Kiosk;
+	health: HealthStatus;
 }
 
-function KioskMarker({ kiosk }: KioskMarkerProps) {
+function KioskMarker({ kiosk, health }: KioskMarkerProps) {
 	const map = useMap();
 
 	const [focusedKioskId, setFocusedKioskIdState] = useRecoilState(focusedKioskIdState);
@@ -92,7 +91,6 @@ function KioskMarker({ kiosk }: KioskMarkerProps) {
 	}, [focusedKioskId]);
 
 	const handleMarkerClick = (kioskId: string) => {
-		console.log(map);
 		map?.panTo(kiosk.location);
 		setFocusedKioskIdState(kioskId);
 	};
@@ -112,7 +110,7 @@ function KioskMarker({ kiosk }: KioskMarkerProps) {
 			}}
 			// ref={markerRef}
 		>
-			<KioskMapIcon id={kiosk._id} />
+			<KioskMapIcon health={health} id={kiosk._id} />
 		</AdvancedMarker>
 	);
 }
@@ -125,8 +123,9 @@ function KioskMarker({ kiosk }: KioskMarkerProps) {
 
 interface IndividualKioskMapProps {
 	kiosk: Kiosk;
+	health: HealthStatus;
 }
-export function IndividualKioskMap({ kiosk }: IndividualKioskMapProps) {
+export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 	const position = { lat: kiosk.location.lat, lng: kiosk.location.lng };
 
 	return (
@@ -134,7 +133,7 @@ export function IndividualKioskMap({ kiosk }: IndividualKioskMapProps) {
 			<div className={styles.individualKioskMap}>
 				<Map center={position} defaultZoom={15} gestureHandling={'greedy'} disableDefaultUI={true} mapId={'1c910bd63b002525'}>
 					<AdvancedMarker position={position} key={kiosk._id}>
-						<KioskMapIcon id={kiosk._id} />
+						<KioskMapIcon id={kiosk._id} health={health} />
 					</AdvancedMarker>
 				</Map>
 			</div>

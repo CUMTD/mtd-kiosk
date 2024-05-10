@@ -22,7 +22,8 @@ def sendHeartbeat(kioskId, kioskComponent):
 	response = requests.post(f'{ENDPOINT}', verify=False, json={
 		"kioskId": kioskId,
 		"type": kioskComponent,
-	})
+	}, headers= {'X-ApiKey': 'mtddev'})
+
 
 for kiosk in KIOSK_IDS:
 	print(f"Sending heartbeats for kiosk {kiosk}")

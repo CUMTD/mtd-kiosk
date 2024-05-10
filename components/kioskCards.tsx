@@ -12,9 +12,9 @@ import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 interface KioskCardsProps {
 	kiosks: Kiosk[];
 	readonly?: boolean;
-	// healthStatus?: ServerHealthStatuses | null;
+	healthStatuses: ServerHealthStatuses[];
 }
-export default function KioskCards({ kiosks, readonly }: KioskCardsProps) {
+export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCardsProps) {
 	const setFocusedKioskId = useSetRecoilState(focusedKioskIdState);
 
 	const [collapsed, setCollapsed] = useState(false);
@@ -29,18 +29,27 @@ export default function KioskCards({ kiosks, readonly }: KioskCardsProps) {
 	});
 
 	return (
-		<>
-			<button className={styles.collapseButton} onClick={toggleCollapse}>
-				{collapsed ? <GoChevronLeft /> : <GoChevronRight />}
-			</button>
-			<main className={kioskCardsClasses}>
-				{/* collapse button */}
+		<main className={kioskCardsClasses}>
+			{kiosks
+				.sort((a, b) => a.displayName.localeCompare(b.displayName))
+				.map((kiosk, idx) => (
+					<KioskCard health={healthStatuses.find((k) => k.kioskId === kiosk._id)} key={kiosk._id} kiosk={kiosk} index={idx} clickable={!readonly} />
+				))}
+		</main>
+		// <>
+		// 	<button className={styles.collapseButton} onClick={toggleCollapse}>
+		// 		{collapsed ? <GoChevronLeft /> : <GoChevronRight />}
+		// 	</button>
+		// 	<main className={kioskCardsClasses}>
+		// 		{/* collapse button */}
 
-				{!collapsed &&
-					kiosks
-						.sort((a, b) => a.displayName.localeCompare(b.displayName))
-						.map((kiosk, idx) => <KioskCard key={kiosk._id} kiosk={kiosk} index={idx} clickable={!readonly} />)}
-			</main>
-		</>
+		// 		{!collapsed &&
+		// 			kiosks
+		// 				.sort((a, b) => a.displayName.localeCompare(b.displayName))
+		// 				.map((kiosk, idx) => (
+		// 					<KioskCard health={healthStatuses.find((k) => k.kioskId === kiosk._id)} key={kiosk._id} kiosk={kiosk} index={idx} clickable={!readonly} />
+		// 				))}
+		// 	</main>
+		// </>
 	);
 }

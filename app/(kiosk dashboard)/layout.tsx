@@ -3,10 +3,10 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
-import Toolbar from '../components/toolbar';
+import Toolbar from '../../components/toolbar';
 import styles from './layout.module.css';
 import { SessionProvider, useSession } from 'next-auth/react';
-import { showMapState } from '../state/mapState';
+import { showMapState } from '../../state/mapState';
 import clsx from 'clsx';
 
 const inter = Inter({ subsets: ['latin'] });

@@ -1,20 +1,20 @@
 'use client';
 import { GoCheck, GoChevronRight, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash, GoX } from 'react-icons/go';
-import KioskTicket, { TicketNote, TicketStatusType } from '../../../types/kioskTicket';
 import styles from './Issue.module.css';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../helpers/httpMethods';
 import { NewCommentForm } from './NewCommentForm';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import 'canvas-confetti';
 import confetti from 'canvas-confetti';
-import LoadingAnimation from '../../../components/loadingAnimation';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { set } from 'sanity';
-import UserIcon from '../../../components/userIcon';
+import KioskTicket, { TicketNote, TicketStatusType } from '../../../../types/kioskTicket';
+import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../helpers/httpMethods';
+import LoadingAnimation from '../../../../components/loadingAnimation';
+import UserIcon from '../../../../components/userIcon';
 require('crypto');
 
 export interface IssueProps {
@@ -51,7 +51,6 @@ export function Issue({ issue }: IssueProps) {
 		setIssueOpen(false);
 		confetti({ ...defaults });
 		// call the close issue function
-		console.log('Issue closed');
 	};
 
 	const handleIssueReopen = async () => {
@@ -63,7 +62,6 @@ export function Issue({ issue }: IssueProps) {
 		}
 		setIssueOpen(true);
 		// call the reopen issue function
-		console.log('Issue reopened');
 	};
 
 	var dialogRef = useRef<HTMLDialogElement>(null);
@@ -237,7 +235,7 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 
 	return (
 		<div key={comment.id} className={styles.comment}>
-			<UserIcon />
+			<UserIcon identifier={comment.createdBy} />
 			<div style={{ width: '100%' }}>
 				<p>
 					<b>{comment.createdBy}</b>{' '}

@@ -30,4 +30,11 @@
 	display: flex;
 	flex-direction: column;
 	/* flex: 2; */
+	gap: 1em;
+}
+
+.ipSignlink {
+	display: flex;
+	align-items: center;
+	gap: 0.5ch;
 }

@@ -94,12 +94,13 @@
 	width: 100%;
 	border-top-left-radius: var(--border-radius);
 	border-top-right-radius: var(--border-radius);
+	padding: 20px;
 }
 
 .icon {
 	width: fit-content;
+	padding-right: 10px;
 	/* border-right: 1px solid rgb(var(--card-rgb)); */
-	padding: 1.5ch 0.5ch 1.5ch 1.5ch;
 }
 .newBadge {
 	color: red;
@@ -115,7 +116,6 @@
 	width: 100%;
 	padding-right: 2ch;
 	align-items: center;
-	padding: 1.5ch;
 }
 
 .issueActionButton {
