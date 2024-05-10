@@ -27,7 +27,6 @@ export default function Toolbar() {
 							Sign Out
 						</Link>
 					</div>
-					{/* todo add fallback */}
 					<UserIcon />
 				</div>
 			)}

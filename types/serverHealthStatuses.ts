@@ -4,7 +4,7 @@ export interface ServerHealthStatuses {
 	overallHealth: HealthStatus;
 	healthStatuses: HealthStatuses;
 	openTicketCount: number;
-	kioskId: string; // todo add this to backend
+	kioskId: string;
 }
 
 export interface HealthStatuses {

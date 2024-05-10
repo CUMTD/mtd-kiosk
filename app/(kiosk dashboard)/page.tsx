@@ -8,9 +8,6 @@ export default async function Home() {
 	const kiosks = await fetchKioskList();
 	const healthStatuses = (await getHealthStatuses()) as ServerHealthStatuses[];
 
-	// TODO: fetch health statuses and pass to children
-	// and make a new api endpoint to get ALL health statuses
-
 	return (
 		<>
 			<KioskMap healthStatuses={healthStatuses} />

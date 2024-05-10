@@ -54,7 +54,6 @@ export function NewCommentForm({ issueId, dialogRef }: NewCommentFormProps) {
 
 					{/* some invisible form values */}
 					<input type="hidden" name="user" value={session?.user?.email || 'System'} />
-					{/* todo user */}
 
 					<div className={styles.addButtonContainer}>
 						<span style={{ flex: 1 }} />

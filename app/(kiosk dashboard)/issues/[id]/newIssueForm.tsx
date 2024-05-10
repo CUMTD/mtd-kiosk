@@ -34,11 +34,8 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 						<GoX style={{ fontSize: '200%' }} />
 					</button>
 				</div>
-				{/* todo hardcoded */}
 				<form
 					className={styles.newIssueForm}
-					// action={'https://localhost:7122/ticket'}
-					// method="post"
 					onSubmit={async (e) => {
 						e.preventDefault();
 						var result = await createKioskTicket({
@@ -72,7 +69,6 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 
 					{/* some invisible form values */}
 					<input type="hidden" name="kioskId" value={kioskId} />
-					{/* todo user */}
 
 					<label>
 						{/* Create Issue and include form data */}
