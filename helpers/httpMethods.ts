@@ -8,14 +8,18 @@ import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
 
-const X_API_KEY = 'mtddev';
+const X_API_KEY = process.env.NEXT_PUBLIC_KIOSK_API_KEY ?? throwError('NEXT_PUBLIC_KIOSK_API_KEY is not defined');
 
 const defaultHeaders = {
 	'X-ApiKey': X_API_KEY,
 	'Content-Type': 'application/json'
 };
 
-export default async function getHealthStatuses(kioskId: string): Promise<ServerHealthStatuses | null> {
+export default async function getHealthStatuses(kioskId?: string): Promise<ServerHealthStatuses | ServerHealthStatuses[] | null> {
+	if (!kioskId) {
+		kioskId = 'all';
+	}
+
 	try {
 		const response = await fetch(
 			`${KIOSK_HEALTH_ENDPOINT}/kiosk/${kioskId}/health`,
@@ -28,9 +32,14 @@ export default async function getHealthStatuses(kioskId: string): Promise<Server
 				// }
 			}
 		);
-		const healthStatus = (await response.json()) as ServerHealthStatuses;
-		// console.log(healthStatus);
-		return healthStatus;
+
+		if (kioskId === 'all') {
+			const healthStatus = (await response.json()) as ServerHealthStatuses[];
+			return healthStatus;
+		} else {
+			const healthStatus = (await response.json()) as ServerHealthStatuses;
+			return healthStatus;
+		}
 	} catch (error) {
 		console.error(error);
 		return null;
@@ -80,7 +89,6 @@ export async function createKioskTicket(ticket: KioskTicketForm) {
 		body: JSON.stringify(ticket)
 	});
 	if (response.status === 201) {
-		console.log('Ticket created');
 		revalidateTag('tickets');
 		return true;
 	}
@@ -97,7 +105,6 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 	// print body
 
 	if (response.ok) {
-		console.log('Comment created');
 		revalidateTag('tickets');
 		return true;
 	}
@@ -111,7 +118,6 @@ export async function deleteTicketComment(ticketNoteId: string) {
 		headers: defaultHeaders
 	});
 	if (response.ok) {
-		console.log('Comment deleted');
 		revalidateTag('tickets');
 		return true;
 	}
@@ -126,7 +132,6 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 		body: JSON.stringify({ markdownBody })
 	});
 	if (response.ok) {
-		console.log('Comment updated');
 		revalidateTag('tickets');
 		return true;
 	}
@@ -140,7 +145,6 @@ export async function updateTicket(ticketId: string, status: TicketStatusType) {
 		headers: defaultHeaders
 	});
 	if (response.status === 200) {
-		console.log('Ticket updated');
 		revalidateTag('tickets');
 		return true;
 	}

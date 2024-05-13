@@ -10,31 +10,32 @@ import { showProblemsOnlyState } from '../state/kioskState';
 
 interface KioskMapIconProps {
 	id: string;
+	health: HealthStatus;
 }
 
-export default function KioskMapIcon({ id }: KioskMapIconProps) {
-	const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses>();
+export default function KioskMapIcon({ id, health }: KioskMapIconProps) {
+	// const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses>();
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
 
-	useEffect(() => {
-		async function fetchHealthStatus() {
-			const healthStatuses = await getHealthStatuses(id);
-			if (healthStatuses) setHealthStatus(healthStatuses);
-		}
-		fetchHealthStatus();
-		setTimeout(() => fetchHealthStatus(), 10000);
-	}, [id]);
+	// useEffect(() => {
+	// 	async function fetchHealthStatus() {
+	// 		const healthStatuses = await getHealthStatuses(id);
+	// 		if (healthStatuses) setHealthStatus(healthStatuses);
+	// 	}
+	// 	fetchHealthStatus();
+	// 	setTimeout(() => fetchHealthStatus(), 10000);
+	// }, [id]);
 
 	const focusedKiosk = useRecoilValue(focusedKioskIdState);
 
 	const classes = clsx(styles.icon, {
-		[styles.healthy]: healthStatus?.overallHealth === HealthStatus.HEALTHY,
-		[styles.warning]: healthStatus?.overallHealth === HealthStatus.WARNING,
-		[styles.critical]: healthStatus?.overallHealth === HealthStatus.CRITICAL,
+		[styles.healthy]: health === HealthStatus.HEALTHY,
+		[styles.warning]: health === HealthStatus.WARNING,
+		[styles.critical]: health === HealthStatus.CRITICAL,
 		[styles.focused]: focusedKiosk === id
 	});
 
-	if (showProblemsOnly && healthStatus?.overallHealth === HealthStatus.HEALTHY) return null;
+	if (showProblemsOnly && health === HealthStatus.HEALTHY) return null;
 
 	return <div className={classes}></div>;
 }

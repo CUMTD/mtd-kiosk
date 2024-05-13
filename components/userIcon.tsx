@@ -4,10 +4,10 @@ import styles from './userIcon.module.css';
 import Image from 'next/image';
 
 interface UserIconProps {
-	email?: string;
+	identifier?: string;
 }
 
-export default function UserIcon({ email }: UserIconProps) {
+export default function UserIcon({ identifier }: UserIconProps) {
 	const { data: session } = useSession();
 	var identicon = null;
 
@@ -17,10 +17,14 @@ export default function UserIcon({ email }: UserIconProps) {
 		format: 'svg' // use SVG instead of PNG
 	};
 
-	if (session?.user?.email) {
-		let hashed = require('crypto').createHash('sha256').update(session.user.email).digest('hex');
-		identicon = new Identicon(hashed, options).toString();
+	var name = session?.user?.name;
+
+	if (identifier) {
+		name = identifier;
 	}
+
+	let hashed = require('crypto').createHash('sha256').update(name).digest('hex');
+	identicon = new Identicon(hashed, options).toString();
 	return (
 		<div className={styles.avatarContainer}>
 			{identicon && <Image className={styles.avatar} src={`data:image/svg+xml;base64,${identicon}`} alt="User Avatar" width={50} height={50} />}

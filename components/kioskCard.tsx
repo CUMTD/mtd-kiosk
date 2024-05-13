@@ -19,29 +19,29 @@ import { GoChevronRight } from 'react-icons/go';
 interface KioskCardProps {
 	kiosk: Kiosk;
 	index: number;
+	health: ServerHealthStatuses | undefined;
 	clickable?: boolean;
-	// healthStatus?: ServerHealthStatuses | null;
 }
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, index, clickable }: KioskCardProps) {
+export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, index, clickable, health }: KioskCardProps) {
 	const KioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
 	// state for health status, to be passed into KioskStatusBadge as a prop
-	const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
+	// const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
 
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
 
-	useEffect(() => {
-		async function fetchHealthStatus() {
-			const healthStatuses = await getHealthStatuses(_id);
-			if (healthStatuses) setHealthStatus(healthStatuses);
-		}
-		fetchHealthStatus();
-		setTimeout(() => fetchHealthStatus(), 10000);
-	}, [_id]);
+	// useEffect(() => {
+	// 	async function fetchHealthStatus() {
+	// 		const healthStatuses = await getHealthStatuses(_id);
+	// 		if (healthStatuses) setHealthStatus(healthStatuses);
+	// 	}
+	// 	fetchHealthStatus();
+	// 	setTimeout(() => fetchHealthStatus(), 10000);
+	// }, [_id]);
 
 	useEffect(() => {
 		if (focusedKiosk === _id && KioskCardRef.current) {
@@ -53,17 +53,17 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 	const [kioskCardClasses, setKioskCardClasses] = useState<string>(styles.kioskCard);
 
 	useEffect(() => {
-		if (healthStatus) {
+		if (health) {
 			setKioskCardClasses(
 				clsx(styles.kioskCard, {
-					[styles.healthy]: healthStatus.overallHealth === HealthStatus.HEALTHY,
-					[styles.warning]: healthStatus.overallHealth === HealthStatus.WARNING,
-					[styles.critical]: healthStatus.overallHealth === HealthStatus.CRITICAL,
-					[styles.unknown]: healthStatus.overallHealth === HealthStatus.UNKNOWN
+					[styles.healthy]: health.overallHealth === HealthStatus.HEALTHY,
+					[styles.warning]: health.overallHealth === HealthStatus.WARNING,
+					[styles.critical]: health.overallHealth === HealthStatus.CRITICAL,
+					[styles.unknown]: health.overallHealth === HealthStatus.UNKNOWN
 				})
 			);
 		}
-	}, [healthStatus]);
+	}, [health]);
 
 	// const kioskCardClasses =
 	// 	healthStatus &&
@@ -74,12 +74,12 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 	// 		[styles.unknown]: healthStatus.overallHealth === HealthStatus.UNKNOWN
 	// 	});
 
-	if (showProblemsOnly && healthStatus?.overallHealth === HealthStatus.HEALTHY) return null;
+	if (showProblemsOnly && health?.overallHealth === HealthStatus.HEALTHY) return null;
 
 	const issuesButtonClasses = clsx({
 		[inter.className]: true,
 		[styles.button]: true,
-		[styles.openTicketCount]: healthStatus && healthStatus.openTicketCount > 0
+		[styles.openTicketCount]: health && health.openTicketCount > 0
 	});
 
 	return (
@@ -95,9 +95,9 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 		>
 			{
 				<div className={styles.badges}>
-					<KioskStatusBadge kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} />
-					<KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} />
-					<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} />
+					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} />
+					<KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} />
+					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} />
 				</div>
 			}
 
@@ -112,9 +112,9 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 				</Link>
 
 				<Link href={`/issues/${_id}`} className={issuesButtonClasses}>
-					{healthStatus && healthStatus.openTicketCount > 0 ? (
+					{health && health.openTicketCount > 0 ? (
 						<>
-							{healthStatus?.openTicketCount} open {healthStatus?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
+							{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
 						</>
 					) : (
 						'Issue Tracker'

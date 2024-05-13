@@ -1,11 +1,9 @@
 import { getToken } from 'next-auth/jwt';
-import { fetchKiosk, fetchKioskTickets } from '../../../helpers/httpMethods';
-import { client } from '../../../sanity/lib/client';
-import { Kiosk } from '../../../sanity/schemas/documents/kiosk';
-import KioskTicket, { TicketStatusType } from '../../../types/kioskTicket';
 import { Issue } from './Issue';
 import NewIssueForm from './newIssueForm';
 import styles from './page.module.css';
+import { fetchKiosk, fetchKioskTickets } from '../../../../helpers/httpMethods';
+import KioskTicket, { TicketStatusType } from '../../../../types/kioskTicket';
 
 // get [id] from the URL
 export default async function IssuePage({ params }: { params: { id: string } }) {

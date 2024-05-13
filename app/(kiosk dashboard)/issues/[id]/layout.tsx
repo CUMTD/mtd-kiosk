@@ -1,16 +1,15 @@
-import { IndividualKioskMap } from '../../../components/kioskMap';
-import KioskStatusBadge from '../../../components/kioskStatusBadge';
-import { fetchKiosk, fetchKioskList } from '../../../helpers/httpMethods';
-import getHealthStatuses from '../../../helpers/httpMethods';
-import { Kiosk } from '../../../sanity/schemas/documents/kiosk';
-import { KioskObject } from '../../../types/KioskObjects';
 import styles from './layout.module.css';
-import KioskCards from '../../../components/kioskCards';
 import InfoContainer from './InfoContainer';
+import getHealthStatuses, { fetchKiosk, fetchKioskList } from '../../../../helpers/httpMethods';
+import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
+import KioskCards from '../../../../components/kioskCards';
+import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 
 export default async function IssueLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
 	const kiosk = (await fetchKiosk(params.id)) as Kiosk;
-	const healthStatus = await getHealthStatuses(params.id);
+	const healthStatus = (await getHealthStatuses(params.id)) as ServerHealthStatuses;
+	const healthStatuses = (await getHealthStatuses()) as ServerHealthStatuses[];
+
 	const kiosks = await fetchKioskList();
 
 	return (
@@ -20,7 +19,7 @@ export default async function IssueLayout({ children, params }: { children: Reac
 				<div className={styles.children}>{children}</div>
 			</section>
 			<aside className={styles.kioskCards}>
-				<KioskCards kiosks={kiosks} readonly />
+				<KioskCards kiosks={kiosks} readonly healthStatuses={healthStatuses} />
 			</aside>
 		</>
 	);

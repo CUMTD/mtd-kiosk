@@ -4,6 +4,7 @@ export interface ServerHealthStatuses {
 	overallHealth: HealthStatus;
 	healthStatuses: HealthStatuses;
 	openTicketCount: number;
+	kioskId: string;
 }
 
 export interface HealthStatuses {
