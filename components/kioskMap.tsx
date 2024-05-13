@@ -16,7 +16,7 @@ import { HealthStatus } from '../types/HealthStatus';
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
 interface KioskMapProps {
-	healthStatuses: ServerHealthStatuses[];
+	healthStatuses: ServerHealthStatuses[] | null;
 }
 
 export default function KioskMap({ healthStatuses }: KioskMapProps) {
@@ -64,7 +64,11 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 								<KioskMarker
 									key={kiosk._id}
 									kiosk={kiosk}
-									health={healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth ?? HealthStatus.UNKNOWN}
+									health={
+										!healthStatuses
+											? HealthStatus.UNKNOWN
+											: healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth ?? HealthStatus.UNKNOWN
+									}
 								/>
 							);
 						})}
