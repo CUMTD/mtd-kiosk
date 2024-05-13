@@ -65,6 +65,7 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 								health = healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth || HealthStatus.UNKNOWN;
 							}
 							return <KioskMarker key={kiosk._id} kiosk={kiosk} health={health} />;
+
 						})}
 				</Map>
 			</aside>
