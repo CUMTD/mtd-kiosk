@@ -46,10 +46,6 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 		}
 	}, []);
 
-	var health = HealthStatus.UNKNOWN;
-	if (healthStatuses && healthStatuses.length > 0) {
-		health = healthStatuses?.find((health) => health.kioskId === focusedKioskId)?.overallHealth ?? HealthStatus.UNKNOWN;
-	}
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<aside className={styles.mapContainer}>
@@ -64,7 +60,8 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 				>
 					{kiosks.length > 0 &&
 						kiosks.map((kiosk) => {
-							return <KioskMarker key={kiosk._id} kiosk={kiosk} health={health} />;
+							const health = healthStatuses?.find((health) => health.kioskId === kiosk._id)?.overallHealth;
+							return <KioskMarker key={kiosk._id} kiosk={kiosk} health={health || HealthStatus.UNKNOWN} />;
 						})}
 				</Map>
 			</aside>
