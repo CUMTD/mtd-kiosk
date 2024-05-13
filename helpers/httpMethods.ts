@@ -8,7 +8,7 @@ import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
 
-const X_API_KEY = process.env.NEXT_PUBLIC_MTD_API_KEY ?? throwError('NEXT_PUBLIC_MTD_API_KEY is not defined');
+const X_API_KEY = process.env.NEXT_PUBLIC_KIOSK_API_KEY ?? throwError('NEXT_PUBLIC_KIOSK_API_KEY is not defined');
 
 const defaultHeaders = {
 	'X-ApiKey': X_API_KEY,
