@@ -36,7 +36,7 @@ export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCa
 					.sort((a, b) => a.displayName.localeCompare(b.displayName))
 					.map((kiosk, idx) => (
 						<KioskCard
-							health={!healthStatuses ? undefined : healthStatuses.find((k) => k.kioskId === kiosk._id) ?? undefined}
+							health={healthStatuses && healthStatuses.length > 0 ? healthStatuses.find((k) => k.kioskId === kiosk._id) : undefined}
 							// a more elegant way:
 							key={kiosk._id}
 							kiosk={kiosk}
