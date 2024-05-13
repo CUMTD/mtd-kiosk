@@ -14,7 +14,7 @@ defaults:
 permissions:
   contents: read # for checkout repository
   actions: read # for fetching base branch bundle stats
-  pull-requests: write # for comments
+  pull-requests: write # for comments!
 
 env:
   NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
