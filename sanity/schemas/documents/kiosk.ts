@@ -7,12 +7,38 @@ const kiosk = defineType({
 	title: 'Kiosk',
 	type: 'document',
 	icon: CgDisplaySpacing,
+	groups: [
+		{
+			title: 'General',
+			name: 'general'
+		},
+		{
+			title: 'LED display',
+			name: 'led'
+		},
+		{
+			title: 'Networking',
+			name: 'networking'
+		},
+		{
+			title: 'Development',
+			name: 'development'
+		}
+	],
+	preview: {
+		select: {
+			title: 'displayName',
+			subtitle: 'stopId'
+		}
+	},
 	fields: [
 		defineField({
 			name: 'displayName',
 			title: 'Display Name',
 			type: 'string',
 			description: 'The name of the kiosk as it will be displayed to the public',
+			group: 'general',
+
 			validation: (rule) => rule.required().min(5).max(100).error('Display name must be between 5 and 100 characters')
 		}),
 		defineField({
@@ -20,6 +46,8 @@ const kiosk = defineType({
 			title: 'Slug',
 			type: 'slug',
 			description: 'URL slug for the LCD',
+			group: 'general',
+
 			options: {
 				source: 'displayName'
 			},
@@ -36,12 +64,16 @@ const kiosk = defineType({
 			title: 'Phonetic Name',
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
+			group: 'general',
+
 			validation: (rule) => rule.min(5).error('Phonetic name must be at least 5 characters')
 		}),
 		defineField({
 			name: 'stopId',
 			title: 'Stop ID',
 			type: 'string',
+			group: 'general',
+
 			description:
 				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., "SPFLDPRC") or a boarding point id, (e.g., "LSE:2")'
 			// components: {
@@ -62,18 +94,23 @@ const kiosk = defineType({
 			title: 'iStop',
 			type: 'boolean',
 			initialValue: false,
+			group: 'general',
+
 			validation: (rule) => rule.required().error('iStop is required.')
 		}),
 		defineField({
 			name: 'location',
 			title: 'Location',
 			type: 'geopoint',
+			group: 'general',
+
 			validation: (rule) => rule.required().error('Location is required.')
 		}),
 		defineField({
 			name: 'hasLed',
-			title: 'Has LED',
+			title: 'Has LED display',
 			type: 'boolean',
+			group: 'led',
 			validation: (rule) => rule.required().error('Has LED is required.'),
 			initialValue: true
 		}),
@@ -81,6 +118,7 @@ const kiosk = defineType({
 			name: 'ledIp',
 			title: 'LED IP',
 			type: 'string',
+			group: 'led',
 			validation: (rule) =>
 				rule.custom((val, ctx) => {
 					const required = ctx.document?.hasLed === true;
@@ -104,7 +142,41 @@ const kiosk = defineType({
 			name: 'isDevelopmentKiosk',
 			title: 'Dev Kiosk',
 			type: 'boolean',
+			group: 'development',
 			initialValue: false
+		}),
+		// fields for onUniverityNetwork, networkSwitchIpAddress, PDUIpAddress, switchType (cisco, sonicwall, fortigate)
+		defineField({
+			name: 'onUniversityNetwork',
+			title: 'On University Network',
+			type: 'boolean',
+			group: 'networking',
+			initialValue: false
+		}),
+		defineField({
+			name: 'networkSwitchIpAddress',
+			title: 'Switch IP Address',
+			type: 'string',
+			group: 'networking'
+			// validate that this is a valid IP address
+		}),
+		defineField({
+			name: 'switchType',
+			title: 'Switch Type',
+			// dropdown of cisco, sonicwall, fortigate
+			type: 'string',
+			group: 'networking',
+			// validate that this is one of the three options
+			options: {
+				list: ['cisco', 'sonicwall', 'fortigate']
+			}
+		}),
+		defineField({
+			name: 'PDUIpAddress',
+			title: 'PDU IP Address',
+			type: 'string',
+			group: 'networking'
+			// validate that this is a valid IP address
 		})
 	]
 });
