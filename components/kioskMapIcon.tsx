@@ -11,9 +11,10 @@ import { showProblemsOnlyState } from '../state/kioskState';
 interface KioskMapIconProps {
 	id: string;
 	health: HealthStatus;
+	openIssuesCount: number;
 }
 
-export default function KioskMapIcon({ id, health }: KioskMapIconProps) {
+export default function KioskMapIcon({ id, health, openIssuesCount }: KioskMapIconProps) {
 	// const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses>();
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
 
@@ -37,5 +38,5 @@ export default function KioskMapIcon({ id, health }: KioskMapIconProps) {
 
 	if (showProblemsOnly && health === HealthStatus.HEALTHY) return null;
 
-	return <div className={classes}></div>;
+	return <div className={classes}>{openIssuesCount > 0 ? openIssuesCount : ''}</div>;
 }

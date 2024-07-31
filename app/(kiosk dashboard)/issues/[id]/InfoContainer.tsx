@@ -7,6 +7,7 @@ import { KioskObject } from '../../../../types/KioskObjects';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 import styles from './InfoContainer.module.css';
 import Link from 'next/link';
+import LedPreview from '../../led/ledPreview';
 
 interface InfoContainerProps {
 	kiosk: Kiosk;
@@ -25,15 +26,22 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 				<div>
 					{healthStatus && (
 						<div className={styles.badgeContainer}>
-							<KioskStatusBadge large kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} />
-							<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.button} />
-							<KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.button} />
+							<KioskStatusBadge large kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
+							<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.button} align="left" />
+							<KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.button} align="left" />
 						</div>
 					)}
 				</div>
-				<Link href={`http://${kiosk.ledIp}/site`} target="_blank" className={styles.ipSignlink}>
-					Manage LED Sign <GoLinkExternal />
-				</Link>
+				<div>
+					{kiosk.hasLed && kiosk.ledIp.length > 0 && (
+						<>
+							<LedPreview ledIp={kiosk.ledIp} />
+							<Link href={`http://${kiosk.ledIp}/site`} target="_blank" className={styles.ipSignlink}>
+								Manage LED Sign <GoLinkExternal />
+							</Link>
+						</>
+					)}
+				</div>
 			</div>
 		</div>
 	);

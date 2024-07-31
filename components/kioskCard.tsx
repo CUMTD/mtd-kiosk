@@ -15,6 +15,8 @@ import { KioskObject } from '../types/KioskObjects';
 import KioskStatusBadge from './kioskStatusBadge';
 import { showProblemsOnlyState } from '../state/kioskState';
 import { GoChevronRight } from 'react-icons/go';
+import { useRouter } from 'next/navigation';
+import HasLedSignIcon from './hasLedSignIcon';
 
 interface KioskCardProps {
 	kiosk: Kiosk;
@@ -25,7 +27,9 @@ interface KioskCardProps {
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, index, clickable, health }: KioskCardProps) {
+export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasLed }, index, clickable, health }: KioskCardProps) {
+	const router = useRouter();
+
 	const KioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
@@ -45,7 +49,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 
 	useEffect(() => {
 		if (focusedKiosk === _id && KioskCardRef.current) {
-			KioskCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			// KioskCardRef.current.scrollIntoView({ block: 'center' });
 			KioskCardRef.current.focus();
 		}
 	}, [focusedKiosk, _id]);
@@ -82,6 +86,11 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 		[styles.openTicketCount]: health && health.openTicketCount > 0
 	});
 
+	const handleIssuesButtonClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+		e.preventDefault();
+		router.push(`/issues/${_id}`);
+	};
+
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
 		<div
@@ -93,40 +102,42 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop }, in
 			role="button"
 			onBlur={() => clickable && setFocusedKiosk(null)}
 		>
-			{
-				<div className={styles.badges}>
-					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} />
-					<KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} />
-					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} />
+			<div className={styles.kioskCardContainer}>
+				<div className={styles.kioskName}>
+					<h2>{displayName}</h2>
+					{iStop && <IStopIcon />}
+					{hasLed && <HasLedSignIcon />}
 				</div>
-			}
 
-			<div className={styles.kioskName}>
-				<h2>{displayName}</h2>
-				{iStop && <IStopIcon />}
-			</div>
+				<div className={styles.buttonContainer}>
+					<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+						Departures
+					</Link>
 
-			<div className={styles.buttonContainer}>
-				<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-					View
-				</Link>
+					<Link href={`/issues/${_id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
+						{health && health.openTicketCount > 0 ? (
+							<>
+								{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
+							</>
+						) : (
+							'Issue Tracker'
+						)}
+					</Link>
 
-				<Link href={`/issues/${_id}`} className={issuesButtonClasses}>
-					{health && health.openTicketCount > 0 ? (
-						<>
-							{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
-						</>
-					) : (
-						'Issue Tracker'
-					)}
-				</Link>
-
-				{/* {healthStatus && healthStatus.openTicketCount > 0 && (
+					{/* {healthStatus && healthStatus.openTicketCount > 0 && (
 					<div className={styles.openTicketCount}>
 						<span className={styles.openTicketCountText}></span>
 					</div>
 				)} */}
+				</div>
 			</div>
+			{
+				<div className={styles.badges}>
+					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} align="right" />
+					<KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />
+					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} align="right" />
+				</div>
+			}
 		</div>
 	);
 }

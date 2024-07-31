@@ -4,6 +4,7 @@ import { client } from '../sanity/lib/client';
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import throwError from './throwError';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import { Kiosk } from '../sanity.types';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -53,7 +54,7 @@ export async function fetchKioskList() {
 	return kiosks;
 }
 
-export async function fetchKiosk(id: string) {
+export async function fetchKiosk(id: string): Promise<Kiosk> {
 	const query = `*[_type == 'kiosk' && _id == '${id}'][0]`;
 	const kiosk = await client.fetch(query);
 
@@ -150,4 +151,24 @@ export async function updateTicket(ticketId: string, status: TicketStatusType) {
 	}
 	console.error('Failed to update ticket');
 	return false;
+}
+
+export async function fetchLEDPreview(ledIp: string) {
+	const response = await fetch(`${API_ENDPOINT}/api/ledPreview?ledIp=${ledIp}`, {
+		// returns image/png
+		method: 'GET',
+		headers: defaultHeaders,
+		next: {
+			tags: ['ledPreview']
+		}
+	});
+	if (!response.ok) {
+		// console.log(response.url);
+		// console.error('Failed to fetch LED preview');
+		return null;
+	}
+
+	const arrayBuffer = await response.arrayBuffer();
+	const base64String = Buffer.from(arrayBuffer).toString('base64');
+	return `data:image/png;base64,${base64String}`;
 }
