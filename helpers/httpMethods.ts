@@ -154,21 +154,26 @@ export async function updateTicket(ticketId: string, status: TicketStatusType) {
 }
 
 export async function fetchLEDPreview(ledIp: string) {
-	const response = await fetch(`${API_ENDPOINT}/api/ledPreview?ledIp=${ledIp}`, {
-		// returns image/png
-		method: 'GET',
-		headers: defaultHeaders,
-		next: {
-			tags: ['ledPreview']
+	try {
+		const response = await fetch(`${API_ENDPOINT}/api/ledPreview?ledIp=${ledIp}`, {
+			// returns image/png
+			method: 'GET',
+			headers: defaultHeaders,
+			next: {
+				tags: ['ledPreview']
+			}
+		});
+		if (!response.ok) {
+			// console.log(response.url);
+			// console.error('Failed to fetch LED preview');
+			return null;
 		}
-	});
-	if (!response.ok) {
-		// console.log(response.url);
-		// console.error('Failed to fetch LED preview');
+
+		const arrayBuffer = await response.arrayBuffer();
+		const base64String = Buffer.from(arrayBuffer).toString('base64');
+		return `data:image/png;base64,${base64String}`;
+	} catch (error) {
+		console.error(error);
 		return null;
 	}
-
-	const arrayBuffer = await response.arrayBuffer();
-	const base64String = Buffer.from(arrayBuffer).toString('base64');
-	return `data:image/png;base64,${base64String}`;
 }
