@@ -271,7 +271,7 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 								) : (
 									<>
 										{pendingDelete ? <LoadingAnimation normal white /> : <GoTrash color="white" />}
-										<span className={styles.confirmDeleteText}>Confirm</span>
+										<span className={styles.confirmDeleteText}>Really?</span>
 									</>
 								)}
 							</button>

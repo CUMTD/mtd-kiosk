@@ -4,6 +4,15 @@
 	align-items: center;
 	/* font-size: small; */
 	width: 100%;
+	justify-content: right;
+}
+
+.left {
+	justify-content: left;
+}
+
+.right {
+	justify-content: right;
 }
 
 .indicatorLight {

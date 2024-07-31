@@ -5,15 +5,15 @@
 	display: flex;
 	flex-direction: column;
 	/* height: max-content; */
-	overflow-y: scroll;
+	overflow-y: auto;
 	/* calculate mobile friendly padding */
-	padding: 1em;
+	padding: 2em;
 	background-color: rgb(var(--background-secondary-rgb));
 }
 
 .parent > * {
-	border-top: 1px dotted rgb(var(--card-border-rgb));
-	border-radius: var(--border-radius);
+	/* border-top: 1px dotted rgb(var(--card-border-rgb)); */
+	/* border-radius: var(--border-radius); */
 }
 
 .children {
@@ -31,7 +31,7 @@
 .kioskCards {
 	/* style={{ gridArea: 'cards', overflowY: 'scroll' }} */
 	grid-area: cards;
-	overflow-y: scroll;
+	overflow-y: auto;
 
 	background-color: rgb(var(--background-secondary-rgb));
 }

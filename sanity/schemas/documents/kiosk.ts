@@ -43,18 +43,19 @@ const kiosk = defineType({
 			title: 'Stop ID',
 			type: 'string',
 			description:
-				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., "SPFLDPRC") or a boarding point id, (e.g., "LSE:2")',
-			components: {
-				input: StopListAutocomplete
-			},
-			validation: (rule) =>
-				rule.custom((val) => {
-					if (val === undefined) {
-						return 'Stop ID is required';
-					}
+				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., "SPFLDPRC") or a boarding point id, (e.g., "LSE:2")'
+			// components: {
+			// 	input: StopListAutocomplete
+			// }
+			// TODO: this does not want to work
+			// validation: (rule) =>
+			// 	rule.custom((val) => {
+			// 		if (val === undefined) {
+			// 			return 'Stop ID is required';
+			// 		}
 
-					return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
-				})
+			// 		return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
+			// 	})
 		}),
 		defineField({
 			name: 'iStop',
@@ -98,6 +99,12 @@ const kiosk = defineType({
 
 					return 'Invalid IP format.';
 				})
+		}),
+		defineField({
+			name: 'isDevelopmentKiosk',
+			title: 'Dev Kiosk',
+			type: 'boolean',
+			initialValue: false
 		})
 	]
 });

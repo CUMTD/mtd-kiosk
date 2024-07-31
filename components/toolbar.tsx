@@ -21,7 +21,7 @@ export default function Toolbar() {
 				<div className={styles.authBox}>
 					<div className={styles.user}>
 						<p>
-							Logged in as <b>{session?.user?.name}</b>
+							<b>{session?.user?.name}</b>
 						</p>
 						<Link className={styles.signOut} href="/api/auth/signout">
 							Sign Out
