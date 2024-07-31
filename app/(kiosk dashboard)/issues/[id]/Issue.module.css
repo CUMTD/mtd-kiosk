@@ -7,6 +7,7 @@
 }
 
 .issueDescription {
+	line-height: 1.5;
 }
 
 .comment {
@@ -166,16 +167,13 @@
 .commentSaveButton,
 .commentDiscardButton {
 	/* color: white; */
-	/* border: none; */
-	border-width: 1px;
-	border-radius: 5px;
+	border: none;
 	padding: 0.5ch 1ch;
 }
 
 .commentSaveButton {
 	background-color: #2ea44f;
 	color: white;
-	font-weight: bold;
 }
 
 .textarea {
@@ -186,8 +184,7 @@
 }
 
 .confirmDeleteText {
-	text-transform: uppercase;
-	font-size: 80%;
+	/* font-size: 80%; */
 	margin-left: 1ch;
 	margin-right: 1ch;
 	color: white;
@@ -195,9 +192,9 @@
 
 .commentDeleteConfirm {
 	background-color: maroon;
-	border-width: 2px;
+	border-width: 0;
 	border-radius: 5px;
-	padding: 0.5ch 1ch;
-	letter-spacing: 0.5px;
+	/* padding: 0.5ch 1ch; */
+	letter-spacing: 0.7px;
 	/* font-weight: 600; */
 }

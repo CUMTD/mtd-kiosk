@@ -1,0 +1,64 @@
+.page {
+	grid-area: map / map / cards / cards;
+}
+
+.ledDashboard {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	/* max-width: 100vw; */
+	gap: 1.7em;
+	flex-wrap: wrap;
+	padding: 1em;
+	/* overflow-y: auto; */
+}
+
+.previewImage {
+	display: block;
+}
+
+.displayName {
+	opacity: 0.8;
+	margin-bottom: 0.3em;
+}
+.placeholder,
+.failed {
+	/* skeleton animaiton */
+	background: linear-gradient(90deg, var(--card-gradient-color) 25%, var(--card-background-color) 50%, var(--card-gradient-color) 75%);
+	background-size: 200% 100%;
+	animation: pulse 2.5s infinite;
+	width: 600px;
+	height: 75px;
+	font-size: larger;
+	/* vertical align text */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.failed {
+	background: unset;
+	animation: unset;
+	text-align: center;
+	background-color: var(--card-background-color);
+}
+
+@keyframes pulse {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+.frame {
+	border: 2px solid var(--led-sign-border-color);
+}
+
+.previewContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

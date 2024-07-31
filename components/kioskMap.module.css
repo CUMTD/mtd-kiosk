@@ -11,4 +11,5 @@
 	grid-area: map;
 	place-self: stretch;
 	width: 100%;
+	border-right: 1px solid rgb(var(--card-rgb));
 }

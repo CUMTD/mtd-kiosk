@@ -32,6 +32,12 @@
 	--fade-animation-duration: 0.5s;
 
 	--mobile-threshold: 768px;
+
+	--mtd-dark-blue: #003a7b;
+
+	--focus-color: blue;
+
+	--led-sign-border-color: rgba(0, 0, 0, 0.073);
 }
 section {
 	/* max-width: 100%; */
@@ -55,7 +61,21 @@ section {
 
 		--card-background-color: rgb(25, 25, 25);
 		--card-gradient-color: black;
+		--focus-color: wheat;
+		--led-sign-border-color: #ffffff30;
 	}
+}
+
+::-webkit-scrollbar {
+	width: 9px;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgba(155, 155, 155, 0.5);
+	border-radius: 20px;
+	border: transparent;
 }
 
 * {
@@ -65,7 +85,7 @@ section {
 }
 
 html {
-	scroll-behavior: smooth;
+	/* scroll-behavior: smooth; */
 }
 
 html,

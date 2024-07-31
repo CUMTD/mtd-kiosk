@@ -7,12 +7,14 @@
 	align-items: center;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 	border: 3px solid rgba(0, 0, 0, 0.3);
-	background-image: linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3));
+	/* //background-image: linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3)); */
 	background-color: var(--kiosk-unknown);
 	/* fade background color on change */
 	transition: background-color var(--fade-animation-duration) ease-in-out;
+	font-weight: 800;
+	font-size: large;
+	color: white;
 }
-
 .healthy {
 	background-color: var(--kiosk-healthy);
 }
@@ -24,7 +26,7 @@
 
 .critical {
 	background-color: var(--kiosk-critical);
-	animation: pulse-animation 1s infinite;
+	/* animation: pulse-animation 3s infinite; */
 }
 
 @keyframes pulse-animation {
@@ -32,7 +34,7 @@
 		box-shadow: 0 0 0 0px red;
 	}
 	100% {
-		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
 	}
 }
 
@@ -40,7 +42,7 @@
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 	scale: 1.3;
 	transition: scale 0.1s ease-in-out;
-	border-color: blue;
+	border-color: var(--focus-color);
 	/* bring to front */
 	/* position: relative; */
 }
