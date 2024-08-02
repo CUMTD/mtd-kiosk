@@ -145,6 +145,12 @@ const kiosk = defineType({
 			group: 'development',
 			initialValue: false
 		}),
+		defineField({
+			name: 'networkingNotes',
+			title: 'Networking Notes',
+			type: 'text',
+			group: 'networking'
+		}),
 		// fields for onUniverityNetwork, networkSwitchIpAddress, PDUIpAddress, switchType (cisco, sonicwall, fortigate)
 		defineField({
 			name: 'onUniversityNetwork',
@@ -168,7 +174,7 @@ const kiosk = defineType({
 			group: 'networking',
 			// validate that this is one of the three options
 			options: {
-				list: ['cisco', 'sonicwall', 'fortigate']
+				list: ['cisco', 'sonicwall', 'fortigate', 'Cellular', 'Other/See notes']
 			}
 		}),
 		defineField({
