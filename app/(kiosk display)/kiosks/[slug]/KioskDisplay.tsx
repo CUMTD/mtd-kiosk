@@ -8,7 +8,6 @@ import { Advertisement, Kiosk } from '../../../../sanity.types';
 import { fetchKioskAdsByKioskId } from '../../../../helpers/httpMethods';
 import { useEffect, useState } from 'react';
 
-// 7 departures
 const sampleDepartures: Departure[] = [
 	{
 		routeNumber: '2',
@@ -16,8 +15,11 @@ const sampleDepartures: Departure[] = [
 		direction: 'Champaign',
 		foregroundHexColor: '#000000',
 		backgroundHexColor: '#ed1c24',
-		departureTimes: ['DUE', '10 min', '20 min'],
-		isRealTime: true
+		departureTimes: [
+			{ time: 'DUE', isRealTime: true, isHopper: true },
+			{ time: '10 min', isRealTime: true, isHopper: false },
+			{ time: '20 min', isRealTime: true, isHopper: false }
+		]
 	},
 	{
 		routeNumber: '12',
@@ -25,17 +27,23 @@ const sampleDepartures: Departure[] = [
 		direction: 'West',
 		foregroundHexColor: '#FFFFFF',
 		backgroundHexColor: '#006991',
-		departureTimes: ['1 min', '9 min', '17 min'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '1 min', isRealTime: true, isHopper: false },
+			{ time: '9 min', isRealTime: true, isHopper: false },
+			{ time: '17 min', isRealTime: true, isHopper: false }
+		]
 	},
 	{
 		routeNumber: '5',
-		headsign: 'Green Hopper',
+		headsign: 'Green',
 		direction: 'West',
 		foregroundHexColor: '#FFFFFF',
 		backgroundHexColor: '#008063',
-		departureTimes: ['3 min', '9 min', '15 min'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '3 min', isRealTime: true, isHopper: false },
+			{ time: '9 min', isRealTime: true, isHopper: true },
+			{ time: '15 min', isRealTime: true, isHopper: false }
+		]
 	},
 	{
 		routeNumber: '22',
@@ -43,8 +51,11 @@ const sampleDepartures: Departure[] = [
 		direction: 'South',
 		foregroundHexColor: '#FFFFFF',
 		backgroundHexColor: '#5a1d5a',
-		departureTimes: ['6 min', '21 min', '30 min'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '6 min', isRealTime: true, isHopper: true },
+			{ time: '21 min', isRealTime: true, isHopper: false },
+			{ time: '30 min', isRealTime: true, isHopper: true }
+		]
 	},
 	{
 		routeNumber: '1',
@@ -52,8 +63,11 @@ const sampleDepartures: Departure[] = [
 		direction: 'South',
 		foregroundHexColor: '#000000',
 		backgroundHexColor: '#f9e300',
-		departureTimes: ['11 min', '21 min', '8:15 PM'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '11 min', isRealTime: true, isHopper: false },
+			{ time: '21 min', isRealTime: true, isHopper: true },
+			{ time: '8:15 PM', isRealTime: false, isHopper: false }
+		]
 	},
 	{
 		routeNumber: '130',
@@ -61,8 +75,11 @@ const sampleDepartures: Departure[] = [
 		direction: 'North',
 		foregroundHexColor: '#000000',
 		backgroundHexColor: '#a5acaf',
-		departureTimes: ['15 min', '17 min', '8:22 PM'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '15 min', isRealTime: true, isHopper: false },
+			{ time: '17 min', isRealTime: true, isHopper: false },
+			{ time: '8:22 PM', isRealTime: false, isHopper: true }
+		]
 	},
 	{
 		routeNumber: '24',
@@ -70,8 +87,11 @@ const sampleDepartures: Departure[] = [
 		direction: 'North',
 		foregroundHexColor: '#FFFFFF',
 		backgroundHexColor: '#00a1de',
-		departureTimes: ['8:20 PM', '8:33 PM', '8:45 PM'],
-		isRealTime: true
+		departureTimes: [
+			{ time: '8:20 PM', isRealTime: false, isHopper: true },
+			{ time: '8:33 PM', isRealTime: false, isHopper: true },
+			{ time: '8:45 PM', isRealTime: false, isHopper: true }
+		]
 	}
 ];
 

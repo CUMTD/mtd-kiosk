@@ -1,86 +1,113 @@
 .departureItem {
-	background-color: var(--departure-background);
-	margin: 0 0 var(--line-pad) 0;
 	position: relative;
+	display: flex;
+	flex-direction: row;
+	gap: 2em;
+
+	margin: 0 0 var(--line-pad) 0;
+	padding: var(--departure-y-pad) var(--departure-x-pad);
+
+	color: var(--departure-text-color);
+	background-color: var(--departure-background);
+	border-radius: var(--departure-border-radius);
+}
+
+.departureItemContent {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	min-height: var(--departure-line-height);
+
+	line-height: 1.1;
 }
 
 .realtimeIcon {
 	position: absolute;
 	top: 0px;
 	right: 0px;
-	padding-top: var(--line-pad);
-	padding-right: var(--line-pad);
+	padding: 13px 10px;
 }
 
-.departureItemContent {
-	padding: var(--departure-y-pad) var(--departure-x-pad);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: var(--departure-number-pad);
-	min-height: var(--departure-line-height);
-	border-radius: var(--departure-border-radius);
-	line-height: 1;
-}
 .routeNumber {
-	font-family: interstate-condensed, sans-serif;
-	font-weight: 900;
-	font-style: normal;
-	grid-area: num;
 	display: block;
-	width: var(--departure-number-size);
-	height: var(--departure-number-size);
-	border-radius: 50%;
-	text-align: center;
-	line-height: var(--departure-number-size);
+	grid-area: num;
+	width: 4ch;
+	padding: 5px 0;
+
+	/* font-family: interstate-condensed, sans-serif; */
 	font-size: var(--departure-number-font-size);
-	align-self: center;
+	font-weight: 900;
+	border-radius: var(--departure-border-radius);
+	font-style: normal;
 	letter-spacing: 2px;
+
+	text-align: center;
+	align-self: center;
 }
 .routeInfo {
-	display: flex;
-	flex-direction: column;
 	text-transform: uppercase;
-	display: block;
-	font-style: normal;
-	font-family: interstate-condensed, sans-serif;
-	/* color: var(--departure-text-color); */
-	/* letter-spacing: 2px; */
 }
 
 .headsign {
 	font-weight: 800;
 	font-size: var(--departure-headsign-font-size);
-	align-self: flex-end;
-	align-self: center;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
 .direction {
-	font-weight: 200;
+	font-weight: 500;
 	font-size: var(--departure-direction-font-size);
 }
 
 .departureTimes {
-	font-family: interstate-condensed, sans-serif;
-	margin-left: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+
+	margin-left: auto;
 	align-items: right;
 	text-align: right;
 }
 
 .firstTime {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+
 	font-weight: 700;
 	font-size: var(--departure-first-font-size);
 }
 
 .secondTime {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	justify-content: flex-end;
+
 	font-weight: 200;
 	font-size: var(--departure-second-font-size);
+}
+
+.hopperIcon {
+	color: black;
+	font-family: interstate, sans-serif;
+	font-weight: 700;
+
+	/* margin-bottom: 2px; */
+
+	background-color: var(--departure-text-color);
+	border-radius: var(--departure-border-radius);
+
+	padding: 0 0.3ch;
+
+	font-size: 70%;
+
+	margin-right: 7px;
 }
 
 .skeleton {
