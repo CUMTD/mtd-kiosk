@@ -1,0 +1,10 @@
+.kioskDeparturesContainer {
+	grid-area: departures;
+}
+
+.kioskDepartures {
+	display: flex;
+	flex-direction: column;
+	/* gap: var(--departure-pad); */
+	padding: var(--line-pad) var(--line-pad) 0 var(--line-pad);
+}

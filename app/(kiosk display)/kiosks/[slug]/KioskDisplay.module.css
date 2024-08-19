@@ -1,0 +1,27 @@
+.kioskDisplay {
+	background: linear-gradient(
+		to bottom,
+		var(--departure-background-stop-0) 0%,
+		var(--departure-background-stop-1) var(--top-percent),
+		var(--departure-background-stop-2) var(--bottom-percent),
+		#002f87 100%
+	);
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: min-content min-content 1fr min-content;
+	grid-template-areas:
+		'header'
+		'message'
+		'departures'
+		'ads';
+	transform-origin: top left;
+	transform: scale(var(--scale));
+
+	width: var(--width);
+	height: var(--height);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+
+	border-radius: var(--viewport-border-radius);
+}

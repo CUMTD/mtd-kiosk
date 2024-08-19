@@ -1,0 +1,63 @@
+.stopName {
+	grid-area: name;
+	font-family: interstate-condensed, sans-serif;
+	font-weight: 500;
+	font-style: normal;
+	font-size: 60px;
+	margin: -7px 0 -9px 0;
+	text-align: right;
+}
+
+.logo {
+	grid-area: logo;
+	height: 160px;
+	display: block;
+	line-height: 1;
+}
+
+.time {
+	grid-area: time;
+	font-weight: 900;
+	font-style: normal;
+	text-align: right;
+	font-size: 120px;
+	margin: -14px 0 -18px 0;
+}
+
+.header time,
+.header h1,
+.header img {
+	display: block;
+	line-height: 1;
+}
+
+.istopIcon {
+	grid-area: istop;
+	width: 60px;
+	height: 60px;
+}
+
+.header {
+	grid-area: header;
+	max-height: var(--header-height);
+	padding: 40px;
+	display: grid;
+	grid-template-rows: min-content 1fr;
+	grid-template-columns: min-content 1fr;
+	grid-template-areas:
+		'logo time'
+		'logo name';
+	grid-gap: 30px;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--header-color);
+	background-color: var(--header-background);
+}
+
+.headerIstop {
+	grid-template-columns: min-content 1fr min-content;
+	grid-template-areas:
+		'logo time time '
+		'logo name istop';
+}

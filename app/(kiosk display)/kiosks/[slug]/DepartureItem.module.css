@@ -1,0 +1,104 @@
+.departureItem {
+	background-color: var(--departure-background);
+	margin: 0 0 var(--line-pad) 0;
+	position: relative;
+}
+
+.realtimeIcon {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	padding-top: var(--line-pad);
+	padding-right: var(--line-pad);
+}
+
+.departureItemContent {
+	padding: var(--departure-y-pad) var(--departure-x-pad);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--departure-number-pad);
+	min-height: var(--departure-line-height);
+	border-radius: var(--departure-border-radius);
+	line-height: 1;
+}
+.routeNumber {
+	font-family: interstate-condensed, sans-serif;
+	font-weight: 900;
+	font-style: normal;
+	grid-area: num;
+	display: block;
+	width: var(--departure-number-size);
+	height: var(--departure-number-size);
+	border-radius: 50%;
+	text-align: center;
+	line-height: var(--departure-number-size);
+	font-size: var(--departure-number-font-size);
+	align-self: center;
+	letter-spacing: 2px;
+}
+.routeInfo {
+	display: flex;
+	flex-direction: column;
+	text-transform: uppercase;
+	display: block;
+	font-style: normal;
+	font-family: interstate-condensed, sans-serif;
+	/* color: var(--departure-text-color); */
+	/* letter-spacing: 2px; */
+}
+
+.headsign {
+	font-weight: 800;
+	font-size: var(--departure-headsign-font-size);
+	align-self: flex-end;
+	align-self: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.direction {
+	font-weight: 200;
+	font-size: var(--departure-direction-font-size);
+}
+
+.departureTimes {
+	font-family: interstate-condensed, sans-serif;
+	margin-left: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: right;
+	text-align: right;
+}
+
+.firstTime {
+	font-weight: 700;
+	font-size: var(--departure-first-font-size);
+}
+
+.secondTime {
+	font-weight: 200;
+	font-size: var(--departure-second-font-size);
+}
+
+.skeleton {
+	background-color: var(--skeleton-background);
+	background: linear-gradient(90deg, var(--skeleton-background) 25%, var(--skeleton-highlight) 50%, var(--skeleton-background) 75%);
+	background-size: 200% 100%;
+	animation: pulse 4s infinite linear;
+}
+
+.skeleton > * {
+	display: none;
+}
+
+@keyframes pulse {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
