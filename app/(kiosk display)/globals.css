@@ -9,6 +9,8 @@
 	--bottom-percent: 59.66387%;
 	--viewport-border-radius: 10px;
 
+	--departure-item-height: 147px;
+
 	--departure-background-stop-0: #0071ce;
 	--departure-background-stop-1: #002f87;
 	--departure-background-stop-2: #002f87;
@@ -60,7 +62,7 @@ html {
 		--departure-background-stop-2: black;
 
 		--skeleton-background: #000;
-		--skeleton-highlight: #2020202b;
+		--skeleton-highlight: #b8b8b86c;
 
 		--departure-background: rgba(55, 55, 55, 0.8);
 		--departure-text-color: #fff;

@@ -10,6 +10,8 @@
 	color: var(--departure-text-color);
 	background-color: var(--departure-background);
 	border-radius: var(--departure-border-radius);
+
+	height: var(--departure-item-height);
 }
 
 .departureItemContent {
@@ -112,9 +114,12 @@
 
 .skeleton {
 	background-color: var(--skeleton-background);
-	background: linear-gradient(90deg, var(--skeleton-background) 25%, var(--skeleton-highlight) 50%, var(--skeleton-background) 75%);
+	background: linear-gradient(110deg, var(--skeleton-background) 25%, var(--skeleton-highlight) 50%, var(--skeleton-background) 75%);
 	background-size: 200% 100%;
 	animation: pulse 4s infinite linear;
+	min-height: var(--departure-line-height);
+	height: var(--departure-item-height);
+	filter: blur(2px);
 }
 
 .skeleton > * {

@@ -16,7 +16,7 @@ export default function DepartureItem({ departure, skeleton }: DepartureProps) {
 	});
 
 	return (
-		<div className={classes} style={{ animationDelay: `${Math.random() * 0.5}s` }}>
+		<div className={classes} style={{ animationDelay: `${Math.random() * 0.1}s` }}>
 			<div className={styles.realtimeIcon}>{departure.departureTimes[0].isRealTime ? <RealTimeIcon color="white" /> : null}</div>
 			<div
 				className={styles.routeNumber}
