@@ -1,39 +1,32 @@
 :root {
+	--scale: 1;
 	--width: 1080px;
 	--height: 1920px;
 	--header-height: 250px;
 	--ad-height: 480px;
 	--ad-width: 1080px;
-	--content-height: calc(var(--height) - var(--header-height) - var(--ad-height));
-	--top-percent: 21.0084%;
-	--bottom-percent: 59.66387%;
 	--viewport-border-radius: 10px;
 
-	--departure-item-height: 147px;
-
-	--departure-background-stop-0: #0071ce;
-	--departure-background-stop-1: #002f87;
-	--departure-background-stop-2: #002f87;
-
-	--departure-x-pad: 40px;
+	--departure-item-height: 140px;
+	--departure-x-pad: 30px;
 	--departure-y-pad: 20px;
 	--departure-number-pad: 35px;
-
 	--departure-border-radius: 4px;
 
-	--departure-number-size: 108px;
+	--departure-number-size: 96px;
 	--departure-number-font-size: 60px;
-	--departure-headsign-font-size: 46px;
+	--departure-headsign-font-size: 50px;
 	--departure-direction-font-size: 35px;
-
-	--departure-first-font-size: 50px;
+	--departure-first-font-size: 43px;
 	--departure-second-font-size: 32px;
 
 	--departure-line-height: 107px;
 	--departure-text-color: #242424;
-	--departure-background: rgba(243, 243, 243, 0.8);
+	--departure-background: rgb(255, 255, 255);
+	--departure-line-color: rgb(208, 208, 208);
+	--departure-hopper-background-color: rgb(225, 225, 225);
 
-	--line-pad: 20px;
+	--messaging-background-color: #cfcfcf;
 
 	--header-background: #242424;
 	--header-color: #fff;
@@ -55,27 +48,27 @@ html {
 		/* --header-background: #000; */
 		--header-color: #fff;
 
-		--header-background: black;
+		--header-background: #242424;
 
-		--departure-background-stop-0: black;
-		--departure-background-stop-1: black;
-		--departure-background-stop-2: black;
+		--departure-background: #242424;
+		--departure-line-color: #242424;
 
 		--skeleton-background: #000;
 		--skeleton-highlight: #b8b8b86c;
 
 		--departure-background: rgba(55, 55, 55, 0.8);
 		--departure-text-color: #fff;
+		--departure-hopper-background-color: rgb(84, 84, 84);
 	}
 }
 
 body {
 	margin: 0;
+	color: var(--departure-text-color);
 }
 
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	/* overflow: hidden; */
 }

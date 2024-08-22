@@ -10,7 +10,7 @@ export default function LedPreviewPlaceholder({ failed }: LedPreviewPlaceholderP
 	if (failed) {
 		return (
 			<div className={styles.failed}>
-				<BsX /> Failed to load LED preview.
+				<BsX /> Failed to load LED preview
 			</div>
 		);
 	}

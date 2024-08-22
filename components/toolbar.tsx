@@ -3,6 +3,10 @@ import styles from './toolbar.module.css';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import UserIcon from './userIcon';
+import AttributeBadge from './attributeBadge';
+import HasLedSignIcon from './hasLedSignIcon';
+import { BiHome, BiSolidDashboard } from 'react-icons/bi';
+import { FaHome } from 'react-icons/fa';
 
 export default function Toolbar() {
 	const { data: session } = useSession({ required: true });
@@ -16,6 +20,16 @@ export default function Toolbar() {
 					<h1 style={{ fontWeight: '500' }}>Kiosks</h1>
 				</div>
 			</Link>
+
+			<div className={styles.links}>
+				<Link href="/" passHref>
+					<AttributeBadge icon={<FaHome />} text="Dashboard" />
+				</Link>
+
+				<Link href="/led" passHref>
+					<AttributeBadge icon={<HasLedSignIcon />} text="LED Monitoring Grid" />
+				</Link>
+			</div>
 
 			{session && (
 				<div className={styles.authBox}>

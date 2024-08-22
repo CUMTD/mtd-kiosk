@@ -20,7 +20,7 @@ export default async function LedPreviewList() {
 				<p className={styles.displayName}>{kiosk.displayName}</p>
 				<div className={styles.frame}>
 					<Suspense fallback={<LedPreviewPlaceholder />}>
-						<LedPreview ledIp={kiosk.ledIp ?? ''} kioskGUID={kiosk._id} />
+						<LedPreview ledIp={kiosk.ledIp ?? ''} kioskGUID={kiosk._id} clickable />
 					</Suspense>
 				</div>
 			</div>

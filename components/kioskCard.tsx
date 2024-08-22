@@ -110,8 +110,8 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-						Departures
+					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+						Preview Departures
 					</Link>
 
 					<Link href={`/issues/${_id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
@@ -120,7 +120,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 								{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
 							</>
 						) : (
-							'Issue Tracker'
+							'Details'
 						)}
 					</Link>
 
@@ -134,7 +134,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 			{
 				<div className={styles.badges}>
 					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} align="right" />
-					<KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />
+					{hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />}
 					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} align="right" />
 				</div>
 			}

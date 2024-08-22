@@ -1,10 +1,67 @@
 .kioskDeparturesContainer {
 	grid-area: departures;
+	overflow: hidden;
 }
 
 .kioskDepartures {
 	display: flex;
 	flex-direction: column;
-	/* gap: var(--departure-pad); */
-	padding: var(--line-pad) var(--line-pad) 0 var(--line-pad);
+	/* gap: 5px; */
+}
+
+.realtimeExplainer {
+	width: 100%;
+	text-align: center;
+	padding: var(--departure-x-pad);
+	font-size: var(--departure-second-font-size);
+}
+
+.generalMessage,
+.noDepartures,
+.connectionError {
+	font-size: var(--departure-first-font-size);
+	padding: var(--departure-x-pad);
+	background-color: var(--messaging-background-color);
+	color: black;
+}
+
+.connectionError {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5ch;
+}
+
+.generalMessage {
+	color: white;
+	background-color: maroon;
+}
+
+.noDepartures {
+	text-align: center;
+}
+
+.marquee {
+	--gap: 1rem;
+	display: flex;
+	overflow: hidden;
+	user-select: none;
+	gap: var(--gap);
+}
+
+.marqueeContent {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: space-around;
+	min-width: 100%;
+	gap: var(--gap);
+}
+
+@keyframes scroll {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-100% - var(--gap)));
+	}
 }

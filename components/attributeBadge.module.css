@@ -1,0 +1,13 @@
+/* rounded corners */
+
+.badgeContainer {
+	display: flex;
+	gap: 0.5em;
+	flex-direction: row;
+	/* border: 2px solid rgb(var(--card-rgb)); */
+	background-color: var(--card-background-color);
+	padding: 0.5em;
+	border-radius: 5px;
+	align-items: center;
+	color: rgb(var(--foreground-rgb));
+}

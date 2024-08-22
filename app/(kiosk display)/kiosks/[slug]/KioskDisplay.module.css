@@ -1,10 +1,5 @@
 .kioskDisplay {
-	background: linear-gradient(
-		to bottom,
-		var(--departure-background-stop-0) 0%,
-		var(--departure-background-stop-1) var(--top-percent),
-		var(--departure-background-stop-2) var(--bottom-percent)
-	);
+	background-color: var(--departure-background);
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: min-content min-content 1fr min-content;

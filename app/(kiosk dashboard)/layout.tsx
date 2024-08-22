@@ -5,9 +5,10 @@ import './globals.css';
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import Toolbar from '../../components/toolbar';
 import styles from './layout.module.css';
-import { SessionProvider, useSession } from 'next-auth/react';
+import { SessionProvider, signIn, useSession } from 'next-auth/react';
 import { showMapState } from '../../state/mapState';
 import clsx from 'clsx';
+import { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 

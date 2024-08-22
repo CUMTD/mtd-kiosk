@@ -246,11 +246,12 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 				>
 					{kiosks.length > 0 &&
 						kiosks.map((kiosk) => {
-							var health = HealthStatus.UNKNOWN;
+							var health: HealthStatus | undefined = HealthStatus.UNKNOWN;
 							var issues = 0;
 							if (healthStatuses && healthStatuses.length > 0) {
 								issues = healthStatuses.find((health) => health.kioskId === kiosk._id)?.openTicketCount || 0;
-								health = healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth || HealthStatus.UNKNOWN;
+								health = healthStatuses.find((health) => health.kioskId === kiosk._id)?.overallHealth;
+								if (health == undefined) health = HealthStatus.UNKNOWN;
 							}
 							return <KioskMarker key={kiosk._id} kiosk={kiosk} health={health} openIssueCount={issues} />;
 						})}
@@ -318,7 +319,7 @@ export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<div className={styles.individualKioskMap}>
-				<Map defaultCenter={position} defaultZoom={15} gestureHandling={'greedy'} mapId={'1c910bd63b002525'}>
+				<Map defaultCenter={position} defaultZoom={15} gestureHandling={'greedy'} mapId={'1c910bd63b002525'} zoomControl={false} disableDefaultUI={true}>
 					<AdvancedMarker position={position} key={kiosk._id}>
 						<KioskMapIcon id={kiosk._id} health={health} openIssuesCount={0} />
 					</AdvancedMarker>

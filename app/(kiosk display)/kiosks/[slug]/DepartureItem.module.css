@@ -1,58 +1,64 @@
 .departureItem {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	gap: 2em;
+	display: grid;
+	grid-template-areas: 'num route departures';
 
-	margin: 0 0 var(--line-pad) 0;
+	grid-template-columns: 1fr 4fr 6fr;
+	grid-template-rows: 1fr;
+
+	gap: 1em;
+
 	padding: var(--departure-y-pad) var(--departure-x-pad);
 
 	color: var(--departure-text-color);
 	background-color: var(--departure-background);
-	border-radius: var(--departure-border-radius);
 
 	height: var(--departure-item-height);
-}
 
-.departureItemContent {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	min-height: var(--departure-line-height);
-
-	line-height: 1.1;
+	font-family: interstate-condensed, sans-serif;
+	border-bottom: 5px solid var(--departure-line-color);
 }
 
 .realtimeIcon {
 	position: absolute;
 	top: 0px;
 	right: 0px;
-	padding: 13px 10px;
+	transform: translate(17px, -20px);
+	/* padding: 9px 7px; */
 }
 
 .routeNumber {
-	display: block;
+	/* height: 50%; */
+	width: var(--departure-number-size);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	align-content: center;
 	grid-area: num;
-	width: 4ch;
-	padding: 5px 0;
 
-	/* font-family: interstate-condensed, sans-serif; */
+	display: block;
+
 	font-size: var(--departure-number-font-size);
-	font-weight: 900;
-	border-radius: var(--departure-border-radius);
+	font-weight: 800;
+	/* border-radius: var(--departure-border-radius); */
 	font-style: normal;
-	letter-spacing: 2px;
 
 	text-align: center;
 	align-self: center;
+
+	border: 4px solid var(--departure-background);
 }
 .routeInfo {
+	grid-area: route;
 	text-transform: uppercase;
+	text-overflow: ellipsis;
+
+	overflow: hidden;
+	line-height: 1.1;
+
+	align-self: center;
 }
 
 .headsign {
-	font-weight: 800;
+	font-weight: 700;
 	font-size: var(--departure-headsign-font-size);
 	white-space: nowrap;
 	overflow: hidden;
@@ -65,34 +71,64 @@
 }
 
 .departureTimes {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	/* display: flex;
+	flex-direction: row; */
+	/* justify-content: space-between; */
+	/* gap: 5px; */
 
-	margin-left: auto;
-	align-items: right;
-	text-align: right;
+	align-items: center;
+	width: 100%;
+	gap: 15px;
 }
 
-.firstTime {
+.hopper {
+	background-color: var(--departure-hopper-background-color);
+}
+
+.departureTime {
+	line-height: 1.1;
+	justify-content: center;
+
+	border-radius: var(--departure-border-radius);
+	height: 100%;
+
+	/* vertically center */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+/* .departureTime:not(:first-child) {
+	border-left: 3px solid var(--departure-hopper-background-color);
+} */
+
+.time {
+	position: relative;
+
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: center;
 
-	font-weight: 700;
 	font-size: var(--departure-first-font-size);
 }
 
-.secondTime {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+/* .departureTime:first-of-type .time {
+	font-weight: 700;
+} */
 
-	justify-content: flex-end;
-
+.timeSubtitle {
 	font-weight: 200;
 	font-size: var(--departure-second-font-size);
+
+	text-align: center;
+
+	/*  take up vert space even if blank */
+	min-height: 1.2em;
+	opacity: 0.8;
 }
 
 .hopperIcon {

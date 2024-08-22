@@ -4,7 +4,8 @@ import { client } from '../sanity/lib/client';
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import throwError from './throwError';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { Kiosk } from '../sanity.types';
+import { Advertisement, Kiosk } from '../sanity.types';
+import { KioskDeparturesAPIResponse } from '../types/kioskDisplayTypes/GroupedRoute';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -54,11 +55,33 @@ export async function fetchKioskList() {
 	return kiosks;
 }
 
-export async function fetchKiosk(id: string): Promise<Kiosk> {
+export async function fetchKioskById(id: string): Promise<Kiosk> {
 	const query = `*[_type == 'kiosk' && _id == '${id}'][0]`;
 	const kiosk = await client.fetch(query);
 
 	return kiosk;
+}
+
+export async function fetchKioskBySlug(slug: string): Promise<Kiosk> {
+	const query = `*[_type == 'kiosk' && slug.current == '${slug}'][0]`;
+	const kiosk = await client.fetch(query);
+
+	return kiosk;
+}
+
+export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertisement[]> {
+	const query = `*[_type == 'advertisement'
+	&& startDate <= $currentDate
+  && (!defined(endDate) || endDate >= $currentDate)
+  	&& (displayOnAllKiosks || references($kioskId))
+	]
+  {
+	...,
+	"imageUrl": image.asset->url
+  }`;
+	const currentDate = new Date().toISOString(); // Get the current date in ISO format
+	const ads = await client.fetch(query, { kioskId, currentDate }, { cache: 'no-cache' });
+	return ads;
 }
 
 export async function fetchKioskTickets(id: string) {
@@ -172,6 +195,20 @@ export async function fetchLEDPreview(ledIp: string) {
 		const arrayBuffer = await response.arrayBuffer();
 		const base64String = Buffer.from(arrayBuffer).toString('base64');
 		return `data:image/png;base64,${base64String}`;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
+
+export async function getDepartures(stopId: string, kioskId?: string): Promise<KioskDeparturesAPIResponse | null> {
+	try {
+		const response = await fetch(`${API_ENDPOINT}/api/departures/lcd/${stopId}`, {
+			headers: defaultHeaders
+		});
+		const data = (await response.json()) as KioskDeparturesAPIResponse;
+
+		return data;
 	} catch (error) {
 		console.error(error);
 		return null;

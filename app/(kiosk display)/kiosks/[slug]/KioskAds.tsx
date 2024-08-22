@@ -16,16 +16,14 @@ export default function KioskAds({ advertisements }: KioskAdsProps) {
 			setCurrentAd((prevAd) => (prevAd + 1) % advertisements.length);
 		}, 10000);
 
-		return () => clearInterval(interval); // cleanup
-	}, [advertisements.length]);
+		return () => clearInterval(interval);
+	}, [advertisements]);
 
 	const ad = advertisements[currentAd];
 
 	return (
 		<footer className={styles.footer}>
-			<span>
-				<Image src={ad.imageUrl || ''} alt={ad.name || ''} width={1080} height={480} />
-			</span>
+			<span>{ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</span>
 		</footer>
 	);
 }

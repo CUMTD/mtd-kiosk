@@ -9,8 +9,20 @@
 	width: 100%;
 	flex-wrap: wrap;
 	/* border-radius: var(--border-radius); */
+	/* space in between */
+	justify-content: space-between;
 }
 
+.attributesIcons {
+	display: flex;
+	flex-direction: row;
+	gap: 1ch;
+}
+
+.healthBadges {
+	margin-top: 1em;
+	font-weight: bold;
+}
 .stopId {
 	opacity: 50%;
 }
@@ -30,7 +42,7 @@
 	display: flex;
 	flex-direction: column;
 	/* flex: 2; */
-	gap: 1em;
+	gap: 0.2em;
 }
 
 .ipSignlink {

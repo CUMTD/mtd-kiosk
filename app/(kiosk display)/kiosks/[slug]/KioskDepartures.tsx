@@ -1,19 +1,22 @@
-import Departure from '../../../../types/kioskDisplayTypes/Departure';
-import DepartureItem from './DepartureItem';
-import styles from './KioskDepartures.module.css';
+'use client';
+import { RecoilRoot } from 'recoil';
+import { Kiosk } from '../../../../sanity.types';
+import KioskDepartureItemList from './KioskDepartureItemList';
+import DepartureUpdater from './DepartureUpdater';
+import throwError from '../../../../helpers/throwError';
 
 interface KioskDeparturesProps {
-	departures: Departure[];
+	kiosk: Kiosk;
 }
 
-export default function KioskDepartures({ departures }: KioskDeparturesProps) {
+export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
+	if (!kiosk.stopId) {
+		throwError("Kiosk is null or doesn't have a stop ID");
+	}
 	return (
-		<div className={styles.kioskDeparturesContainer}>
-			<div className={styles.kioskDepartures}>
-				{departures.map((departure, index) => (
-					<DepartureItem departure={departure} key={index} />
-				))}
-			</div>
-		</div>
+		<RecoilRoot>
+			<DepartureUpdater stopId={kiosk.stopId} />
+			<KioskDepartureItemList />
+		</RecoilRoot>
 	);
 }

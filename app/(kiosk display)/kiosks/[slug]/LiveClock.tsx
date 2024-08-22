@@ -2,20 +2,20 @@
 import { useEffect, useState } from 'react';
 
 export default function LiveClock() {
-	const [time, setTime] = useState<string>(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+	const [time, setTime] = useState<Date>(new Date());
 
 	useEffect(() => {
 		const timerId = setInterval(() => {
 			// format HH:MM AM/PM
-			setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+			setTime(new Date());
 		}, 1000);
 
-		// Cleanup interval on component unmount
+		// cleanup
 		return () => {
 			clearInterval(timerId);
 		};
 	}, []);
 
-	// remove leading zero from hours
-	return time.replace(/^0/, '');
+	//format time and remove leading zero from hours
+	return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0/, '');
 }

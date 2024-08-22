@@ -11,8 +11,6 @@
 .logo {
 	grid-area: logo;
 	height: 160px;
-	display: block;
-	line-height: 1;
 }
 
 .time {

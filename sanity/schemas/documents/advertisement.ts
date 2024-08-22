@@ -6,6 +6,30 @@ const advertisement = defineType({
 	title: 'Advertisement',
 	type: 'document',
 	icon: RiAdvertisementFill,
+	preview: {
+		select: {
+			title: 'name',
+			subtitle: 'endDate',
+			media: 'image'
+		},
+		prepare(selection) {
+			const { title, subtitle, media } = selection;
+
+			if (new Date(subtitle) < new Date()) {
+				return {
+					title: title,
+					subtitle: `❌ expired on ${new Date(subtitle).toLocaleDateString()}`,
+					media: media
+				};
+			}
+
+			return {
+				title: title,
+				subtitle: subtitle ? `✅ live until ${new Date(subtitle).toLocaleDateString()}` : 'No end date',
+				media: media
+			};
+		}
+	},
 	fields: [
 		defineField({
 			name: 'name',
@@ -51,9 +75,21 @@ const advertisement = defineType({
 		defineField({
 			name: 'endDate',
 			title: 'End Date',
-			type: 'datetime',
-			validation: (rule) => rule.required().error('End date is required')
+			type: 'datetime'
+			// validation: (rule) => rule.required().error('End date is required')
 		})
+	],
+	orderings: [
+		{
+			name: 'startDateAsc',
+			title: 'Start Date Ascending',
+			by: [{ field: 'startDate', direction: 'asc' }]
+		},
+		{
+			name: 'startDateDesc',
+			title: 'Start Date Descending',
+			by: [{ field: 'startDate', direction: 'desc' }]
+		}
 	]
 });
 

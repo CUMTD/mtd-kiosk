@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 225 225">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 29px;
+      }
+		@media (prefers-color-scheme: dark) {
+      .cls-1 {
+        stroke: #fff;
+
+			}
+
+		}
+    </style>
+  </defs>
+  <path class="cls-1" d="M19.5,90.5c63.5,0,115,51.5,115,115">
+    <animate xmlns="http://www.w3.org/2000/svg" accumulate="none" additive="replace" attributeName="opacity" calcMode="linear" dur="2s" fill="remove" repeatCount="indefinite" restart="always" values=".5;1;.5;.5;.5;.5;.5;.5;.5;.5"/>
+  </path>
+  <path class="cls-1" d="M19.5,20.5c102.2,0,185,82.8,185,185">
+    <animate xmlns="http://www.w3.org/2000/svg" accumulate="none" additive="replace" attributeName="opacity" calcMode="linear" dur="2s" fill="remove" repeatCount="indefinite" restart="always" values=".5;.5;1;.5;.5;.5;.5;.5;.5;.5"/>
+  </path>
+</svg>

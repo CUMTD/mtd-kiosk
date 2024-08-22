@@ -7,20 +7,29 @@ import Link from 'next/link';
 interface LedPreviewProps {
 	ledIp: string;
 	kioskGUID?: string;
+	clickable?: boolean;
 }
 
-export default async function LedPreview({ ledIp, kioskGUID }: LedPreviewProps) {
+export default async function LedPreview({ ledIp, kioskGUID, clickable }: LedPreviewProps) {
 	var ledPreview = await fetchLEDPreview(ledIp);
 
 	if (!ledPreview) {
 		return <LedPreviewPlaceholder failed />;
 	}
 
-	return (
-		<div>
-			<Link href={kioskGUID ? `/issues/${kioskGUID}` : ''} className={styles.previewContainer} target="_blank">
+	if (!clickable) {
+		return (
+			<div>
 				<Image src={ledPreview} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
-			</Link>
-		</div>
-	);
+			</div>
+		);
+	} else {
+		return (
+			<div>
+				<Link href={`/issues/${kioskGUID}`} className={styles.previewContainer} target="_blank">
+					<Image src={ledPreview} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
+				</Link>
+			</div>
+		);
+	}
 }

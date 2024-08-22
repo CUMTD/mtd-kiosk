@@ -2,12 +2,21 @@ import { getToken } from 'next-auth/jwt';
 import { Issue } from './Issue';
 import NewIssueForm from './newIssueForm';
 import styles from './page.module.css';
-import { fetchKiosk, fetchKioskTickets } from '../../../../helpers/httpMethods';
+import { fetchKioskById, fetchKioskTickets } from '../../../../helpers/httpMethods';
 import KioskTicket, { TicketStatusType } from '../../../../types/kioskTicket';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+	const kiosk = await fetchKioskById(params.id);
+
+	return {
+		title: kiosk.displayName + ' Kiosk Details'
+	};
+}
 
 // get [id] from the URL
 export default async function IssuePage({ params }: { params: { id: string } }) {
-	const kiosk = await fetchKiosk(params.id);
+	const kiosk = await fetchKioskById(params.id);
 	const issues = await fetchKioskTickets(params.id);
 
 	// console.log(kioskData);
