@@ -4,11 +4,21 @@ import { connectionErrorState, departureState, generalMessageState } from '../..
 import DepartureItem from './DepartureItem';
 import RealTimeIcon from './RealTimeIcon';
 import { RiWifiOffLine } from 'react-icons/ri';
+import { useEffect, useRef } from 'react';
 
 export default function KioskDepartureItemList() {
+	const scrollText = useRef<HTMLSpanElement>(null);
+	const scrollContainer = useRef<HTMLDivElement>(null);
+
 	const departures = useRecoilValue(departureState);
 	const generalMessage = useRecoilValue(generalMessageState);
 	const connectionError = useRecoilValue(connectionErrorState);
+
+	useEffect(() => {
+		if (generalMessage && scrollText.current && scrollContainer.current) {
+			scrollText.current.style.animationDuration = scrollAnimationDuration(generalMessage.text);
+		}
+	}, [generalMessage]);
 
 	if (connectionError) {
 		return (
@@ -17,14 +27,31 @@ export default function KioskDepartureItemList() {
 			</div>
 		);
 	}
+
+	const scrollAnimationDuration = (text: string, speed = 90) => {
+		//amount of pixels per second * (width of message + container width)
+		const messageWidth = text.length * 10;
+		const containerWidth = scrollContainer.current?.offsetWidth || 0;
+		const totalWidth = messageWidth + containerWidth;
+
+		const duration = totalWidth / speed;
+		return `${duration}s`;
+	};
+
 	return (
 		<>
 			<div className={styles.kioskDeparturesContainer}>
 				{generalMessage && generalMessage.blocksRealtime ? (
-					<div className={styles.generalMessage}>{generalMessage.text}</div>
+					<div className={styles.realtimeBlockingGeneralMessage}>{generalMessage.text}</div>
 				) : (
 					<>
-						{generalMessage && <div className={styles.generalMessage}>{generalMessage.text}</div>}
+						{generalMessage && (
+							<div ref={scrollContainer} className={styles.generalMessage}>
+								<span ref={scrollText} style={{ animationDuration: scrollAnimationDuration(generalMessage.text) }}>
+									{generalMessage.text}
+								</span>
+							</div>
+						)}
 
 						{!departures || (departures.length == 0 && <div className={styles.noDepartures}>No departures in the next hour.</div>)}
 

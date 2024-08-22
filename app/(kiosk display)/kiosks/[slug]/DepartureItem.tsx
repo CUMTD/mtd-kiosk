@@ -19,7 +19,6 @@ export default function DepartureItem({ route }: DepartureProps) {
 			>
 				{route.number}
 			</div>
-			{/* <div className={styles.departureItemContent}> */}
 			<div className={styles.routeInfo}>
 				<span className={styles.headsign}>{route.name}</span>
 				<br />
@@ -29,18 +28,13 @@ export default function DepartureItem({ route }: DepartureProps) {
 				{route.departureTimes.map((time, index) => (
 					<div className={`${styles.departureTime} ${time.isHopper ? styles.hopper : ''} `} key={index}>
 						<div className={styles.time}>
-							{/* {departure.departureTimes[0].isHopper && <HopperIcon backgroundColor={departure.backgroundHexColor} textColor={departure.foregroundHexColor} />}{' '} */}
 							{time.time}
 							<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon /> : null}</div>
 						</div>
-						<div className={styles.timeSubtitle}>
-							{/* {departure.departureTimes[1].isHopper && <HopperIcon backgroundColor={departure.backgroundHexColor} textColor={departure.foregroundHexColor} />}{' '} */}
-							{time.isHopper && 'HOPPER'}
-						</div>
+						<div className={styles.timeSubtitle}>{time.isHopper && 'HOPPER'}</div>
 					</div>
 				))}
 			</div>
-			{/* </div> */}
 		</div>
 	);
 }
@@ -49,12 +43,4 @@ export function DepartureItemSkeleton() {
 	const classes = clsx(styles.departureItem, styles.skeleton);
 
 	return <div className={classes}></div>;
-}
-
-interface HopperIconProps {
-	textColor: string;
-	backgroundColor: string;
-}
-function HopperIcon({ textColor, backgroundColor }: HopperIconProps) {
-	return <span className={styles.hopperIcon}>HOPPER</span>;
 }
