@@ -31,7 +31,7 @@ export default function DepartureItem({ route }: DepartureProps) {
 						<div className={styles.time}>
 							{/* {departure.departureTimes[0].isHopper && <HopperIcon backgroundColor={departure.backgroundHexColor} textColor={departure.foregroundHexColor} />}{' '} */}
 							{time.time}
-							<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon color="white" /> : null}</div>
+							<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon /> : null}</div>
 						</div>
 						<div className={styles.timeSubtitle}>
 							{/* {departure.departureTimes[1].isHopper && <HopperIcon backgroundColor={departure.backgroundHexColor} textColor={departure.foregroundHexColor} />}{' '} */}
