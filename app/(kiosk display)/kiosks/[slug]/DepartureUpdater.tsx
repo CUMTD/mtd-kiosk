@@ -7,17 +7,18 @@ import { getDepartures } from '../../../../helpers/httpMethods';
 
 interface Props {
 	stopId: string;
+	kioskId: string;
 }
 
 // static component that updates departures atom
-export default function DepartureUpdater({ stopId }: Props) {
+export default function DepartureUpdater({ stopId, kioskId }: Props) {
 	const setDepartures = useSetRecoilState(departureState);
 	const setGeneralMessage = useSetRecoilState(generalMessageState);
 	const setConnectionErrorState = useSetRecoilState(connectionErrorState);
 
 	useEffect(() => {
 		async function updateDepartures(_stopId: string) {
-			const departures = await getDepartures(stopId);
+			const departures = await getDepartures(stopId, kioskId);
 			if (!departures) {
 				setConnectionErrorState(true);
 				return;
@@ -30,7 +31,7 @@ export default function DepartureUpdater({ stopId }: Props) {
 		const timer = setInterval(updateDepartures, 30_000);
 
 		return () => clearInterval(timer);
-	}, [stopId, setDepartures, setGeneralMessage, setConnectionErrorState]);
+	}, [stopId, setDepartures, setGeneralMessage, setConnectionErrorState, kioskId]);
 
 	return null;
 }

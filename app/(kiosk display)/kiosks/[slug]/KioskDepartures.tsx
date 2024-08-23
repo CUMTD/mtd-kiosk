@@ -15,7 +15,7 @@ export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
 	}
 	return (
 		<RecoilRoot>
-			<DepartureUpdater stopId={kiosk.stopId} />
+			<DepartureUpdater stopId={kiosk.stopId} kioskId={kiosk._id} />
 			<KioskDepartureItemList />
 		</RecoilRoot>
 	);

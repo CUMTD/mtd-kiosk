@@ -178,7 +178,7 @@ export async function updateTicket(ticketId: string, status: TicketStatusType) {
 
 export async function fetchLEDPreview(ledIp: string) {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/api/ledPreview?ledIp=${ledIp}`, {
+		const response = await fetch(`${API_ENDPOINT}/ledPreview?ledIp=${ledIp}`, {
 			// returns image/png
 			method: 'GET',
 			headers: defaultHeaders,
@@ -203,7 +203,7 @@ export async function fetchLEDPreview(ledIp: string) {
 
 export async function getDepartures(stopId: string, kioskId?: string): Promise<KioskDeparturesAPIResponse | null> {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/api/departures/lcd/${stopId}`, {
+		const response = await fetch(`${API_ENDPOINT}/departures/lcd/${stopId}?kioskId=${kioskId}`, {
 			headers: defaultHeaders
 		});
 		const data = (await response.json()) as KioskDeparturesAPIResponse;

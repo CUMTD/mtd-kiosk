@@ -5,8 +5,8 @@ import { useSession } from 'next-auth/react';
 import UserIcon from './userIcon';
 import AttributeBadge from './attributeBadge';
 import HasLedSignIcon from './hasLedSignIcon';
-import { BiHome, BiSolidDashboard } from 'react-icons/bi';
 import { FaHome } from 'react-icons/fa';
+import { RiAdvertisementFill } from 'react-icons/ri';
 
 export default function Toolbar() {
 	const { data: session } = useSession({ required: true });
@@ -27,7 +27,11 @@ export default function Toolbar() {
 				</Link>
 
 				<Link href="/led" passHref>
-					<AttributeBadge icon={<HasLedSignIcon />} text="LED Monitoring Grid" />
+					<AttributeBadge icon={<HasLedSignIcon />} text="LED Superview" />
+				</Link>
+
+				<Link href="/studio/structure/advertisement" passHref>
+					<AttributeBadge icon={<RiAdvertisementFill />} text="Manage Ads" />
 				</Link>
 			</div>
 

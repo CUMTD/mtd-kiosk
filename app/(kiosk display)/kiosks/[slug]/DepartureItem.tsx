@@ -25,15 +25,16 @@ export default function DepartureItem({ route }: DepartureProps) {
 				<span className={styles.direction}>{route.direction}</span>
 			</div>
 			<div className={styles.departureTimes}>
-				{route.departureTimes.map((time, index) => (
-					<div className={`${styles.departureTime} ${time.isHopper ? styles.hopper : ''} `} key={index}>
-						<div className={styles.time}>
-							{time.time}
-							<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon /> : null}</div>
+				{route.departureTimes &&
+					route.departureTimes.map((time, index) => (
+						<div className={`${styles.departureTime} ${time.isHopper ? styles.hopper : ''} `} key={index}>
+							<div className={styles.time}>
+								{time.time}
+								<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon /> : null}</div>
+							</div>
+							<div className={styles.timeSubtitle}>{time.isHopper && 'HOPPER'}</div>
 						</div>
-						<div className={styles.timeSubtitle}>{time.isHopper && 'HOPPER'}</div>
-					</div>
-				))}
+					))}
 			</div>
 		</div>
 	);

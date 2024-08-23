@@ -1,29 +1,19 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Advertisement } from '../../../../sanity.types';
-import styles from './KioskAds.module.css';
+
+import { RecoilRoot } from 'recoil';
+import KioskAdsUpdater from './KioskAdsUpdater';
+import { Kiosk } from '../../../../sanity.types';
+import KioskAdsCarousel from './KioskAdsCarousel';
 
 interface KioskAdsProps {
-	advertisements: Advertisement[];
+	kiosk: Kiosk;
 }
 
-export default function KioskAds({ advertisements }: KioskAdsProps) {
-	const [currentAd, setCurrentAd] = useState(0);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentAd((prevAd) => (prevAd + 1) % advertisements.length);
-		}, 10000);
-
-		return () => clearInterval(interval);
-	}, [advertisements]);
-
-	const ad = advertisements[currentAd];
-
+export default function KioskAds({ kiosk }: KioskAdsProps) {
 	return (
-		<footer className={styles.footer}>
-			<span>{ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</span>
-		</footer>
+		<RecoilRoot>
+			<KioskAdsUpdater kiosk={kiosk} />
+			<KioskAdsCarousel />
+		</RecoilRoot>
 	);
 }

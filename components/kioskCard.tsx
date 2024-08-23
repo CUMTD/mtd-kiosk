@@ -2,7 +2,7 @@
 import { Inter } from 'next/font/google';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
-import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { focusedKioskIdState } from '../state/mapState';
 import clsx from 'clsx';
@@ -110,10 +110,6 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-						Preview Departures
-					</Link>
-
 					<Link href={`/issues/${_id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
 						{health && health.openTicketCount > 0 ? (
 							<>
@@ -122,6 +118,12 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 						) : (
 							'Details'
 						)}
+					</Link>
+					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+						Launch
+					</Link>
+					<Link href={`/kiosks/${slug.current}/ads`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+						Ads
 					</Link>
 
 					{/* {healthStatus && healthStatus.openTicketCount > 0 && (

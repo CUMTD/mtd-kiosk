@@ -56,11 +56,12 @@ export default function KioskDepartureItemList() {
 						{!departures || (departures.length == 0 && <div className={styles.noDepartures}>No departures in the next hour.</div>)}
 
 						<div className={styles.kioskDepartures}>
-							{departures.map((departure, index) => (
-								// <Suspense key={index} fallback={<DepartureItemSkeleton />}>
-								<DepartureItem route={departure} key={index} />
-								// </Suspense>
-							))}
+							{departures &&
+								departures.map((departure, index) => (
+									// <Suspense key={index} fallback={<DepartureItemSkeleton />}>
+									<DepartureItem route={departure} key={index} />
+									// </Suspense>
+								))}
 						</div>
 					</>
 				)}
