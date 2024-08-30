@@ -9,6 +9,8 @@
 
 .header {
 	grid-area: header;
+	padding: 1rem 2rem;
+	border-bottom: 1px solid rgb(var(--card-rgb));
 }
 
 /* mobile media selector */

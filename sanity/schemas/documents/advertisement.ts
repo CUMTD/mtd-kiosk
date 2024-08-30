@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity';
 
 const advertisement = defineType({
 	name: 'advertisement',
-	title: 'Advertisement',
+	title: 'Advertisements',
 	type: 'document',
 	icon: RiAdvertisementFill,
 	preview: {
@@ -41,41 +41,36 @@ const advertisement = defineType({
 			name: 'image',
 			title: 'Image',
 			type: 'image',
-			description: 'Image for portrait mode displays (should be 1080px x 480px)',
+			description: 'Must be 1080 x 480 pixels',
 			validation: (rule) => rule.required().error('An image is required')
-		}),
-		defineField({
-			name: 'landscapeImage',
-			title: 'Landscape Image',
-			type: 'image',
-			description: 'Optional image for landscape mode displays (should be 540px x 1080px)'
-			// TODO: only required if displayOnAllKiosks is true? depends on if we get rid of horizontal kiosks
 		}),
 		defineField({
 			name: 'displayOnAllKiosks',
 			title: 'Display On All Kiosks',
 			type: 'boolean',
-			description: 'If set to true, you must include a landscape image. If unchecked, you will be able to manually pick kiosks to display this ad on',
+			description: 'If unchecked, you will be able to manually pick Kiosks and Kiosk Bundles.',
 			initialValue: true
 		}),
 		defineField({
 			name: 'kiosks',
 			title: 'Kiosks',
 			type: 'array',
-			description: 'Kiosks that should display this ad',
-			of: [{ type: 'reference', to: [{ type: 'kiosk' }] }],
+			description: 'Kiosks or Kiosk Bundles to display this ad on',
+			of: [{ type: 'reference', to: [{ type: 'kioskBundle' }, { type: 'kiosk' }] }],
 			hidden: ({ parent }) => parent.displayOnAllKiosks
 		}),
 		defineField({
 			name: 'startDate',
 			title: 'Start Date',
 			type: 'datetime',
+			description: 'When the ad should start displaying',
 			validation: (rule) => rule.required().error('Start date is required')
 		}),
 		defineField({
 			name: 'endDate',
 			title: 'End Date',
-			type: 'datetime'
+			type: 'datetime',
+			description: '(Optional) When the ad should stop displaying'
 			// validation: (rule) => rule.required().error('End date is required')
 		})
 	],

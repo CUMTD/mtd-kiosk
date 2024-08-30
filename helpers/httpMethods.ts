@@ -74,7 +74,7 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertise
 	const query = `*[_type == 'advertisement'
 	&& startDate <= $currentDate
   && (!defined(endDate) || endDate >= $currentDate)
-  	&& (displayOnAllKiosks || references($kioskId))
+  	&& (displayOnAllKiosks || references($kioskId) || references(*[_type == "kioskBundle" && references($kioskId)]._id))
 	]
   {
 	...,

@@ -4,7 +4,7 @@ import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({
 	name: 'kiosk',
-	title: 'Kiosk',
+	title: 'Kiosks',
 	type: 'document',
 	icon: CgDisplaySpacing,
 	groups: [

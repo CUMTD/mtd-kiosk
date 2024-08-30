@@ -1,12 +1,16 @@
 .toolbar {
 	width: 100%;
-	display: flex;
-	justify-content: space-between;
+	/* display: flex; */
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+
+	grid-template-areas: 'logo links user';
+
+	/* justify-content: space-between; */
 	align-items: center;
-	padding: 3rem;
 	/* height: 7rem; */
 	height: 4em;
-	border-bottom: 1px solid rgb(var(--card-rgb));
 	background-color: rgb(var(--background-rgb));
 	color: rgb(var(--foreground-rgb));
 }
@@ -21,6 +25,8 @@
 	display: flex;
 	flex-direction: row;
 	gap: 1ch;
+	grid-area: links;
+	justify-content: center;
 }
 
 .user {
@@ -61,6 +67,8 @@
 	display: flex;
 	flex-direction: row;
 	gap: 2ch;
+	justify-content: right;
+	grid-area: user;
 }
 
 .userImage {
