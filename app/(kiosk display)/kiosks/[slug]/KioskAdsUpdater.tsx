@@ -4,6 +4,13 @@ import { fetchKioskAdsByKioskId } from '../../../../helpers/httpMethods';
 import { Kiosk } from '../../../../sanity.types';
 import { advertisementsState } from '../../../../state/kioskState';
 import { useEffect } from 'react';
+import throwError from '../../../../helpers/throwError';
+
+const AD_FETCH_INTERVAL = parseInt(process.env.NEXT_PUBLIC_AD_FETCH_INTERVAL ?? '');
+
+if (!AD_FETCH_INTERVAL || isNaN(AD_FETCH_INTERVAL)) {
+	throwError('NEXT_PUBLIC_AD_FETCH_INTERVAL is not defined');
+}
 
 interface KioskAdsUpdaterProps {
 	kiosk: Kiosk;
@@ -13,13 +20,12 @@ export default function KioskAdsUpdater({ kiosk }: KioskAdsUpdaterProps) {
 
 	useEffect(() => {
 		async function updateKioskAds() {
-			console.log('Fetching ads');
 			const ads = await fetchKioskAdsByKioskId(kiosk._id);
 
 			setAds(ads);
 		}
 		updateKioskAds();
-		const timer = setInterval(updateKioskAds, 3600000);
+		const timer = setInterval(updateKioskAds, AD_FETCH_INTERVAL);
 		return () => clearInterval(timer);
 	}, [kiosk, setAds]);
 

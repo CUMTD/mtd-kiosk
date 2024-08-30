@@ -1,8 +1,11 @@
-import styles from './RealTimeIcon.module.css';
 import Image from 'next/image';
 
 const ICON_SIZE = 20;
 
-export default function RealTimeIcon() {
-	return <Image src="/realtime-icon-adaptive.svg" alt="Real-time icon" width={ICON_SIZE} height={ICON_SIZE} />;
+interface RealTimeIconProps {
+	color: 'black' | 'white';
+}
+
+export default function RealTimeIcon({ color }: RealTimeIconProps) {
+	return <Image src={color == 'white' ? '/realtime-icon-white.svg' : '/realtime-icon-black.svg'} alt="Real-time icon" width={ICON_SIZE} height={ICON_SIZE} />;
 }

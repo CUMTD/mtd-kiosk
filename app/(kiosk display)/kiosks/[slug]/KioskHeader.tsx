@@ -3,8 +3,8 @@ import styles from './KioskHeader.module.css';
 import LiveClock from './LiveClock';
 
 interface KioskHeaderProps {
-	stopName: string;
-	iStop: boolean;
+	stopName: string | undefined;
+	iStop: boolean | undefined;
 }
 
 export default function KioskHeader({ stopName, iStop }: KioskHeaderProps) {

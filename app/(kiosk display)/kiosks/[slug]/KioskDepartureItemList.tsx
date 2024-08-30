@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import styles from './KioskDepartures.module.css';
-import { connectionErrorState, departureState, generalMessageState } from '../../../../state/kioskState';
+import { connectionErrorState, darkModeState, departureState, generalMessageState } from '../../../../state/kioskState';
 import DepartureItem from './DepartureItem';
 import RealTimeIcon from './RealTimeIcon';
 import { RiWifiOffLine } from 'react-icons/ri';
@@ -15,7 +15,7 @@ export default function KioskDepartureItemList() {
 	const connectionError = useRecoilValue(connectionErrorState);
 
 	useEffect(() => {
-		if (generalMessage && scrollText.current && scrollContainer.current) {
+		if (generalMessage && generalMessage.text && scrollText.current && scrollContainer.current) {
 			scrollText.current.style.animationDuration = scrollAnimationDuration(generalMessage.text);
 		}
 	}, [generalMessage]);
@@ -57,6 +57,7 @@ export default function KioskDepartureItemList() {
 
 						<div className={styles.kioskDepartures}>
 							{departures &&
+								departures.length > 0 &&
 								departures.map((departure, index) => (
 									// <Suspense key={index} fallback={<DepartureItemSkeleton />}>
 									<DepartureItem route={departure} key={index} />
@@ -73,9 +74,10 @@ export default function KioskDepartureItemList() {
 }
 
 function RealtimeExplainer() {
+	const darkMode = useRecoilValue(darkModeState);
 	return (
 		<div className={styles.realtimeExplainer}>
-			<RealTimeIcon /> indicates GPS-tracked realtime information
+			<RealTimeIcon color={darkMode ? 'white' : 'black'} /> indicates GPS-tracked realtime information
 		</div>
 	);
 }

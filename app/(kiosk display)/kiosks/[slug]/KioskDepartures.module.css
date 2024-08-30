@@ -14,6 +14,7 @@
 	text-align: center;
 	padding: var(--departure-x-pad);
 	font-size: var(--departure-second-font-size);
+	color: var(--departure-text-color);
 }
 
 .noDepartures,

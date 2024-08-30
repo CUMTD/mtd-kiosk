@@ -4,6 +4,7 @@ import { Kiosk } from '../../../../sanity.types';
 import KioskDepartureItemList from './KioskDepartureItemList';
 import DepartureUpdater from './DepartureUpdater';
 import throwError from '../../../../helpers/throwError';
+import GeneralMessageUpdater from './GeneralMessageUpdater';
 
 interface KioskDeparturesProps {
 	kiosk: Kiosk;
@@ -14,9 +15,10 @@ export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
 		throwError("Kiosk is null or doesn't have a stop ID");
 	}
 	return (
-		<RecoilRoot>
+		<>
 			<DepartureUpdater stopId={kiosk.stopId} kioskId={kiosk._id} />
+			<GeneralMessageUpdater stopId={kiosk.stopId} />
 			<KioskDepartureItemList />
-		</RecoilRoot>
+		</>
 	);
 }

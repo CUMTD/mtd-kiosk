@@ -62,7 +62,6 @@ export type SanityFileAsset = {
 };
 
 export type Advertisement = {
-	imageUrl?: string;
 	_id: string;
 	_type: 'advertisement';
 	_createdAt: string;
@@ -80,6 +79,7 @@ export type Advertisement = {
 		crop?: SanityImageCrop;
 		_type: 'image';
 	};
+	imageUrl?: string;
 	landscapeImage?: {
 		asset?: {
 			_ref: string;
@@ -166,15 +166,16 @@ export type Kiosk = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	displayName: string;
+	displayName?: string;
 	slug?: Slug;
 	phoneticName?: string;
 	stopId?: string;
-	iStop: boolean;
+	iStop?: boolean;
 	location?: Geopoint;
+	isHorizontal?: boolean;
 	hasLed?: boolean;
 	ledIp?: string;
-	isDevelopmentKiosk?: boolean;
+	useCentralizedService?: boolean;
 };
 
 export type Geopoint = {
@@ -189,4 +190,19 @@ export type Slug = {
 	current?: string;
 	source?: string;
 };
+
+export type AllSanitySchemaTypes =
+	| SanityImagePaletteSwatch
+	| SanityImagePalette
+	| SanityImageDimensions
+	| SanityFileAsset
+	| Advertisement
+	| SanityImageCrop
+	| SanityImageHotspot
+	| SanityImageAsset
+	| SanityAssetSourceData
+	| SanityImageMetadata
+	| Kiosk
+	| Geopoint
+	| Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import { fetchKioskById, fetchKioskTickets } from '../../../../helpers/httpMethods';
 import KioskTicket, { TicketStatusType } from '../../../../types/kioskTicket';
 import { Metadata } from 'next';
+import AdsPreview from './AdsPreview';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 	const kiosk = await fetchKioskById(params.id);
@@ -19,10 +20,10 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
 	const kiosk = await fetchKioskById(params.id);
 	const issues = await fetchKioskTickets(params.id);
 
-	// console.log(kioskData);
 	return (
 		<div>
 			{/* <NewIssueForm kioskId={kiosk._id} /> */}
+
 			<div className={styles.issuesHeader}>
 				<h2>{issues.length == 0 ? 'No' : ''} Issues</h2>
 				{/* display count open and count closed */}

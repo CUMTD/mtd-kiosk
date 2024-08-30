@@ -12,6 +12,7 @@
 	/* background-image: linear-gradient(to bottom, transparent, var(--card-gradient-color)); */
 	transition: border-left-color var(--fade-animation-duration) ease-in-out;
 	/* box-shadow: 2px 1px -5px 30px rgba(0, 0, 0, 0.2); */
+	min-height: 8em;
 }
 
 .kioskCardContainer {

@@ -19,3 +19,45 @@
 
 	border-radius: var(--viewport-border-radius);
 }
+
+.lightMode {
+	--departure-text-color: #242424;
+	--departure-background: rgb(255, 255, 255);
+	--departure-line-color: rgb(208, 208, 208);
+	--departure-hopper-background-color: rgb(225, 225, 225);
+
+	--messaging-background-color: #cfcfcf;
+
+	--header-background: #242424;
+	--header-color: #fff;
+
+	--skeleton-background: #f0f0f088;
+	--skeleton-highlight: #f0f0f056;
+
+	--realtime-icon-color: black;
+	--route-number-border-color: rgba(55, 55, 55, 0.274);
+}
+
+.darkMode {
+	--header-color: #fff;
+
+	--header-background: #242424;
+
+	--departure-background: #242424;
+	--departure-line-color: #242424;
+
+	--skeleton-background: #000;
+	--skeleton-highlight: #b8b8b86c;
+
+	--departure-background: rgba(55, 55, 55, 0.8);
+	--departure-text-color: #fff;
+	--departure-hopper-background-color: rgb(84, 84, 84);
+
+	--realtime-icon-color: white;
+	--route-number-border-color: rgba(55, 55, 55, 0.8);
+}
+
+.horizontal {
+	width: var(--height);
+	height: var(--width);
+}

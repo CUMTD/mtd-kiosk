@@ -3,7 +3,7 @@ import styles from './attributeBadge.module.css';
 
 interface AttributeBadgeProps {
 	icon: ReactElement;
-	text: string;
+	text?: string;
 }
 
 export default function AttributeBadge({ icon, text }: AttributeBadgeProps) {

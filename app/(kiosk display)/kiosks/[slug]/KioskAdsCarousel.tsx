@@ -4,6 +4,13 @@ import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { advertisementsState } from '../../../../state/kioskState';
 import styles from './KioskAdsCarousel.module.css';
+import throwError from '../../../../helpers/throwError';
+
+const AD_ROTATION_INTERVAL = parseInt(process.env.NEXT_PUBLIC_AD_ROTATION_INTERVAL ?? '');
+
+if (!AD_ROTATION_INTERVAL || isNaN(AD_ROTATION_INTERVAL)) {
+	throwError('NEXT_PUBLIC_AD_ROTATION_INTERVAL is not defined');
+}
 
 export default function KioskAdsCarousel() {
 	const advertisements = useRecoilValue(advertisementsState);
@@ -15,7 +22,7 @@ export default function KioskAdsCarousel() {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentAd((prevAd) => (prevAd + 1) % advertisements.length);
-		}, 10000);
+		}, AD_ROTATION_INTERVAL);
 
 		return () => clearInterval(interval);
 	}, [advertisements]);

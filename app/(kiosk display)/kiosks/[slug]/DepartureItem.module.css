@@ -44,7 +44,7 @@
 	text-align: center;
 	align-self: center;
 
-	border: 4px solid var(--departure-background);
+	border: 4px solid var(--route-number-border-color);
 }
 .routeInfo {
 	grid-area: route;
@@ -72,7 +72,7 @@
 
 .departureTimes {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	grid-template-columns: 1fr 1fr 1fr;
 	/* display: flex;
 	flex-direction: row; */
 	/* justify-content: space-between; */

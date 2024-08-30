@@ -26,3 +26,8 @@ export const connectionErrorState = atom<boolean>({
 	key: 'errorState',
 	default: false
 });
+
+export const darkModeState = atom<boolean>({
+	key: 'darkModeState',
+	default: false
+});

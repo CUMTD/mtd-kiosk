@@ -17,23 +17,27 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 	return (
 		<div className={styles.infoContainer}>
 			<div className={styles.content}>
+				<code style={{ fontSize: '200%' }} className={styles.stopId}>
+					{kiosk.stopId} ✼ {kiosk._id}
+				</code>
+				<h1 className={styles.kioskName}>
+					<span>{kiosk && kiosk.displayName}</span>
+				</h1>
 				<div className={styles.attributesIcons}>
 					{kiosk.iStop && <AttributeBadge icon={<IStopIcon />} text={'iStop'} />}
 					{kiosk.hasLed && <AttributeBadge icon={<HasLedSignIcon />} text={'Has LED Sign'} />}
 				</div>
-				<h1 className={styles.kioskName}>
-					<span>{kiosk && kiosk.displayName}</span>
-				</h1>
-				<code style={{ fontSize: '200%' }} className={styles.stopId}>
-					{kiosk.stopId}
-				</code>
 				<div className={styles.healthBadges}>
 					{healthStatus && (
-						<div className={styles.badgeContainer}>
-							<KioskStatusBadge large kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
-							{kiosk.hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} align="left" />}
-							<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} align="left" />
-						</div>
+						<AttributeBadge
+							icon={
+								<div className={styles.badgeContainer}>
+									<KioskStatusBadge large kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
+									{kiosk.hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} align="left" />}
+									<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} align="left" />
+								</div>
+							}
+						/>
 					)}
 				</div>
 			</div>

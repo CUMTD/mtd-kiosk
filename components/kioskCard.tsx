@@ -122,9 +122,6 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
 						Launch
 					</Link>
-					<Link href={`/kiosks/${slug.current}/ads`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-						Ads
-					</Link>
 
 					{/* {healthStatus && healthStatus.openTicketCount > 0 && (
 					<div className={styles.openTicketCount}>

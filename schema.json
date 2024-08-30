@@ -937,6 +937,13 @@
         },
         "optional": true
       },
+      "isHorizontal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "hasLed": {
         "type": "objectAttribute",
         "value": {
@@ -951,7 +958,7 @@
         },
         "optional": true
       },
-      "isDevelopmentKiosk": {
+      "useCentralizedService": {
         "type": "objectAttribute",
         "value": {
           "type": "boolean"

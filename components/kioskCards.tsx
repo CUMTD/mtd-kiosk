@@ -4,7 +4,7 @@ import { Kiosk } from '../sanity/schemas/documents/kiosk';
 import KioskCard from './kioskCard';
 import styles from './kioskCards.module.css';
 import { focusedKioskIdState } from '../state/mapState';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import clsx from 'clsx';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
@@ -16,13 +16,23 @@ interface KioskCardsProps {
 	healthStatuses: ServerHealthStatuses[] | null;
 }
 export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCardsProps) {
-	const setFocusedKioskId = useSetRecoilState(focusedKioskIdState);
-
+	const [currentKiosks, setCurrentKiosks] = useState<Kiosk[]>(kiosks);
 	const [collapsed, setCollapsed] = useState(false);
+	const [showProblemsOnly, setShowProblemsOnly] = useState(false);
 
-	const toggleCollapse = () => {
-		setCollapsed(!collapsed);
+	const toggleShowProblemsOnly = () => {
+		setShowProblemsOnly(!showProblemsOnly);
 	};
+
+	useEffect(() => {
+		if (showProblemsOnly && healthStatuses) {
+			var filteredKiosks = kiosks.filter((k) => {
+				const health = healthStatuses.find((h) => h.kioskId === k._id);
+				return health && health.overallHealth !== HealthStatus.HEALTHY;
+			});
+			setCurrentKiosks(filteredKiosks);
+		} else setCurrentKiosks(kiosks);
+	}, [showProblemsOnly, healthStatuses, kiosks]);
 
 	const kioskCardsClasses = clsx({
 		[styles.kioskCardsContainer]: true,
@@ -31,8 +41,12 @@ export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCa
 
 	return (
 		<main className={kioskCardsClasses}>
-			{kiosks.length > 0 &&
-				kiosks
+			<label className={styles.showProblemsOnly}>
+				<input type="checkbox" onClick={toggleShowProblemsOnly} value={`${showProblemsOnly}`} />
+				Show Problems Only
+			</label>
+			{currentKiosks.length > 0 &&
+				currentKiosks
 					.sort((a, b) => a.displayName.localeCompare(b.displayName))
 					.map((kiosk, idx) => (
 						<KioskCard
@@ -45,20 +59,5 @@ export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCa
 						/>
 					))}
 		</main>
-		// <>
-		// 	<button className={styles.collapseButton} onClick={toggleCollapse}>
-		// 		{collapsed ? <GoChevronLeft /> : <GoChevronRight />}
-		// 	</button>
-		// 	<main className={kioskCardsClasses}>
-		// 		{/* collapse button */}
-
-		// 		{!collapsed &&
-		// 			kiosks
-		// 				.sort((a, b) => a.displayName.localeCompare(b.displayName))
-		// 				.map((kiosk, idx) => (
-		// 					<KioskCard health={healthStatuses.find((k) => k.kioskId === kiosk._id)} key={kiosk._id} kiosk={kiosk} index={idx} clickable={!readonly} />
-		// 				))}
-		// 	</main>
-		// </>
 	);
 }
