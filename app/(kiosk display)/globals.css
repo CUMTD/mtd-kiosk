@@ -15,6 +15,7 @@
 
 	--departure-number-size: 96px;
 	--departure-number-font-size: 60px;
+	--departure-number-3digit-font-size: 50px;
 	--departure-headsign-font-size: 50px;
 	--departure-direction-font-size: 35px;
 	--departure-first-font-size: 43px;
@@ -38,7 +39,7 @@
 	--skeleton-highlight: #f0f0f056;
 
 	/* TODO: enable before deployment */
-	/* cursor: none; */
+	cursor: none;
 }
 
 html {
