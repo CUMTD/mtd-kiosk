@@ -1,5 +1,4 @@
 import { defineField, defineType } from '@sanity/types';
-import StopListAutocomplete from '../../components/stopListAutocomplete';
 import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({
@@ -145,31 +144,6 @@ const kiosk = defineType({
 			type: 'boolean',
 			group: 'development',
 			initialValue: false
-		}),
-		defineField({
-			name: 'networkSwitchIpAddress',
-			title: 'Switch IP Address',
-			type: 'string',
-			group: 'networking'
-			// validate that this is a valid IP address
-		}),
-		defineField({
-			name: 'switchType',
-			title: 'Switch Type',
-			// dropdown of cisco, sonicwall, fortigate
-			type: 'string',
-			group: 'networking',
-			// validate that this is one of the three options
-			options: {
-				list: ['cisco', 'sonicwall', 'fortigate', 'Cellular', 'Other/See notes']
-			}
-		}),
-		defineField({
-			name: 'PDUIpAddress',
-			title: 'PDU IP Address',
-			type: 'string',
-			group: 'networking'
-			// validate that this is a valid IP address
 		})
 	]
 });
