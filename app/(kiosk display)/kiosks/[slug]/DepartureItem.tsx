@@ -11,10 +11,14 @@ interface DepartureProps {
 
 export default function DepartureItem({ route }: DepartureProps) {
 	const darkMode = useRecoilValue(darkModeState);
+
+	const routeNumberClasses = clsx(styles.routeNumber, {
+		[styles.smallRouteNumber]: route.number.length > 2
+	});
 	return (
 		<div className={styles.departureItem} style={{ animationDelay: `${Math.random() * 0.1}s` }}>
 			<div
-				className={styles.routeNumber}
+				className={routeNumberClasses}
 				style={{
 					backgroundColor: route.backgroundHexColor,
 					color: route.foregroundHexColor

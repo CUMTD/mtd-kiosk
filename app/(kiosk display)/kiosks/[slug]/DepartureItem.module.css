@@ -46,6 +46,11 @@
 
 	border: 4px solid var(--route-number-border-color);
 }
+
+.smallRouteNumber {
+	font-size: var(--departure-number-3digit-font-size);
+}
+
 .routeInfo {
 	grid-area: route;
 	text-transform: uppercase;
