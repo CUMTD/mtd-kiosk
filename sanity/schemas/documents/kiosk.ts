@@ -4,7 +4,7 @@ import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({
 	name: 'kiosk',
-	title: 'Kiosk',
+	title: 'Kiosks',
 	type: 'document',
 	icon: CgDisplaySpacing,
 	groups: [
@@ -15,10 +15,6 @@ const kiosk = defineType({
 		{
 			title: 'LED display',
 			name: 'led'
-		},
-		{
-			title: 'Networking',
-			name: 'networking'
 		},
 		{
 			title: 'Development',
@@ -38,8 +34,7 @@ const kiosk = defineType({
 			type: 'string',
 			description: 'The name of the kiosk as it will be displayed to the public',
 			group: 'general',
-
-			validation: (rule) => rule.required().min(5).max(100).error('Display name must be between 5 and 100 characters')
+			validation: (rule) => rule.required().min(3).max(100).error('Display name must be between 3 and 100 characters')
 		}),
 		defineField({
 			name: 'slug',
@@ -65,8 +60,7 @@ const kiosk = defineType({
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
 			group: 'general',
-
-			validation: (rule) => rule.min(5).error('Phonetic name must be at least 5 characters')
+			validation: (rule) => rule.min(3).error('Phonetic name must be at least 5 characters')
 		}),
 		defineField({
 			name: 'stopId',
@@ -107,6 +101,13 @@ const kiosk = defineType({
 			validation: (rule) => rule.required().error('Location is required.')
 		}),
 		defineField({
+			name: 'isHorizontal',
+			title: 'Horizontal Screen',
+			type: 'boolean',
+			group: 'general',
+			initialValue: false
+		}),
+		defineField({
 			name: 'hasLed',
 			title: 'Has LED display',
 			type: 'boolean',
@@ -139,24 +140,10 @@ const kiosk = defineType({
 				})
 		}),
 		defineField({
-			name: 'isDevelopmentKiosk',
-			title: 'Dev Kiosk',
+			name: 'useCentralizedService',
+			title: 'Use Centralized LED Service',
 			type: 'boolean',
 			group: 'development',
-			initialValue: false
-		}),
-		defineField({
-			name: 'networkingNotes',
-			title: 'Networking Notes',
-			type: 'text',
-			group: 'networking'
-		}),
-		// fields for onUniverityNetwork, networkSwitchIpAddress, PDUIpAddress, switchType (cisco, sonicwall, fortigate)
-		defineField({
-			name: 'onUniversityNetwork',
-			title: 'On University Network',
-			type: 'boolean',
-			group: 'networking',
 			initialValue: false
 		}),
 		defineField({

@@ -1,0 +1,84 @@
+.kioskDeparturesContainer {
+	grid-area: departures;
+	overflow: hidden;
+}
+
+.kioskDepartures {
+	display: flex;
+	flex-direction: column;
+	/* gap: 5px; */
+}
+
+.realtimeExplainer {
+	width: 100%;
+	text-align: center;
+	padding: var(--departure-x-pad);
+	font-size: var(--departure-second-font-size);
+	color: var(--departure-text-color);
+}
+
+.noDepartures,
+.connectionError,
+.generalMessage,
+.realtimeBlockingGeneralMessage {
+	font-size: var(--departure-first-font-size);
+	padding: var(--departure-x-pad);
+	background-color: var(--messaging-background-color);
+	color: black;
+}
+
+.connectionError {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5ch;
+}
+
+.generalMessage,
+.realtimeBlockingGeneralMessage {
+	color: white;
+	background-color: maroon;
+}
+
+/* scroll */
+.generalMessage {
+	text-wrap: nowrap;
+	overflow: hidden;
+	/* position: absolute; */
+}
+
+.generalMessage span {
+	display: inline-block;
+	padding-left: var(--width);
+	animation: scroll 10s linear infinite;
+}
+
+.noDepartures {
+	text-align: center;
+}
+
+.marquee {
+	--gap: 1rem;
+	display: flex;
+	overflow: hidden;
+	user-select: none;
+	gap: var(--gap);
+}
+
+.marqueeContent {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: space-around;
+	min-width: 100%;
+	gap: var(--gap);
+}
+
+@keyframes scroll {
+	0% {
+		transform: translate3d(0%, 0, 0);
+	}
+
+	100% {
+		transform: translate3d(-105%, 0, 0);
+	}
+}

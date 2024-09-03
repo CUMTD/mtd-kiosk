@@ -2,7 +2,7 @@
 import { Inter } from 'next/font/google';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
-import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { focusedKioskIdState } from '../state/mapState';
 import clsx from 'clsx';
@@ -110,18 +110,17 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`https://kiosk.mtd.org/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-						Departures
-					</Link>
-
 					<Link href={`/issues/${_id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
 						{health && health.openTicketCount > 0 ? (
 							<>
 								{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
 							</>
 						) : (
-							'Issue Tracker'
+							'Details'
 						)}
+					</Link>
+					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+						Launch
 					</Link>
 
 					{/* {healthStatus && healthStatus.openTicketCount > 0 && (
@@ -134,7 +133,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 			{
 				<div className={styles.badges}>
 					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} align="right" />
-					<KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />
+					{hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />}
 					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} align="right" />
 				</div>
 			}

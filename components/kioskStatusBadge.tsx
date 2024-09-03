@@ -11,7 +11,6 @@ interface KioskStatusBadgeProps {
 }
 
 export default function KioskStatusBadge({ kioskObject, status, large, align }: KioskStatusBadgeProps) {
-	// const status = await getStatus(kioskId, kioskObject);
 	const indicatorLightClasses = clsx(styles.indicatorLight, {
 		[styles.healthy]: status === HealthStatus.HEALTHY,
 		[styles.warning]: status === HealthStatus.WARNING,

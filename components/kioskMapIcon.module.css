@@ -13,19 +13,22 @@
 	transition: background-color var(--fade-animation-duration) ease-in-out;
 	font-weight: 800;
 	font-size: large;
-	color: white;
+	color: black;
 }
 .healthy {
 	background-color: var(--kiosk-healthy);
+	color: white;
 }
 
 .warning {
 	background-color: var(--kiosk-warning);
 	box-shadow: 0 0 0 5px rgba(255, 166, 0, 0.272);
+	color: black;
 }
 
 .critical {
 	background-color: var(--kiosk-critical);
+	color: white;
 	/* animation: pulse-animation 3s infinite; */
 }
 

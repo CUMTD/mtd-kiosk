@@ -1,0 +1,177 @@
+.departureItem {
+	display: grid;
+	grid-template-areas: 'num route departures';
+
+	grid-template-columns: 1fr 4fr 6fr;
+	grid-template-rows: 1fr;
+
+	gap: 1em;
+
+	padding: var(--departure-y-pad) var(--departure-x-pad);
+
+	color: var(--departure-text-color);
+	background-color: var(--departure-background);
+
+	height: var(--departure-item-height);
+
+	font-family: interstate-condensed, sans-serif;
+	border-bottom: 5px solid var(--departure-line-color);
+}
+
+.realtimeIcon {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	transform: translate(22px, -20px);
+	/* padding: 9px 7px; */
+}
+
+.routeNumber {
+	/* height: 50%; */
+	width: var(--departure-number-size);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	align-content: center;
+	grid-area: num;
+
+	display: block;
+
+	font-size: var(--departure-number-font-size);
+	font-weight: 800;
+	/* border-radius: var(--departure-border-radius); */
+	font-style: normal;
+
+	text-align: center;
+	align-self: center;
+
+	border: 4px solid var(--route-number-border-color);
+}
+
+.smallRouteNumber {
+	font-size: var(--departure-number-3digit-font-size);
+}
+
+.routeInfo {
+	grid-area: route;
+	text-transform: uppercase;
+	text-overflow: ellipsis;
+
+	overflow: hidden;
+	line-height: 1.1;
+
+	align-self: center;
+}
+
+.headsign {
+	font-weight: 700;
+	font-size: var(--departure-headsign-font-size);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.direction {
+	font-weight: 500;
+	font-size: var(--departure-direction-font-size);
+}
+
+.departureTimes {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	/* display: flex;
+	flex-direction: row; */
+	/* justify-content: space-between; */
+	/* gap: 5px; */
+
+	align-items: center;
+	width: 100%;
+	gap: 15px;
+}
+
+.hopper {
+	background-color: var(--departure-hopper-background-color);
+}
+
+.departureTime {
+	line-height: 1.1;
+	justify-content: center;
+
+	border-radius: var(--departure-border-radius);
+	height: 100%;
+
+	/* vertically center */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+/* .departureTime:not(:first-child) {
+	border-left: 3px solid var(--departure-hopper-background-color);
+} */
+
+.time {
+	position: relative;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+	font-size: var(--departure-first-font-size);
+}
+
+/* .departureTime:first-of-type .time {
+	font-weight: 700;
+} */
+
+.timeSubtitle {
+	font-weight: 200;
+	font-size: var(--departure-second-font-size);
+
+	text-align: center;
+
+	/*  take up vert space even if blank */
+	min-height: 1.2em;
+	opacity: 0.8;
+}
+
+.hopperIcon {
+	color: black;
+	font-family: interstate, sans-serif;
+	font-weight: 700;
+
+	/* margin-bottom: 2px; */
+
+	background-color: var(--departure-text-color);
+	border-radius: var(--departure-border-radius);
+
+	padding: 0 0.3ch;
+
+	font-size: 70%;
+
+	margin-right: 7px;
+}
+
+.skeleton {
+	background-color: var(--skeleton-background);
+	background: linear-gradient(110deg, var(--skeleton-background) 25%, var(--skeleton-highlight) 50%, var(--skeleton-background) 75%);
+	background-size: 200% 100%;
+	animation: pulse 4s infinite linear;
+	min-height: var(--departure-line-height);
+	height: var(--departure-item-height);
+	filter: blur(2px);
+}
+
+.skeleton > * {
+	display: none;
+}
+
+@keyframes pulse {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}

@@ -3,19 +3,37 @@ import styles from './toolbar.module.css';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import UserIcon from './userIcon';
+import AttributeBadge from './attributeBadge';
+import HasLedSignIcon from './hasLedSignIcon';
+import { FaHome } from 'react-icons/fa';
+import { RiAdvertisementFill } from 'react-icons/ri';
 
 export default function Toolbar() {
 	const { data: session } = useSession({ required: true });
 
 	return (
 		<div className={styles.toolbar}>
-			<Link href="/">
+			<Link href="/" style={{ gridArea: 'logo' }} passHref>
 				<div style={{ display: 'flex', gap: '1ch' }}>
 					<MTDLogo />
 
 					<h1 style={{ fontWeight: '500' }}>Kiosks</h1>
 				</div>
 			</Link>
+
+			<div className={styles.links}>
+				<Link href="/" passHref>
+					<AttributeBadge icon={<FaHome />} text="Dashboard" />
+				</Link>
+
+				<Link href="/led" passHref>
+					<AttributeBadge icon={<HasLedSignIcon />} text="LED Superview" />
+				</Link>
+
+				<Link href="/studio/structure/advertisement" passHref>
+					<AttributeBadge icon={<RiAdvertisementFill />} text="Manage Ads" />
+				</Link>
+			</div>
 
 			{session && (
 				<div className={styles.authBox}>

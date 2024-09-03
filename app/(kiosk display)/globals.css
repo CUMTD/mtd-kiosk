@@ -1,0 +1,58 @@
+:root {
+	--scale: 1;
+	--width: 1080px;
+	--height: 1920px;
+	--header-height: 250px;
+	--ad-height: 480px;
+	--ad-width: 1080px;
+	--viewport-border-radius: 10px;
+
+	--departure-item-height: 140px;
+	--departure-x-pad: 30px;
+	--departure-y-pad: 20px;
+	--departure-number-pad: 35px;
+	--departure-border-radius: 4px;
+
+	--departure-number-size: 96px;
+	--departure-number-font-size: 60px;
+	--departure-number-3digit-font-size: 50px;
+	--departure-headsign-font-size: 50px;
+	--departure-direction-font-size: 35px;
+	--departure-first-font-size: 43px;
+	--departure-second-font-size: 32px;
+
+	--departure-line-height: 107px;
+	font-family: 'interstate', sans-serif;
+
+	/* To manage light and dark mode, refer to KioskDisplay.module.css */
+	--departure-text-color: #242424;
+	--departure-background: rgb(255, 255, 255);
+	--departure-line-color: rgb(208, 208, 208);
+	--departure-hopper-background-color: rgb(225, 225, 225);
+
+	--messaging-background-color: #cfcfcf;
+
+	--header-background: #242424;
+	--header-color: #fff;
+
+	--skeleton-background: #f0f0f088;
+	--skeleton-highlight: #f0f0f056;
+
+	/* TODO: enable before deployment */
+	cursor: none;
+}
+
+html {
+	background-color: black;
+}
+
+body {
+	margin: 0;
+	color: var(--departure-text-color);
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
