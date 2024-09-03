@@ -34,7 +34,6 @@ const kiosk = defineType({
 			type: 'string',
 			description: 'The name of the kiosk as it will be displayed to the public',
 			group: 'general',
-
 			validation: (rule) => rule.required().min(3).max(100).error('Display name must be between 3 and 100 characters')
 		}),
 		defineField({
@@ -61,7 +60,6 @@ const kiosk = defineType({
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
 			group: 'general',
-
 			validation: (rule) => rule.min(3).error('Phonetic name must be at least 5 characters')
 		}),
 		defineField({
@@ -147,6 +145,31 @@ const kiosk = defineType({
 			type: 'boolean',
 			group: 'development',
 			initialValue: false
+		}),
+		defineField({
+			name: 'networkSwitchIpAddress',
+			title: 'Switch IP Address',
+			type: 'string',
+			group: 'networking'
+			// validate that this is a valid IP address
+		}),
+		defineField({
+			name: 'switchType',
+			title: 'Switch Type',
+			// dropdown of cisco, sonicwall, fortigate
+			type: 'string',
+			group: 'networking',
+			// validate that this is one of the three options
+			options: {
+				list: ['cisco', 'sonicwall', 'fortigate', 'Cellular', 'Other/See notes']
+			}
+		}),
+		defineField({
+			name: 'PDUIpAddress',
+			title: 'PDU IP Address',
+			type: 'string',
+			group: 'networking'
+			// validate that this is a valid IP address
 		})
 	]
 });

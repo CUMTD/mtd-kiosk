@@ -8,6 +8,7 @@ import advertisement from './sanity/schemas/documents/advertisement';
 import SanityStudioIcon from './components/sanityStudioIcon';
 import { kioskBundle } from './sanity/schemas/documents/kioskBundle';
 
+
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
 const config = {
