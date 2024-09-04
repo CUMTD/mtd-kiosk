@@ -1,16 +1,15 @@
-import { KioskObject } from '../types/KioskObjects';
-import { HealthStatus } from '../types/HealthStatus';
-import styles from './kioskStatusBadge.module.css';
 import clsx from 'clsx';
+import { HealthStatus } from '../types/HealthStatus';
+import { KioskObject } from '../types/KioskObjects';
+import styles from './kioskStatusBadge.module.css';
 
 interface KioskStatusBadgeProps {
 	kioskObject: KioskObject;
 	status?: HealthStatus;
-	large?: boolean;
 	align: 'left' | 'right';
 }
 
-export default function KioskStatusBadge({ kioskObject, status, large, align }: KioskStatusBadgeProps) {
+export default function KioskStatusBadge({ kioskObject, status, align }: KioskStatusBadgeProps) {
 	const indicatorLightClasses = clsx(styles.indicatorLight, {
 		[styles.healthy]: status === HealthStatus.HEALTHY,
 		[styles.warning]: status === HealthStatus.WARNING,

@@ -1,14 +1,11 @@
 'use client';
-import { useSetRecoilState } from 'recoil';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import { HealthStatus } from '../types/HealthStatus';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import KioskCard from './kioskCard';
 import styles from './kioskCards.module.css';
-import { focusedKioskIdState } from '../state/mapState';
-import { useEffect, useState } from 'react';
-import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
-import clsx from 'clsx';
-import { ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { HealthStatus } from '../types/HealthStatus';
 
 interface KioskCardsProps {
 	kiosks: Kiosk[];
@@ -17,7 +14,6 @@ interface KioskCardsProps {
 }
 export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCardsProps) {
 	const [currentKiosks, setCurrentKiosks] = useState<Kiosk[]>(kiosks);
-	const [collapsed, setCollapsed] = useState(false);
 	const [showProblemsOnly, setShowProblemsOnly] = useState(false);
 
 	const toggleShowProblemsOnly = () => {
@@ -35,8 +31,7 @@ export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCa
 	}, [showProblemsOnly, healthStatuses, kiosks]);
 
 	const kioskCardsClasses = clsx({
-		[styles.kioskCardsContainer]: true,
-		[styles.collapsed]: collapsed
+		[styles.kioskCardsContainer]: true
 	});
 
 	return (

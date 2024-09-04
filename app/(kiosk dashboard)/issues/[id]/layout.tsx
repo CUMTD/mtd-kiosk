@@ -1,16 +1,13 @@
-import styles from './layout.module.css';
-import InfoContainer from './InfoContainer';
+import { Suspense } from 'react';
+import KioskCards from '../../../../components/kioskCards';
 import getHealthStatuses, { fetchKioskById, fetchKioskList } from '../../../../helpers/httpMethods';
 import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
-import KioskCards from '../../../../components/kioskCards';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
-import { Suspense } from 'react';
-import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import LedPreview from '../../led/ledPreview';
-import AttributeBadge from '../../../../components/attributeBadge';
-import { BiLeftArrow, BiSolidLeftArrow } from 'react-icons/bi';
-import Link from 'next/link';
+import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import AdsPreview from './AdsPreview';
+import InfoContainer from './InfoContainer';
+import styles from './layout.module.css';
 
 export default async function IssueLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
 	const kiosk = (await fetchKioskById(params.id)) as Kiosk;

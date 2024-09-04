@@ -1,12 +1,9 @@
 import clsx from 'clsx';
-import styles from './kioskMapIcon.module.css';
 import { useRecoilValue } from 'recoil';
+import { showProblemsOnlyState } from '../state/kioskState';
 import { focusedKioskIdState } from '../state/mapState';
 import { HealthStatus } from '../types/HealthStatus';
-import { useEffect, useState } from 'react';
-import getHealthStatuses from '../helpers/httpMethods';
-import { ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { showProblemsOnlyState } from '../state/kioskState';
+import styles from './kioskMapIcon.module.css';
 
 interface KioskMapIconProps {
 	id: string;

@@ -1,22 +1,21 @@
 'use client';
+import clsx from 'clsx';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { GoChevronRight } from 'react-icons/go';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import { showProblemsOnlyState } from '../state/kioskState';
+import { focusedKioskIdState } from '../state/mapState';
+import { HealthStatus } from '../types/HealthStatus';
+import { KioskObject } from '../types/KioskObjects';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import HasLedSignIcon from './hasLedSignIcon';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
-import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { focusedKioskIdState } from '../state/mapState';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
-import { HealthStatus } from '../types/HealthStatus';
-import Link from 'next/link';
-import getHealthStatuses from '../helpers/httpMethods';
-import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { KioskObject } from '../types/KioskObjects';
 import KioskStatusBadge from './kioskStatusBadge';
-import { showProblemsOnlyState } from '../state/kioskState';
-import { GoChevronRight } from 'react-icons/go';
-import { useRouter } from 'next/navigation';
-import HasLedSignIcon from './hasLedSignIcon';
 
 interface KioskCardProps {
 	kiosk: Kiosk;

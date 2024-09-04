@@ -1,17 +1,15 @@
-/// <reference types="google.maps" />
 'use client';
 import { APIProvider, AdvancedMarker, Map, MapMouseEvent, useMap } from '@vis.gl/react-google-maps';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import throwError from '../helpers/throwError';
 import { client } from '../sanity/lib/client';
 import { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useCallback, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { focusedKioskIdState, showMapState } from '../state/mapState';
-import { useRouter } from 'next/navigation';
-import styles from './kioskMap.module.css';
-import throwError from '../helpers/throwError';
-import KioskMapIcon from './kioskMapIcon';
-import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
+import { focusedKioskIdState } from '../state/mapState';
 import { HealthStatus } from '../types/HealthStatus';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import styles from './kioskMap.module.css';
+import KioskMapIcon from './kioskMapIcon';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
@@ -20,31 +18,27 @@ interface KioskMapProps {
 }
 
 export default function KioskMap({ healthStatuses }: KioskMapProps) {
-	const router = useRouter();
-	const showMap = useRecoilValue(showMapState);
-
-	const [focusedKioskId, setFocusedKioskIdState] = useRecoilState(focusedKioskIdState);
-
-	const query = `*[_type == 'kiosk'] {location, _id}`;
+	const setFocusedKioskIdState = useSetRecoilState(focusedKioskIdState);
 	const [kiosks, setKiosks] = useState<Kiosk[]>([]);
 
 	useEffect(() => {
 		async function fetchKiosks() {
-			const kiosks: Kiosk[] = await client.fetch(query);
+			const kiosks: Kiosk[] = await client.fetch("*[_type == 'kiosk'] {location, _id}");
 			setKiosks(kiosks);
 		}
 		fetchKiosks();
-	}, [query]);
-
-	const def_position = { lat: 40.11464841024296, lng: -88.22875539000833 };
-
-	const [currentPosition, setCurrentPosition] = useState(def_position);
-
-	const handleMapClick = useCallback((event: MapMouseEvent) => {
-		if (!event.detail.placeId) {
-			setFocusedKioskIdState(null);
-		}
 	}, []);
+
+	const defaultCenter = { lat: 40.11464841024296, lng: -88.22875539000833 };
+
+	const handleMapClick = useCallback(
+		(event: MapMouseEvent) => {
+			if (!event.detail.placeId) {
+				setFocusedKioskIdState(null);
+			}
+		},
+		[setFocusedKioskIdState]
+	);
 
 	const [mapId, setMapId] = useState('1c910bd63b002525'); //todo .env
 
@@ -56,7 +50,7 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<aside className={styles.mapContainer}>
 				<Map
-					defaultCenter={currentPosition}
+					defaultCenter={defaultCenter}
 					defaultZoom={13}
 					gestureHandling={'greedy'}
 					disableDefaultUI={true}
@@ -273,38 +267,38 @@ interface KioskMarkerProps {
 	openIssueCount: number;
 }
 
-function KioskMarker({ kiosk, health, openIssueCount }: KioskMarkerProps) {
+function KioskMarker({ kiosk: { _id: kioskId, location }, health, openIssueCount }: KioskMarkerProps) {
 	const map = useMap();
 
 	const [focusedKioskId, setFocusedKioskIdState] = useRecoilState(focusedKioskIdState);
 
 	useEffect(() => {
-		if (focusedKioskId === kiosk._id) {
-			map?.panTo(kiosk.location);
+		if (focusedKioskId === kioskId) {
+			map?.panTo(location);
 		}
-	}, [focusedKioskId]);
+	}, [focusedKioskId, kioskId, location, map]);
 
 	const handleMarkerClick = (kioskId: string) => {
-		map?.panTo(kiosk.location);
+		map?.panTo(location);
 		setFocusedKioskIdState(kioskId);
 	};
 
 	// const [infowindowOpen, setInfowindowOpen] = useState(false);
 	// const [markerRef, marker] = useAdvancedMarkerRef();
 
-	const position = { lat: kiosk.location.lat, lng: kiosk.location.lng };
+	const position = { lat: location.lat, lng: location.lng };
 	return (
 		<AdvancedMarker
-			zIndex={focusedKioskId === kiosk._id ? 1 : 0}
+			zIndex={focusedKioskId === kioskId ? 1 : 0}
 			position={position}
-			key={kiosk._id}
+			key={kioskId}
 			onClick={() => {
-				handleMarkerClick(kiosk._id);
+				handleMarkerClick(kioskId);
 				// setInfowindowOpen(true);
 			}}
 			// ref={markerRef}
 		>
-			<KioskMapIcon health={health} id={kiosk._id} openIssuesCount={openIssueCount} />
+			<KioskMapIcon health={health} id={kioskId} openIssuesCount={openIssueCount} />
 		</AdvancedMarker>
 	);
 }

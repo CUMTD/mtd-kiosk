@@ -1,5 +1,4 @@
 import { defineField, defineType } from '@sanity/types';
-import StopListAutocomplete from '../../components/stopListAutocomplete';
 import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({
@@ -69,18 +68,6 @@ const kiosk = defineType({
 			group: 'general',
 
 			description: 'The GTFS stop_id of the stop where this kiosk is located. This must be a boarding point (e.g., "LSE:2")'
-			// components: {
-			// 	input: StopListAutocomplete
-			// }
-			// TODO: this does not want to work
-			// validation: (rule) =>
-			// 	rule.custom((val) => {
-			// 		if (val === undefined) {
-			// 			return 'Stop ID is required';
-			// 		}
-
-			// 		return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
-			// 	})
 		}),
 		defineField({
 			name: 'additionalStopIds',
