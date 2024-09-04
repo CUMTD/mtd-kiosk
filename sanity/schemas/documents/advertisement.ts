@@ -1,7 +1,7 @@
+import { getImageDimensions } from '@sanity/asset-utils';
 import { RiAdvertisementFill } from 'react-icons/ri';
 import { defineField, defineType } from 'sanity';
 import { Advertisement } from '../../../sanity.types';
-import { client } from '../../lib/client';
 
 function formatDate(date: Date) {
 	const now = new Date();
@@ -70,25 +70,27 @@ const advertisement = defineType({
 			name: 'image',
 			title: 'Image',
 			type: 'image',
-			description: 'Must be exactly 1080 x 480 pixels',
+			description: 'Must be at least 1080 x 480 pixels and in a 2.25:1 aspect ratio',
 			options: {
 				accept: 'image/*'
 			},
 			validation: (rule) =>
-				rule.required().custom((image) => {
-					if (!image || !image.asset) {
-						return true; // Skip validation if there's no image
+				rule.custom((image) => {
+					if (!image || !image.asset || !image.asset._ref) {
+						return true;
 					}
-					return client.fetch('*[_id == $id][0]{metadata{dimensions}}', { id: image.asset._ref }).then(({ metadata }) => {
-						const { width, height } = metadata.dimensions;
-						const aspectRatio = width / height;
-						if (width === 1080 && height === 480) {
-							return true; // Exact dimensions check
-						} else if (Math.abs(aspectRatio - 2.25) < 0.01) {
-							return true; // Aspect ratio check with tolerance
-						}
-						return 'Image must be exactly 1080 x 480 pixels or have a 2.25:1 aspect ratio';
-					});
+
+					const { width, aspectRatio } = getImageDimensions(image.asset._ref);
+
+					if (width < 1920) {
+						return 'Image must be at least 1920x480 pixels.';
+					}
+
+					if (Math.abs(aspectRatio - 2.25) > 0.02) {
+						return 'Image must have a 2.25:1 aspect ratio (1920x480)';
+					}
+
+					return true;
 				})
 		}),
 		defineField({
