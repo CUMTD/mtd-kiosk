@@ -1,6 +1,9 @@
 .kioskDeparturesContainer {
 	grid-area: departures;
 	overflow: hidden;
+
+	display: flex;
+	flex-direction: column;
 }
 
 .kioskDepartures {
@@ -9,12 +12,33 @@
 	/* gap: 5px; */
 }
 
-.realtimeExplainer {
+.pageIndicators {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	flex-direction: row;
 	width: 100%;
-	text-align: center;
-	padding: var(--departure-x-pad);
-	font-size: var(--departure-second-font-size);
-	color: var(--departure-text-color);
+
+	margin-top: auto;
+	margin-bottom: 1em;
+}
+
+.pageIndicatorDot {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background-color: rgb(185, 185, 185);
+}
+
+.activePageIndicatorDot {
+	background-color: black;
+
+	border: 2px solid white;
+	outline: 2px solid black;
+
+	/* animate circular mask wipe */
+	stroke-dasharray: 314;
 }
 
 .noDepartures,

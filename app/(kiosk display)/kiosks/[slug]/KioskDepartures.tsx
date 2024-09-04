@@ -4,6 +4,7 @@ import KioskDepartureItemList from './KioskDepartureItemList';
 import DepartureUpdater from './DepartureUpdater';
 import throwError from '../../../../helpers/throwError';
 import GeneralMessageUpdater from './GeneralMessageUpdater';
+import IconMessageUpdater from './IconMessageUpdater';
 
 interface KioskDeparturesProps {
 	kiosk: Kiosk;
@@ -17,6 +18,7 @@ export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
 		<>
 			<DepartureUpdater primaryStopId={kiosk.stopId} additionalStopIds={kiosk.additionalStopIds || []} kioskId={kiosk._id} />
 			<GeneralMessageUpdater stopId={kiosk.stopId} />
+			<IconMessageUpdater kioskId={kiosk._id} />
 			<KioskDepartureItemList />
 		</>
 	);

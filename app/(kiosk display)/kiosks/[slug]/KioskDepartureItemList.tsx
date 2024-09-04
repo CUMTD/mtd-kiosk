@@ -1,10 +1,18 @@
 import { useRecoilValue } from 'recoil';
 import styles from './KioskDepartures.module.css';
-import { connectionErrorState, darkModeState, departureState, generalMessageState } from '../../../../state/kioskState';
+import { connectionErrorState, departureState, generalMessageState } from '../../../../state/kioskState';
 import DepartureItem from './DepartureItem';
-import RealTimeIcon from './RealTimeIcon';
 import { RiWifiOffLine } from 'react-icons/ri';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import IconMessageCarousel from './IconMessageCarousel';
+import clsx from 'clsx';
+import throwError from '../../../../helpers/throwError';
+
+const DEPARTURES_PAGINATION_INTERVAL = parseInt(process.env.NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL ?? '');
+
+if (!DEPARTURES_PAGINATION_INTERVAL || isNaN(DEPARTURES_PAGINATION_INTERVAL)) {
+	throwError('NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL is not defined');
+}
 
 export default function KioskDepartureItemList() {
 	const scrollText = useRef<HTMLSpanElement>(null);
@@ -19,6 +27,24 @@ export default function KioskDepartureItemList() {
 			scrollText.current.style.animationDuration = scrollAnimationDuration(generalMessage.text);
 		}
 	}, [generalMessage]);
+
+	// pagination logic
+	const DEPARTURES_PER_PAGE = 7;
+	const [page, setPage] = useState(0);
+	var currentPageDepartures = departures.slice(page * DEPARTURES_PER_PAGE, (page + 1) * DEPARTURES_PER_PAGE);
+	var totalPages = Math.ceil(departures.length / DEPARTURES_PER_PAGE);
+
+	useEffect(() => {
+		if (departures.length <= DEPARTURES_PER_PAGE) {
+			return;
+		}
+
+		const interval = setInterval(() => {
+			setPage((page) => (page + 1) % totalPages);
+		}, DEPARTURES_PAGINATION_INTERVAL);
+
+		return () => clearInterval(interval);
+	}, [departures]);
 
 	if (connectionError) {
 		return (
@@ -53,31 +79,37 @@ export default function KioskDepartureItemList() {
 							</div>
 						)}
 
-						{!departures || (departures.length == 0 && <div className={styles.noDepartures}>No departures in the next hour.</div>)}
+						{!currentPageDepartures || (currentPageDepartures.length == 0 && <div className={styles.noDepartures}>No departures in the next hour.</div>)}
 
 						<div className={styles.kioskDepartures}>
-							{departures &&
-								departures.length > 0 &&
-								departures.map((departure, index) => (
-									// <Suspense key={index} fallback={<DepartureItemSkeleton />}>
-									<DepartureItem route={departure} key={index} />
-									// </Suspense>
-								))}
+							{currentPageDepartures &&
+								currentPageDepartures.length > 0 &&
+								currentPageDepartures.map((departure, index) => <DepartureItem route={departure} key={index} />)}
 						</div>
 					</>
 				)}
 
-				{departures.length > 0 && <RealtimeExplainer />}
+				{currentPageDepartures.length > 0 && <IconMessageCarousel />}
+				{totalPages > 1 && <PageIndicator page={page} totalPages={totalPages} />}
 			</div>
 		</>
 	);
 }
 
-function RealtimeExplainer() {
-	const darkMode = useRecoilValue(darkModeState);
+interface PageIndicatorProps {
+	page: number;
+	totalPages: number;
+}
+
+// visual page indicator like ios does
+function PageIndicator({ page, totalPages }: PageIndicatorProps) {
+	const classes = clsx(styles.pageIndicators, { [styles.hidden]: totalPages <= 1 });
+
 	return (
-		<div className={styles.realtimeExplainer}>
-			<RealTimeIcon color={darkMode ? 'white' : 'black'} /> indicates GPS-tracked real-time information
+		<div className={classes}>
+			{Array.from({ length: totalPages }).map((_, index) => (
+				<div key={index} className={clsx(styles.pageIndicatorDot, { [styles.activePageIndicatorDot]: index == page })}></div>
+			))}
 		</div>
 	);
 }

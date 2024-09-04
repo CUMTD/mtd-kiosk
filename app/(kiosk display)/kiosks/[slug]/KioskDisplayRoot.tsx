@@ -11,7 +11,7 @@ export interface KioskDisplayRootProps {
 export default function KioskDisplayRoot({ kiosk, horizontal }: KioskDisplayRootProps) {
 	return (
 		<RecoilRoot>
-			<KioskDisplay kiosk={kiosk} horizontal={horizontal} />
+			<KioskDisplay kiosk={kiosk} horizontal={horizontal ?? false} />
 		</RecoilRoot>
 	);
 }
