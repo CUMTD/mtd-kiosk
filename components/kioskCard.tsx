@@ -1,22 +1,21 @@
 'use client';
+import clsx from 'clsx';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { GoChevronRight } from 'react-icons/go';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Kiosk } from '../sanity.types';
+import { showProblemsOnlyState } from '../state/kioskState';
+import { focusedKioskIdState } from '../state/mapState';
+import { HealthStatus } from '../types/HealthStatus';
+import { KioskObject } from '../types/KioskObjects';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import HasLedSignIcon from './hasLedSignIcon';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
-import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { focusedKioskIdState } from '../state/mapState';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
-import { HealthStatus } from '../types/HealthStatus';
-import Link from 'next/link';
-import getHealthStatuses from '../helpers/httpMethods';
-import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { KioskObject } from '../types/KioskObjects';
 import KioskStatusBadge from './kioskStatusBadge';
-import { showProblemsOnlyState } from '../state/kioskState';
-import { GoChevronRight } from 'react-icons/go';
-import { useRouter } from 'next/navigation';
-import HasLedSignIcon from './hasLedSignIcon';
 
 interface KioskCardProps {
 	kiosk: Kiosk;
@@ -33,19 +32,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 	const KioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
-	// state for health status, to be passed into KioskStatusBadge as a prop
-	// const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
-
 	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
-
-	// useEffect(() => {
-	// 	async function fetchHealthStatus() {
-	// 		const healthStatuses = await getHealthStatuses(_id);
-	// 		if (healthStatuses) setHealthStatus(healthStatuses);
-	// 	}
-	// 	fetchHealthStatus();
-	// 	setTimeout(() => fetchHealthStatus(), 10000);
-	// }, [_id]);
 
 	useEffect(() => {
 		if (focusedKiosk === _id && KioskCardRef.current) {
@@ -119,7 +106,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 							'Details'
 						)}
 					</Link>
-					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+					<Link href={`/kiosks/${slug?.current ?? 'UNKNOWN'}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
 						Launch
 					</Link>
 

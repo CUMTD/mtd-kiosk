@@ -1,14 +1,14 @@
 import { HealthStatus } from './HealthStatus';
 
-export interface ServerHealthStatuses {
+export type ServerHealthStatuses = {
 	overallHealth: HealthStatus;
 	healthStatuses: HealthStatuses;
 	openTicketCount: number;
 	kioskId: string;
-}
+};
 
-export interface HealthStatuses {
+export type HealthStatuses = {
 	button: HealthStatus;
 	led: HealthStatus;
 	lcd: HealthStatus;
-}
+};

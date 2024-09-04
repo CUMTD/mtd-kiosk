@@ -1,21 +1,17 @@
-import styles from './layout.module.css';
-import InfoContainer from './InfoContainer';
-import getHealthStatuses, { fetchKioskById, fetchKioskList } from '../../../../helpers/httpMethods';
-import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
-import KioskCards from '../../../../components/kioskCards';
-import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 import { Suspense } from 'react';
-import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
+import KioskCards from '../../../../components/kioskCards';
+import { fetchKioskById, fetchKioskList, getHealthStatus, getHealthStatuses } from '../../../../helpers/httpMethods';
+import { Kiosk } from '../../../../sanity.types';
 import LedPreview from '../../led/ledPreview';
-import AttributeBadge from '../../../../components/attributeBadge';
-import { BiLeftArrow, BiSolidLeftArrow } from 'react-icons/bi';
-import Link from 'next/link';
+import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import AdsPreview from './AdsPreview';
+import InfoContainer from './InfoContainer';
+import styles from './layout.module.css';
 
 export default async function IssueLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
 	const kiosk = (await fetchKioskById(params.id)) as Kiosk;
-	const healthStatus = (await getHealthStatuses(params.id)) as ServerHealthStatuses;
-	const healthStatuses = (await getHealthStatuses()) as ServerHealthStatuses[];
+	const healthStatus = await getHealthStatus(params.id);
+	const healthStatuses = await getHealthStatuses();
 
 	const kiosks = await fetchKioskList();
 
@@ -26,10 +22,12 @@ export default async function IssueLayout({ children, params }: { children: Reac
 					<AttributeBadge icon={<BiSolidLeftArrow />} text="Back to Dashboard" />
 				</Link> */}
 				<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
-				{kiosk.hasLed && kiosk.ledIp.length > 0 && (
+				{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
 					<div className={styles.children}>
 						<h2 style={{ paddingBottom: '1em' }}>LED Preview</h2>
-						<Suspense fallback={<LedPreviewPlaceholder />}>{<LedPreview ledIp={kiosk.ledIp} clickable={false} />}</Suspense>
+						<Suspense fallback={<LedPreviewPlaceholder />}>
+							<LedPreview ledIp={kiosk.ledIp!} clickable={false} />
+						</Suspense>
 					</div>
 				)}
 				<div className={styles.children}>

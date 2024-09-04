@@ -1,12 +1,11 @@
-import Link from 'next/link';
-import styles from './toolbar.module.css';
-import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import UserIcon from './userIcon';
+import Image from 'next/image';
+import Link from 'next/link';
+import { RiAdvertisementFill } from 'react-icons/ri';
 import AttributeBadge from './attributeBadge';
 import HasLedSignIcon from './hasLedSignIcon';
-import { FaHome } from 'react-icons/fa';
-import { RiAdvertisementFill } from 'react-icons/ri';
+import styles from './toolbar.module.css';
+import UserIcon from './userIcon';
 
 export default function Toolbar() {
 	const { data: session } = useSession({ required: true });

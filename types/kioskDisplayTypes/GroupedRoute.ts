@@ -1,4 +1,4 @@
-export default interface GroupedRoute {
+type GroupedRoute = {
 	number: string;
 	name: string;
 	direction: string;
@@ -6,20 +6,22 @@ export default interface GroupedRoute {
 	backgroundHexColor: string;
 	isAcrossStreet: boolean;
 	departureTimes: DepartureTime[];
-}
+};
 
-export interface KioskDeparturesAPIResponse {
+export type KioskDeparturesAPIResponse = {
 	routes: GroupedRoute[];
 	generalMessage: GeneralMessage | null;
-}
+};
 
-export interface DepartureTime {
+export type DepartureTime = {
 	time: string;
 	isRealTime: boolean;
 	isHopper: boolean;
-}
+};
 
-export interface GeneralMessage {
+export type GeneralMessage = {
 	blocksRealtime: boolean;
 	text: string;
-}
+};
+
+export default GroupedRoute;

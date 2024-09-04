@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { fetchKioskAdsByKioskId, fetchKioskById, fetchKioskBySlug } from '../../../../helpers/httpMethods';
-import { Advertisement } from '../../../../sanity.types';
 import Link from 'next/link';
 import { GiLightBulb } from 'react-icons/gi';
+import { fetchKioskAdsByKioskId, fetchKioskById } from '../../../../helpers/httpMethods';
+import { Advertisement } from '../../../../sanity.types';
 import styles from './AdsPreview.module.css';
 
 interface AdsPageProps {

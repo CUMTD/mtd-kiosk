@@ -1,3 +1,5 @@
-export default interface DarkModeStatusReponse {
+type DarkModeStatusResponse = {
 	useDarkMode: boolean;
-}
+};
+
+export default DarkModeStatusResponse;

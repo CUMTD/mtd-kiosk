@@ -1,20 +1,17 @@
 'use client';
-import { GoCheck, GoChevronRight, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash, GoX } from 'react-icons/go';
-import styles from './Issue.module.css';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
-import { NewCommentForm } from './NewCommentForm';
-import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import 'canvas-confetti';
 import confetti from 'canvas-confetti';
-import React from 'react';
+import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { set } from 'sanity';
-import KioskTicket, { TicketNote, TicketStatusType } from '../../../../types/kioskTicket';
-import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../helpers/httpMethods';
+import React, { useRef, useState } from 'react';
+import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import UserIcon from '../../../../components/userIcon';
+import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../helpers/httpMethods';
+import KioskTicket, { TicketNote, TicketStatusType } from '../../../../types/kioskTicket';
+import styles from './Issue.module.css';
+import { NewCommentForm } from './NewCommentForm';
 require('crypto');
 
 export interface IssueProps {

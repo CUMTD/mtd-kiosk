@@ -1,13 +1,13 @@
+import AttributeBadge from '../../../../components/attributeBadge';
+import HasLedSignIcon from '../../../../components/hasLedSignIcon';
+import IStopIcon from '../../../../components/iStopIcon';
 import { IndividualKioskMap } from '../../../../components/kioskMap';
 import KioskStatusBadge from '../../../../components/kioskStatusBadge';
-import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
+import { Kiosk } from '../../../../sanity.types';
 import { HealthStatus } from '../../../../types/HealthStatus';
 import { KioskObject } from '../../../../types/KioskObjects';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 import styles from './InfoContainer.module.css';
-import IStopIcon from '../../../../components/iStopIcon';
-import HasLedSignIcon from '../../../../components/hasLedSignIcon';
-import AttributeBadge from '../../../../components/attributeBadge';
 
 interface InfoContainerProps {
 	kiosk: Kiosk;
@@ -32,7 +32,7 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 						<AttributeBadge
 							icon={
 								<div className={styles.badgeContainer}>
-									<KioskStatusBadge large kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
+									<KioskStatusBadge kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
 									{kiosk.hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} align="left" />}
 									<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} align="left" />
 								</div>
