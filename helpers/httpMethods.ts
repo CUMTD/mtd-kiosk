@@ -3,14 +3,11 @@
 import { revalidateTag } from 'next/cache';
 import { Advertisement, Kiosk } from '../sanity.types';
 import { client } from '../sanity/lib/client';
+import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
 import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { Advertisement, IconMessage, Kiosk } from '../sanity.types';
-import GroupedRoute, { GeneralMessage, KioskDeparturesAPIResponse } from '../types/kioskDisplayTypes/GroupedRoute';
-import DarkModeStatusReponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
-import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import throwError from './throwError';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');

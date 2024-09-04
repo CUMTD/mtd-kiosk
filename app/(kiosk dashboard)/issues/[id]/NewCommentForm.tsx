@@ -1,11 +1,11 @@
 'use client';
-import styles from './newIssueForm.module.css';
-import { GoX } from 'react-icons/go';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { GoX } from 'react-icons/go';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import { createTicketComment } from '../../../../helpers/httpMethods';
+import styles from './newIssueForm.module.css';
 
 interface NewCommentFormProps {
 	issueId: string;
@@ -59,7 +59,7 @@ export function NewCommentForm({ issueId, dialogRef }: NewCommentFormProps) {
 						<span style={{ flex: 1 }} />
 						{isLoading && <LoadingAnimation />}
 						<label>
-							{/* disable buton on click */}
+							{/* disable button on click */}
 							<input type="submit" value="Add" className={styles.button} disabled={isLoading} />
 						</label>
 					</div>

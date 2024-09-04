@@ -1,12 +1,12 @@
+import clsx from 'clsx';
+import { useEffect, useRef, useState } from 'react';
+import { RiWifiOffLine } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
-import styles from './KioskDepartures.module.css';
+import throwError from '../../../../helpers/throwError';
 import { connectionErrorState, departureState, generalMessageState } from '../../../../state/kioskState';
 import DepartureItem from './DepartureItem';
-import { RiWifiOffLine } from 'react-icons/ri';
-import { useEffect, useRef, useState } from 'react';
 import IconMessageCarousel from './IconMessageCarousel';
-import clsx from 'clsx';
-import throwError from '../../../../helpers/throwError';
+import styles from './KioskDepartures.module.css';
 
 const DEPARTURES_PAGINATION_INTERVAL = parseInt(process.env.NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL ?? '');
 
@@ -44,7 +44,7 @@ export default function KioskDepartureItemList() {
 		}, DEPARTURES_PAGINATION_INTERVAL);
 
 		return () => clearInterval(interval);
-	}, [departures]);
+	}, [departures, totalPages]);
 
 	if (connectionError) {
 		return (

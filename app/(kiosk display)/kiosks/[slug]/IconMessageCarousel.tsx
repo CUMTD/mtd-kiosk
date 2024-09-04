@@ -1,8 +1,8 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { allIconMessagesState, currentIconMessageIndexState, darkModeState, iconMessagesSelector } from '../../../../state/kioskState';
-import styles from './IconMessageCarousel.module.css';
 import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentIconMessageIndexState, iconMessagesSelector } from '../../../../state/kioskState';
 import IconMessage from './IconMessage';
+import styles from './IconMessageCarousel.module.css';
 
 export default function IconMessageCarousel() {
 	const iconMessages = useRecoilValue(iconMessagesSelector);

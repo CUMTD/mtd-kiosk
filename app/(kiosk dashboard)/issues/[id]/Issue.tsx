@@ -267,7 +267,7 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 									<GoTrash />
 								) : (
 									<>
-										{pendingDelete ? <LoadingAnimation normal white /> : <GoTrash color="white" />}
+										{pendingDelete ? <LoadingAnimation small white /> : <GoTrash color="white" />}
 										<span className={styles.confirmDeleteText}>Really?</span>
 									</>
 								)}
@@ -282,7 +282,7 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 							<button className={styles.commentSaveButton} onClick={handleCommentSave}>
 								Save
 							</button>
-							{pendingSave && <LoadingAnimation normal />}
+							{pendingSave && <LoadingAnimation small />}
 							<span style={{ flex: 1 }} />
 						</div>
 					)}
