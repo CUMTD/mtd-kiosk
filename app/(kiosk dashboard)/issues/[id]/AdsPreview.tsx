@@ -23,11 +23,15 @@ export default async function AdsPreview({ kioskId }: AdsPageProps) {
 				</p>
 			</div>
 			<div className={styles.adContainer}>
-				{kioskAds.map((ad: Advertisement) => (
-					<Link key={ad._id} href={`/studio/structure/advertisement;${ad._id}`} passHref target="_blank" className={styles.adLink}>
-						<Image src={ad.imageUrl || ''} alt={ad.name || ''} width={360} height={160} />
-					</Link>
-				))}
+				{kioskAds.map(
+					(
+						ad: Advertisement // todo: make extended advertisement type for groq query
+					) => (
+						<Link key={ad._id} href={`/studio/structure/advertisement;${ad._id}`} passHref target="_blank" className={styles.adLink}>
+							<Image src={ad.imageUrl || ''} alt={ad.name || ''} width={360} height={160} />
+						</Link>
+					)
+				)}
 			</div>
 		</div>
 	);
