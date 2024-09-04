@@ -22,9 +22,9 @@ export default function Toolbar() {
 			</Link>
 
 			<div className={styles.links}>
-				<Link href="/" passHref>
+				{/* <Link href="/" passHref>
 					<AttributeBadge icon={<FaHome />} text="Dashboard" />
-				</Link>
+				</Link> */}
 
 				<Link href="/led" passHref>
 					<AttributeBadge icon={<HasLedSignIcon />} text="LED Superview" />

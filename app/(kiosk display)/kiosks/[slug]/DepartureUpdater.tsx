@@ -13,13 +13,14 @@ if (!DEPARTURES_UPDATE_INTERVAL || isNaN(DEPARTURES_UPDATE_INTERVAL)) {
 	throwError('NEXT_PUBLIC_DEPARTURES_UPDATE_INTERVAL is not defined');
 }
 
-interface Props {
-	stopId: string;
+interface DepartureUpdaterProps {
+	primaryStopId: string;
+	additionalStopIds: string[];
 	kioskId: string;
 }
 
 // static component that updates departures atom
-export default function DepartureUpdater({ stopId, kioskId }: Props) {
+export default function DepartureUpdater({ primaryStopId, additionalStopIds, kioskId }: DepartureUpdaterProps) {
 	// only send a heartbeat (kioskId) if the heartbeat query param is true
 	const params = useSearchParams();
 	const heartbeat = params.get('heartbeat') === 'true';
@@ -28,8 +29,8 @@ export default function DepartureUpdater({ stopId, kioskId }: Props) {
 	const setConnectionErrorState = useSetRecoilState(connectionErrorState);
 
 	useEffect(() => {
-		async function updateDepartures(_stopId: string) {
-			const departures = await getDepartures(stopId, heartbeat ? kioskId : undefined);
+		async function updateDepartures() {
+			const departures = await getDepartures(primaryStopId, additionalStopIds, heartbeat ? kioskId : undefined);
 			if (!departures) {
 				setConnectionErrorState(true);
 				return;
@@ -37,11 +38,11 @@ export default function DepartureUpdater({ stopId, kioskId }: Props) {
 			setDepartures(departures);
 			setConnectionErrorState(false);
 		}
-		updateDepartures(stopId);
+		updateDepartures();
 		const timer = setInterval(updateDepartures, DEPARTURES_UPDATE_INTERVAL);
 
 		return () => clearInterval(timer);
-	}, [stopId, setDepartures, setConnectionErrorState, kioskId, heartbeat]);
+	}, [setDepartures, setConnectionErrorState, kioskId, heartbeat, primaryStopId, additionalStopIds]);
 
 	return null;
 }

@@ -79,26 +79,21 @@ export type Advertisement = {
 		crop?: SanityImageCrop;
 		_type: 'image';
 	};
-	imageUrl?: string;
-	landscapeImage?: {
-		asset?: {
-			_ref: string;
-			_type: 'reference';
-			_weak?: boolean;
-			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-		};
-		hotspot?: SanityImageHotspot;
-		crop?: SanityImageCrop;
-		_type: 'image';
-	};
 	displayOnAllKiosks?: boolean;
-	kiosks?: Array<{
-		_ref: string;
-		_type: 'reference';
-		_weak?: boolean;
-		_key: string;
-		[internalGroqTypeReferenceTo]?: 'kiosk';
-	}>;
+	kiosks?: Array<
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kioskBundle';
+		  }
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kiosk';
+		  }
+	>;
 	startDate?: string;
 	endDate?: string;
 };
@@ -160,6 +155,22 @@ export type SanityImageMetadata = {
 	isOpaque?: boolean;
 };
 
+export type KioskBundle = {
+	_id: string;
+	_type: 'kioskBundle';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	bundleName?: string;
+	kiosks?: Array<{
+		_ref: string;
+		_type: 'reference';
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: 'kiosk';
+	}>;
+};
+
 export type Kiosk = {
 	_id: string;
 	_type: 'kiosk';
@@ -170,6 +181,7 @@ export type Kiosk = {
 	slug?: Slug;
 	phoneticName?: string;
 	stopId?: string;
+	additionalStopIds?: Array<string>;
 	iStop?: boolean;
 	location?: Geopoint;
 	isHorizontal?: boolean;
@@ -202,6 +214,7 @@ export type AllSanitySchemaTypes =
 	| SanityImageAsset
 	| SanityAssetSourceData
 	| SanityImageMetadata
+	| KioskBundle
 	| Kiosk
 	| Geopoint
 	| Slug;

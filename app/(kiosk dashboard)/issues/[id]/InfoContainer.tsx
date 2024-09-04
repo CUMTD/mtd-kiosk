@@ -18,7 +18,7 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 		<div className={styles.infoContainer}>
 			<div className={styles.content}>
 				<code style={{ fontSize: '200%' }} className={styles.stopId}>
-					{kiosk.stopId} ✼ {kiosk._id}
+					{kiosk.stopId} / {kiosk._id}
 				</code>
 				<h1 className={styles.kioskName}>
 					<span>{kiosk && kiosk.displayName}</span>

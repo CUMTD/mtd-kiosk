@@ -3,6 +3,7 @@ import { fetchKioskAdsByKioskId, fetchKioskById, fetchKioskBySlug } from '../../
 import { Advertisement } from '../../../../sanity.types';
 import Link from 'next/link';
 import { GiLightBulb } from 'react-icons/gi';
+import styles from './AdsPreview.module.css';
 
 interface AdsPageProps {
 	kioskId: string;
@@ -15,23 +16,15 @@ export default async function AdsPreview({ kioskId }: AdsPageProps) {
 
 	return (
 		<div>
-			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1em', paddingBottom: '1em', justifyContent: 'space-between' }}>
+			<div className={styles.adsSection}>
 				<h2>Ads</h2>
-				<p
-					style={{
-						opacity: '0.8',
-
-						gap: '.5ch',
-						display: 'flex',
-						alignItems: 'center'
-					}}
-				>
+				<p className={styles.proTip}>
 					<GiLightBulb /> Click on an ad to edit it in the studio
 				</p>
 			</div>
-			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+			<div className={styles.adContainer}>
 				{kioskAds.map((ad: Advertisement) => (
-					<Link key={ad._id} href={`/studio/structure/advertisement;${ad._id}`} passHref target="_blank">
+					<Link key={ad._id} href={`/studio/structure/advertisement;${ad._id}`} passHref target="_blank" className={styles.adLink}>
 						<Image src={ad.imageUrl || ''} alt={ad.name || ''} width={360} height={160} />
 					</Link>
 				))}

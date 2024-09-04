@@ -1,7 +1,6 @@
 .individualKioskMap {
 	max-width: 25em;
 	height: 15em;
-	border-radius: var(--border-radius);
 	overflow: clip;
 	/* flex: 1; */
 	width: 100%;

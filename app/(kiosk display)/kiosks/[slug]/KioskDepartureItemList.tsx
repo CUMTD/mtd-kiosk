@@ -77,7 +77,7 @@ function RealtimeExplainer() {
 	const darkMode = useRecoilValue(darkModeState);
 	return (
 		<div className={styles.realtimeExplainer}>
-			<RealTimeIcon color={darkMode ? 'white' : 'black'} /> indicates GPS-tracked realtime information
+			<RealTimeIcon color={darkMode ? 'white' : 'black'} /> indicates GPS-tracked real-time information
 		</div>
 	);
 }

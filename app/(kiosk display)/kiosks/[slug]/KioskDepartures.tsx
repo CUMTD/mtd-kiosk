@@ -1,5 +1,4 @@
 'use client';
-import { RecoilRoot } from 'recoil';
 import { Kiosk } from '../../../../sanity.types';
 import KioskDepartureItemList from './KioskDepartureItemList';
 import DepartureUpdater from './DepartureUpdater';
@@ -16,7 +15,7 @@ export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
 	}
 	return (
 		<>
-			<DepartureUpdater stopId={kiosk.stopId} kioskId={kiosk._id} />
+			<DepartureUpdater primaryStopId={kiosk.stopId} additionalStopIds={kiosk.additionalStopIds || []} kioskId={kiosk._id} />
 			<GeneralMessageUpdater stopId={kiosk.stopId} />
 			<KioskDepartureItemList />
 		</>

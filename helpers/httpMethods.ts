@@ -202,14 +202,20 @@ export async function fetchLEDPreview(ledIp: string) {
 	}
 }
 
-export async function getDepartures(stopId: string, kioskId?: string): Promise<GroupedRoute[] | null> {
+export async function getDepartures(primaryStopId: string, additionalStopIds: string[], kioskId?: string): Promise<GroupedRoute[] | null> {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/departures/${stopId}/lcd?` + (kioskId ? `kioskId=${kioskId}&` : '') + 'max=7', {
+		const params = new URLSearchParams();
+		for (const stopId of additionalStopIds) {
+			params.append('additionalStopIds', stopId);
+		}
+		if (kioskId) {
+			params.append('kioskId', kioskId);
+		}
+		const response = await fetch(`${API_ENDPOINT}/departures/${primaryStopId}/lcd?${params.toString()}`, {
 			headers: defaultHeaders
 		});
 
 		const data = (await response.json())['groupedDepartures'] as GroupedRoute[];
-
 		return data;
 	} catch (error) {
 		console.error(error);

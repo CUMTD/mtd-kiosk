@@ -4,6 +4,7 @@ export default interface GroupedRoute {
 	direction: string;
 	foregroundHexColor: string;
 	backgroundHexColor: string;
+	isAcrossStreet: boolean;
 	departureTimes: DepartureTime[];
 }
 

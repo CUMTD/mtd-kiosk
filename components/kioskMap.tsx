@@ -46,6 +46,12 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 		}
 	}, []);
 
+	const [mapId, setMapId] = useState('1c910bd63b002525'); //todo .env
+
+	useEffect(() => {
+		window && setMapId(getMapColorPreference(window));
+	}, []);
+
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<aside className={styles.mapContainer}>
@@ -54,7 +60,7 @@ export default function KioskMap({ healthStatuses }: KioskMapProps) {
 					defaultZoom={13}
 					gestureHandling={'greedy'}
 					disableDefaultUI={true}
-					mapId={'1c910bd63b002525'} //todo .env
+					mapId={mapId} //todo .env
 					onClick={handleMapClick}
 					clickableIcons={false}
 					styles={[
@@ -316,10 +322,23 @@ interface IndividualKioskMapProps {
 export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 	const position = { lat: kiosk.location.lat, lng: kiosk.location.lng };
 
+	const [mapId, setMapId] = useState('1c910bd63b002525'); //todo .env
+
+	useEffect(() => {
+		window && setMapId(getMapColorPreference(window));
+	}, []);
+
 	return (
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<div className={styles.individualKioskMap}>
-				<Map defaultCenter={position} defaultZoom={15} gestureHandling={'greedy'} mapId={'1c910bd63b002525'} zoomControl={false} disableDefaultUI={true}>
+				<Map
+					defaultCenter={position}
+					defaultZoom={15}
+					gestureHandling={'greedy'}
+					mapId={mapId} //todo .env
+					zoomControl={false}
+					disableDefaultUI={true}
+				>
 					<AdvancedMarker position={position} key={kiosk._id}>
 						<KioskMapIcon id={kiosk._id} health={health} openIssuesCount={0} />
 					</AdvancedMarker>
@@ -327,4 +346,11 @@ export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 			</div>
 		</APIProvider>
 	);
+}
+
+function getMapColorPreference(window: Window) {
+	// get light or dark mode preference from browser
+	const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+	var mapId = prefersDarkScheme.matches ? '1c910bd63b002525' : '82cc627fc8ea004a'; //todo .env
+	return mapId;
 }

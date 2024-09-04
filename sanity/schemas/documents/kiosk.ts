@@ -64,12 +64,11 @@ const kiosk = defineType({
 		}),
 		defineField({
 			name: 'stopId',
-			title: 'Stop ID',
+			title: 'Primary Stop ID',
 			type: 'string',
 			group: 'general',
 
-			description:
-				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., "SPFLDPRC") or a boarding point id, (e.g., "LSE:2")'
+			description: 'The GTFS stop_id of the stop where this kiosk is located. This must be a boarding point (e.g., "LSE:2")'
 			// components: {
 			// 	input: StopListAutocomplete
 			// }
@@ -82,6 +81,15 @@ const kiosk = defineType({
 
 			// 		return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
 			// 	})
+		}),
+		defineField({
+			name: 'additionalStopIds',
+			title: 'Additional Stop IDs',
+			group: 'general',
+			type: 'array',
+			of: [{ type: 'string' }],
+			description:
+				'Additional stop IDs to display on the kiosk. Departures serving these stops will be presented with an icon to indicate they are across the street.'
 		}),
 		defineField({
 			name: 'iStop',

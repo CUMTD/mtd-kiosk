@@ -70,9 +70,19 @@
 	text-overflow: ellipsis;
 }
 
+.acrossStreetIcon {
+	font-size: 0.8em;
+	opacity: 0.75;
+}
+
 .direction {
 	font-weight: 500;
 	font-size: var(--departure-direction-font-size);
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 5px;
 }
 
 .departureTimes {

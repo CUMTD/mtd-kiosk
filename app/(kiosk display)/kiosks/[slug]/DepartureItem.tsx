@@ -4,6 +4,7 @@ import styles from './DepartureItem.module.css';
 import RealTimeIcon from './RealTimeIcon';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../../state/kioskState';
+import { FaPersonWalkingDashedLineArrowRight } from 'react-icons/fa6';
 
 interface DepartureProps {
 	route: GroupedRoute;
@@ -27,7 +28,9 @@ export default function DepartureItem({ route }: DepartureProps) {
 				{route.number}
 			</div>
 			<div className={styles.routeInfo}>
-				<span className={styles.headsign}>{route.name}</span>
+				<span className={styles.headsign}>
+					{route.name} {route.isAcrossStreet && <FaPersonWalkingDashedLineArrowRight className={styles.acrossStreetIcon} />}
+				</span>
 				<br />
 				<span className={styles.direction}>{route.direction}</span>
 			</div>
