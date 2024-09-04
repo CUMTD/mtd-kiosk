@@ -1,12 +1,12 @@
 'use server';
 import { revalidateTag } from 'next/cache';
-import { client } from '../sanity/lib/client';
-import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
-import throwError from './throwError';
-import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import { Advertisement, Kiosk } from '../sanity.types';
-import GroupedRoute, { GeneralMessage, KioskDeparturesAPIResponse } from '../types/kioskDisplayTypes/GroupedRoute';
-import DarkModeStatusReponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
+import { client } from '../sanity/lib/client';
+import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
+import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
+import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import throwError from './throwError';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -250,7 +250,7 @@ export async function getDarkModeStatus(): Promise<boolean> {
 		});
 
 		// returns true if dark mode is enabled
-		const result = (await response.json()) as DarkModeStatusReponse;
+		const result = (await response.json()) as DarkModeStatusResponse;
 		return result.useDarkMode;
 	} catch (error) {
 		console.error(error);

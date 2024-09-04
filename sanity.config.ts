@@ -1,13 +1,12 @@
 import { googleMapsInput } from '@sanity/google-maps-input';
 import { visionTool } from '@sanity/vision';
 import { structureTool } from 'sanity/structure';
+import SanityStudioIcon from './components/sanityStudioIcon';
 import throwError from './helpers/throwError';
 import { apiVersion, dataset, projectId } from './sanity/env';
-import kiosk from './sanity/schemas/documents/kiosk';
 import advertisement from './sanity/schemas/documents/advertisement';
-import SanityStudioIcon from './components/sanityStudioIcon';
+import kiosk from './sanity/schemas/documents/kiosk';
 import { kioskBundle } from './sanity/schemas/documents/kioskBundle';
-
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
