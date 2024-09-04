@@ -68,6 +68,7 @@ export type Advertisement = {
 	_updatedAt: string;
 	_rev: string;
 	name?: string;
+	imageUrl?: string;
 	image?: {
 		asset?: {
 			_ref: string;
