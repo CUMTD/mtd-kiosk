@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { GoChevronRight } from 'react-icons/go';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import { Kiosk } from '../sanity.types';
 import { showProblemsOnlyState } from '../state/kioskState';
 import { focusedKioskIdState } from '../state/mapState';
 import { HealthStatus } from '../types/HealthStatus';
@@ -118,7 +118,7 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 							'Details'
 						)}
 					</Link>
-					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+					<Link href={`/kiosks/${slug?.current ?? 'UNKNOWN'}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
 						Launch
 					</Link>
 

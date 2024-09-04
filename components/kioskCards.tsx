@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { Kiosk } from '../sanity/schemas/documents/kiosk';
+import { Kiosk } from '../sanity.types';
 import { HealthStatus } from '../types/HealthStatus';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import KioskCard from './kioskCard';
@@ -42,7 +42,7 @@ export default function KioskCards({ kiosks, readonly, healthStatuses }: KioskCa
 			</label>
 			{currentKiosks.length > 0 &&
 				currentKiosks
-					.sort((a, b) => a.displayName.localeCompare(b.displayName))
+					.sort((a, b) => (a.displayName ?? '')?.localeCompare(b.displayName ?? ''))
 					.map((kiosk, idx) => (
 						<KioskCard
 							health={healthStatuses && healthStatuses.length > 0 ? healthStatuses.find((k) => k.kioskId === kiosk._id) : undefined}

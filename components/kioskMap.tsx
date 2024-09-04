@@ -1,10 +1,10 @@
 'use client';
 import { APIProvider, AdvancedMarker, Map, MapMouseEvent, useMap } from '@vis.gl/react-google-maps';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import throwError from '../helpers/throwError';
+import { Kiosk } from '../sanity.types';
 import { client } from '../sanity/lib/client';
-import { Kiosk } from '../sanity/schemas/documents/kiosk';
 import { focusedKioskIdState } from '../state/mapState';
 import { HealthStatus } from '../types/HealthStatus';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
@@ -269,28 +269,27 @@ interface KioskMarkerProps {
 
 function KioskMarker({ kiosk: { _id: kioskId, location }, health, openIssueCount }: KioskMarkerProps) {
 	const map = useMap();
-
 	const [focusedKioskId, setFocusedKioskIdState] = useRecoilState(focusedKioskIdState);
 
+	const locationCoords = useMemo(() => ({ lat: location?.lat ?? 0, lng: location?.lng ?? 0 }), [location]);
 	useEffect(() => {
 		if (focusedKioskId === kioskId) {
-			map?.panTo(location);
+			map?.panTo(locationCoords);
 		}
-	}, [focusedKioskId, kioskId, location, map]);
+	}, [focusedKioskId, kioskId, location, locationCoords, map]);
 
 	const handleMarkerClick = (kioskId: string) => {
-		map?.panTo(location);
+		map?.panTo(locationCoords);
 		setFocusedKioskIdState(kioskId);
 	};
 
 	// const [infowindowOpen, setInfowindowOpen] = useState(false);
 	// const [markerRef, marker] = useAdvancedMarkerRef();
 
-	const position = { lat: location.lat, lng: location.lng };
 	return (
 		<AdvancedMarker
 			zIndex={focusedKioskId === kioskId ? 1 : 0}
-			position={position}
+			position={locationCoords}
 			key={kioskId}
 			onClick={() => {
 				handleMarkerClick(kioskId);
@@ -313,9 +312,8 @@ interface IndividualKioskMapProps {
 	kiosk: Kiosk;
 	health: HealthStatus;
 }
-export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
-	const position = { lat: kiosk.location.lat, lng: kiosk.location.lng };
-
+export function IndividualKioskMap({ kiosk: { _id, location }, health }: IndividualKioskMapProps) {
+	const locationCoords = useMemo(() => ({ lat: location?.lat ?? 0, lng: location?.lng ?? 0 }), [location]);
 	const [mapId, setMapId] = useState('1c910bd63b002525'); //todo .env
 
 	useEffect(() => {
@@ -326,15 +324,15 @@ export function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 		<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 			<div className={styles.individualKioskMap}>
 				<Map
-					defaultCenter={position}
+					defaultCenter={locationCoords}
 					defaultZoom={15}
 					gestureHandling={'greedy'}
 					mapId={mapId} //todo .env
 					zoomControl={false}
 					disableDefaultUI={true}
 				>
-					<AdvancedMarker position={position} key={kiosk._id}>
-						<KioskMapIcon id={kiosk._id} health={health} openIssuesCount={0} />
+					<AdvancedMarker position={locationCoords} key={_id}>
+						<KioskMapIcon id={_id} health={health} openIssuesCount={0} />
 					</AdvancedMarker>
 				</Map>
 			</div>

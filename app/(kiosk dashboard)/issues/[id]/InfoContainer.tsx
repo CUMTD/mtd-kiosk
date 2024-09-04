@@ -3,7 +3,7 @@ import HasLedSignIcon from '../../../../components/hasLedSignIcon';
 import IStopIcon from '../../../../components/iStopIcon';
 import { IndividualKioskMap } from '../../../../components/kioskMap';
 import KioskStatusBadge from '../../../../components/kioskStatusBadge';
-import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
+import { Kiosk } from '../../../../sanity.types';
 import { HealthStatus } from '../../../../types/HealthStatus';
 import { KioskObject } from '../../../../types/KioskObjects';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';

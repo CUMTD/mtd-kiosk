@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import KioskCards from '../../../../components/kioskCards';
 import getHealthStatuses, { fetchKioskById, fetchKioskList } from '../../../../helpers/httpMethods';
-import { Kiosk } from '../../../../sanity/schemas/documents/kiosk';
+import { Kiosk } from '../../../../sanity.types';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 import LedPreview from '../../led/ledPreview';
 import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
@@ -23,10 +23,12 @@ export default async function IssueLayout({ children, params }: { children: Reac
 					<AttributeBadge icon={<BiSolidLeftArrow />} text="Back to Dashboard" />
 				</Link> */}
 				<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
-				{kiosk.hasLed && kiosk.ledIp.length > 0 && (
+				{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
 					<div className={styles.children}>
 						<h2 style={{ paddingBottom: '1em' }}>LED Preview</h2>
-						<Suspense fallback={<LedPreviewPlaceholder />}>{<LedPreview ledIp={kiosk.ledIp} clickable={false} />}</Suspense>
+						<Suspense fallback={<LedPreviewPlaceholder />}>
+							<LedPreview ledIp={kiosk.ledIp!} clickable={false} />
+						</Suspense>
 					</div>
 				)}
 				<div className={styles.children}>

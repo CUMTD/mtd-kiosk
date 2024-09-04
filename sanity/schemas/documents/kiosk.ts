@@ -59,14 +59,13 @@ const kiosk = defineType({
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
 			group: 'general',
-			validation: (rule) => rule.min(3).error('Phonetic name must be at least 5 characters')
+			validation: (rule) => rule.min(3).error('Phonetic name must be at least 3 characters')
 		}),
 		defineField({
 			name: 'stopId',
 			title: 'Primary Stop ID',
 			type: 'string',
 			group: 'general',
-
 			description: 'The GTFS stop_id of the stop where this kiosk is located. This must be a boarding point (e.g., "LSE:2")'
 		}),
 		defineField({
@@ -145,20 +144,3 @@ const kiosk = defineType({
 });
 
 export default kiosk;
-
-export type Kiosk = {
-	_id: string;
-	displayName: string;
-	phoneticName: string;
-	slug: {
-		current: string;
-	};
-	stopId: string;
-	iStop: boolean;
-	location: {
-		lat: number;
-		lng: number;
-	};
-	hasLed: boolean;
-	ledIp: string;
-};
