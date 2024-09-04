@@ -41,6 +41,7 @@
 		"**/.next": true,
 		"**/.sanity": true,
 		"**/bin": true,
+		"**/dist": true,
 		"**/node_modules": true,
 		"**/obj": true,
 		"next-env.d.ts": true

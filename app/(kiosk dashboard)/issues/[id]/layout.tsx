@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
 import KioskCards from '../../../../components/kioskCards';
-import getHealthStatuses, { fetchKioskById, fetchKioskList } from '../../../../helpers/httpMethods';
+import { fetchKioskById, fetchKioskList, getHealthStatus, getHealthStatuses } from '../../../../helpers/httpMethods';
 import { Kiosk } from '../../../../sanity.types';
-import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
 import LedPreview from '../../led/ledPreview';
 import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import AdsPreview from './AdsPreview';
@@ -11,8 +10,8 @@ import styles from './layout.module.css';
 
 export default async function IssueLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
 	const kiosk = (await fetchKioskById(params.id)) as Kiosk;
-	const healthStatus = (await getHealthStatuses(params.id)) as ServerHealthStatuses;
-	const healthStatuses = (await getHealthStatuses()) as ServerHealthStatuses[];
+	const healthStatus = await getHealthStatus(params.id);
+	const healthStatuses = await getHealthStatuses();
 
 	const kiosks = await fetchKioskList();
 
