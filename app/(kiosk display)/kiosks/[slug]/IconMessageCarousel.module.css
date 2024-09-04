@@ -1,0 +1,7 @@
+.iconMessageCarousel {
+	display: grid;
+	place-content: center;
+	grid-template-areas: 'message';
+
+	background-color: var(--icon-message-background);
+}

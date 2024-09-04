@@ -23,6 +23,7 @@ export function KioskDisplay({ kiosk, horizontal }: KioskDisplayProps) {
 			<DarkModeUpdater />
 			<KioskHeader stopName={kiosk?.displayName} iStop={kiosk?.iStop} />
 			<KioskDepartures kiosk={kiosk} />
+
 			{!kiosk.isHorizontal && <KioskAds kiosk={kiosk} />}
 		</div>
 	);

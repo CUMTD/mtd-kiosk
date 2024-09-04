@@ -1,0 +1,25 @@
+.iconMessage {
+	--transition-duration: 0.75s;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	grid-area: message;
+	gap: 0.5ch;
+	width: 100%;
+	/* padding: var(--departure-x-pad); */
+	padding: 0.7em;
+	font-size: var(--departure-second-font-size);
+	color: var(--departure-text-color);
+	opacity: 0;
+	transition: opacity var(--transition-duration) ease-out;
+	/* background-color: var(--icon-message-background); */
+	/* border-radius: 30px; */
+}
+
+.iconMessage.current {
+	opacity: 1;
+	transition: opacity var(--transition-duration) ease-in;
+	transition-delay: var(--transition-duration);
+}

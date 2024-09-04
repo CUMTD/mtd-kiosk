@@ -7,6 +7,10 @@ import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusRes
 import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import { Advertisement, IconMessage, Kiosk } from '../sanity.types';
+import GroupedRoute, { GeneralMessage, KioskDeparturesAPIResponse } from '../types/kioskDisplayTypes/GroupedRoute';
+import DarkModeStatusReponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
+import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import throwError from './throwError';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
@@ -69,6 +73,13 @@ export async function fetchKioskBySlug(slug: string): Promise<Kiosk> {
 	const kiosk = (await client.fetch(query, {}, defaultCache)) as Kiosk;
 
 	return kiosk;
+}
+
+export async function fetchKioskIconMessagesByKioskId(kioskId: string): Promise<IconMessageWithImages[]> {
+	const query = `*[_type == 'iconMessage' && (displayOnAllKiosks || references($kioskId))] {..., "lightModeImageUrl": lightModeSvg.asset->url, "darkModeImageUrl": darkModeSvg.asset->url}`;
+	const iconMessages = await client.fetch(query, { kioskId }, { cache: 'no-cache' });
+
+	return iconMessages;
 }
 
 export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertisement[]> {
@@ -208,6 +219,7 @@ export async function getDepartures(primaryStopId: string, additionalStopIds: st
 		if (kioskId) {
 			params.append('kioskId', kioskId);
 		}
+		params.append('max', '50');
 
 		const response = await fetch(`${API_ENDPOINT}/departures/${primaryStopId}/lcd?${params.toString()}`, {
 			headers: defaultHeaders
