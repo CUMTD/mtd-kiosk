@@ -1,17 +1,11 @@
 'use client';
+import { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
-import { KioskDisplay } from './KioskDisplay';
-import { Kiosk } from '../../../../sanity.types';
 
 export interface KioskDisplayRootProps {
-	kiosk: Kiosk;
-	horizontal?: boolean;
+	children: ReactNode;
 }
 
-export default function KioskDisplayRoot({ kiosk, horizontal }: KioskDisplayRootProps) {
-	return (
-		<RecoilRoot>
-			<KioskDisplay kiosk={kiosk} horizontal={horizontal ?? false} />
-		</RecoilRoot>
-	);
+export default function KioskDisplayRoot({ children }: KioskDisplayRootProps) {
+	return <RecoilRoot>{children}</RecoilRoot>;
 }

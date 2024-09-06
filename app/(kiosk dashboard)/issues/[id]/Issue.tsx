@@ -1,4 +1,5 @@
 'use client';
+
 import 'canvas-confetti';
 import confetti from 'canvas-confetti';
 import clsx from 'clsx';

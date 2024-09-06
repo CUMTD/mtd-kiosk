@@ -1,20 +1,5 @@
-import { Metadata } from 'next';
-import KioskCards from '../../components/kioskCards';
-import KioskMap from '../../components/kioskMap';
-import { fetchKioskList, getHealthStatuses } from '../../helpers/httpMethods';
+'use client';
 
-export const metadata: Metadata = {
-	title: 'Kiosk Dashboard'
-};
-
-export default async function Home() {
-	const kiosks = await fetchKioskList();
-	const healthStatuses = await getHealthStatuses();
-
-	return (
-		<>
-			<KioskMap healthStatuses={healthStatuses} />
-			<KioskCards kiosks={kiosks} healthStatuses={healthStatuses} />
-		</>
-	);
+export default function Home() {
+	return null;
 }

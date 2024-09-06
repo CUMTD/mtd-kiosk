@@ -22,12 +22,17 @@
 		"codegen",
 		"datetime",
 		"geopoint",
+		"groq",
 		"GTFS",
 		"Infowindow",
+		"jdenticon",
 		"Novelli",
 		"ONHOLD",
 		"Rqst",
-		"SPFLDPRC"
+		"signout",
+		"SPFLDPRC",
+		"Superview",
+		"Umbraco"
 	],
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,

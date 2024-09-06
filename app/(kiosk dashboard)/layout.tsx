@@ -1,46 +1,32 @@
-'use client';
 // import type { Metadata } from 'next';
 import clsx from 'clsx';
-import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
-import { RecoilRoot } from 'recoil';
-import Toolbar from '../../components/toolbar';
+import { ReactNode } from 'react';
 import './globals.css';
+import Header from './header';
 import styles from './layout.module.css';
+import SessionWrapper from './sessionWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({
-	children
+export default async function RootLayout({
+	children,
+	sidebar
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
+	sidebar: ReactNode;
 }>) {
+	const bodyClass = clsx(styles.layoutContainer, inter.className);
+
 	return (
 		<html lang="en">
-			<SessionProvider>
-				<RecoilRoot>
-					<BodyElements>{children}</BodyElements>
-				</RecoilRoot>
-			</SessionProvider>
+			<body className={bodyClass}>
+				<SessionWrapper>
+					<Header />
+					{children}
+				</SessionWrapper>
+				{sidebar}
+			</body>
 		</html>
-	);
-}
-
-function BodyElements({
-	children
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
-	const bodyClasses = clsx({
-		[inter.className]: true,
-		[styles.layoutContainer]: true
-	});
-	return (
-		<body className={bodyClasses}>
-			<header className={styles.header}>
-				<Toolbar />
-			</header>
-			{children}
-		</body>
 	);
 }

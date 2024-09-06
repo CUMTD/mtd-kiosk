@@ -23,8 +23,9 @@ const defaultHeaders = {
 };
 
 export async function getHealthStatus(kioskId: string): Promise<ServerHealthStatuses | null> {
+	const uri = `${KIOSK_HEALTH_ENDPOINT}/kiosks/${kioskId}/health`;
 	try {
-		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health/${kioskId}`, {
+		const response = await fetch(uri, {
 			headers: defaultHeaders,
 			cache: 'no-cache'
 		});
@@ -51,7 +52,14 @@ export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null
 	}
 }
 
-export async function fetchKioskList() {
+export async function fetchKioskLocations(): Promise<Kiosk[]> {
+	const query = `*[_type == 'kiosk'] {location, _id}`;
+	const kiosks = await client.fetch(query, {}, defaultCache);
+
+	return kiosks;
+}
+
+export async function fetchKioskList(): Promise<Kiosk[]> {
 	const query = `*[_type == 'kiosk']`;
 	const kiosks = await client.fetch(query, {}, defaultCache);
 
@@ -113,17 +121,26 @@ export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 
 // returns true if the ticket was successfully updated
 export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/tickets`, {
-		method: 'POST',
-		headers: defaultHeaders,
-		body: JSON.stringify(ticket)
-	});
-	if (response.status === 201) {
-		revalidateTag('tickets');
-		return true;
+	const uri = `${API_ENDPOINT}/tickets`;
+	console.log('uri', { uri, data: JSON.stringify(ticket) });
+	try {
+		const response = await fetch(uri, {
+			method: 'POST',
+			headers: defaultHeaders,
+			body: JSON.stringify(ticket)
+		});
+		if (response.status === 201) {
+			revalidateTag('tickets');
+			return true;
+		} else {
+			const body = await response.json();
+			console.warn('Failed to create ticket with status', { statusCode: response.status, body });
+			return false;
+		}
+	} catch (error) {
+		console.error('failed to create ticket with error', error);
+		return false;
 	}
-	console.error('Failed to create ticket');
-	return false;
 }
 
 export async function createTicketComment(ticketId: string, markdownBody: string, createdBy: string): Promise<boolean> {

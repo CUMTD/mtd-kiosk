@@ -7,8 +7,7 @@
 }
 
 .mapContainer {
-	grid-area: map;
+	grid-area: content;
 	place-self: stretch;
 	width: 100%;
-	/* border-right: 1px solid rgb(var(--card-rgb)); */
 }

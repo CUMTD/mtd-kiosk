@@ -1,3 +1,5 @@
+'use client';
+
 import { BsX } from 'react-icons/bs';
 import styles from './page.module.css';
 

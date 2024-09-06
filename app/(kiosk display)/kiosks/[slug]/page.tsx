@@ -1,11 +1,14 @@
 import { fetchKioskBySlug } from '../../../../helpers/httpMethods';
+import { KioskDisplay } from './KioskDisplay';
 import KioskDisplayRoot from './KioskDisplayRoot';
 
-export default async function KioskDisplayPage({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { slug: string } }) {
 	const kiosk = await fetchKioskBySlug(params.slug);
 	return (
 		<main>
-			<KioskDisplayRoot horizontal={kiosk?.isHorizontal} kiosk={kiosk} />
+			<KioskDisplayRoot>
+				<KioskDisplay kiosk={kiosk} horizontal={kiosk?.isHorizontal ?? false} />
+			</KioskDisplayRoot>
 		</main>
 	);
 }

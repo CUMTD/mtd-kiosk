@@ -1,3 +1,42 @@
+.parent {
+	width: 100%;
+	gap: 1em;
+	/* background-color: var(--card-background-color); */
+	display: flex;
+	flex-direction: column;
+	/* height: max-content; */
+	overflow-y: auto;
+	/* calculate mobile friendly padding */
+	padding: 2em;
+	background-color: rgb(var(--background-secondary-rgb));
+}
+
+@media (prefers-color-scheme: light) {
+	.parent > * {
+		border: 1px solid rgb(var(--card-rgb));
+	}
+}
+
+.children {
+	background-color: rgb(var(--background-rgb));
+
+	padding: 2em;
+}
+
+.kioskId {
+	margin: 0;
+	opacity: 60%;
+	font: monospace;
+}
+
+.kioskCards {
+	/* style={{ gridArea: 'cards', overflowY: 'scroll' }} */
+	grid-area: cards;
+	overflow-y: auto;
+
+	background-color: rgb(var(--background-secondary-rgb));
+}
+
 .noIssues {
 	text-align: center;
 	margin-top: 2em;
@@ -8,13 +47,6 @@
 	gap: 1em;
 	/* align center vertically */
 	align-items: center;
-}
-
-.issueList {
-	margin-top: 1em;
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
 }
 
 .issueCount {
