@@ -1,14 +1,12 @@
-import { useSetRecoilState } from 'recoil';
-import { allIconMessagesState } from '../../../../state/kioskState';
 import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { fetchKioskIconMessagesByKioskId } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
+import { allIconMessagesState } from '../../../../state/kioskState';
 
-const ICON_MESSAGES_FETCH_INTERVAL = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGES_FETCH_INTERVAL ?? '');
-
-if (!ICON_MESSAGES_FETCH_INTERVAL || isNaN(ICON_MESSAGES_FETCH_INTERVAL)) {
-	throwError('NEXT_PUBLIC_ICON_MESSAGES_FETCH_INTERVAL is not defined');
-}
+const ICON_MESSAGES_FETCH_INTERVAL = parseInt(
+	process.env.NEXT_PUBLIC_ICON_MESSAGES_FETCH_INTERVAL ?? throwError('NEXT_PUBLIC_ICON_MESSAGES_FETCH_INTERVAL is not defined')
+);
 
 interface IconMessageUpdaterProps {
 	kioskId: string;

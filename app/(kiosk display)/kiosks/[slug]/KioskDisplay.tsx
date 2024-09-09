@@ -1,13 +1,14 @@
 'use client';
+
+import clsx from 'clsx';
+import { useRecoilValue } from 'recoil';
+import { Kiosk } from '../../../../sanity.types';
+import { darkModeState } from '../../../../state/kioskState';
+import DarkModeUpdater from './DarkModeUpdater';
+import KioskAds from './KioskAds';
 import KioskDepartures from './KioskDepartures';
 import styles from './KioskDisplay.module.css';
 import KioskHeader from './KioskHeader';
-import { Kiosk } from '../../../../sanity.types';
-import KioskAds from './KioskAds';
-import clsx from 'clsx';
-import { useRecoilValue } from 'recoil';
-import { darkModeState } from '../../../../state/kioskState';
-import DarkModeUpdater from './DarkModeUpdater';
 
 interface KioskDisplayProps {
 	kiosk: Kiosk;

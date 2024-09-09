@@ -1,12 +1,7 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
-import { Advertisement, IconMessage } from '../sanity.types';
+import { Advertisement } from '../sanity.types';
 import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
-
-export const showProblemsOnlyState = atom<boolean>({
-	key: 'showProblemsOnlyState',
-	default: false
-});
+import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
 
 export const advertisementsState = atom<Advertisement[]>({
 	key: 'advertisementsState',

@@ -1,8 +1,8 @@
 import AttributeBadge from '../../../../components/attributeBadge';
-import HasLedSignIcon from '../../../../components/hasLedSignIcon';
 import IStopIcon from '../../../../components/iStopIcon';
-import { IndividualKioskMap } from '../../../../components/kioskMap';
 import KioskStatusBadge from '../../../../components/kioskStatusBadge';
+import LedSignIcon from '../../../../components/ledSignIcon';
+import IndividualKioskMap from '../../../../components/map/individualKioskMap';
 import { Kiosk } from '../../../../sanity.types';
 import { HealthStatus } from '../../../../types/HealthStatus';
 import { KioskObject } from '../../../../types/KioskObjects';
@@ -25,7 +25,7 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 				</h1>
 				<div className={styles.attributesIcons}>
 					{kiosk.iStop && <AttributeBadge icon={<IStopIcon />} text={'iStop'} />}
-					{kiosk.hasLed && <AttributeBadge icon={<HasLedSignIcon />} text={'Has LED Sign'} />}
+					{kiosk.hasLed && <AttributeBadge icon={<LedSignIcon />} text={'Has LED Sign'} />}
 				</div>
 				<div className={styles.healthBadges}>
 					{healthStatus && (

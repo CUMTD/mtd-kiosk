@@ -9,7 +9,7 @@ type KioskTicket = {
 	openedBy: string;
 	description: string;
 	title: string;
-	ticketNotes: TicketNote[];
+	notes: TicketNote[];
 };
 
 export enum TicketStatusType {

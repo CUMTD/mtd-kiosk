@@ -5,30 +5,30 @@ import LedPreviewPlaceholder from './ledPreviewPlaceholder';
 import styles from './page.module.css';
 
 interface LedPreviewProps {
+	kioskId: string;
 	ledIp: string;
-	kioskGUID?: string;
 	clickable?: boolean;
 }
 
-export default async function LedPreview({ ledIp, kioskGUID, clickable }: LedPreviewProps) {
-	var ledPreview = await fetchLEDPreview(ledIp);
+export default async function LedPreview({ kioskId, ledIp, clickable }: LedPreviewProps) {
+	const ledPreviewImg = await fetchLEDPreview(ledIp);
 
-	if (!ledPreview) {
+	if (!ledPreviewImg) {
 		return <LedPreviewPlaceholder failed />;
 	}
 
-	if (!clickable) {
+	if (clickable) {
 		return (
 			<div>
-				<Image src={ledPreview} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
+				<Link href={`/issues/${kioskId}`} className={styles.previewContainer} target="_blank">
+					<Image src={ledPreviewImg} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
+				</Link>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-				<Link href={`/issues/${kioskGUID}`} className={styles.previewContainer} target="_blank">
-					<Image src={ledPreview} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
-				</Link>
+				<Image src={ledPreviewImg} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
 			</div>
 		);
 	}

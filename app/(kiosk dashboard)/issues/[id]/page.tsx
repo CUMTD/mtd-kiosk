@@ -1,12 +1,22 @@
 import { Metadata } from 'next';
-import { fetchKioskById, fetchKioskTickets } from '../../../../helpers/httpMethods';
-import KioskTicket, { TicketStatusType } from '../../../../types/kioskTicket';
-import { Issue } from './Issue';
+import { Suspense } from 'react';
+import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../helpers/httpMethods';
+import { TicketStatusType } from '../../../../types/kioskTicket';
+import LedPreview from '../../led/ledPreview';
+import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
+import AdsPreview from './AdsPreview';
+import InfoContainer from './InfoContainer';
+import IssuesList from './issuesList';
 import NewIssueForm from './newIssueForm';
+import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-	const kiosk = await fetchKioskById(params.id);
+interface Props {
+	params: { id: string };
+}
+
+export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
+	const kiosk = await fetchKioskById(id);
 
 	return {
 		title: kiosk.displayName + ' Kiosk Details'
@@ -14,46 +24,48 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 // get [id] from the URL
-export default async function IssuePage({ params }: { params: { id: string } }) {
-	const kiosk = await fetchKioskById(params.id);
-	const issues = await fetchKioskTickets(params.id);
+export default async function IssuePage({ params: { id } }: Readonly<Props>) {
+	const kiosk = await fetchKioskById(id);
+	const issues = await fetchKioskTickets(id);
+
+	const openIssues = issues.filter((issue) => issue.status == TicketStatusType.OPEN).length;
+	const closedIssues = issues.filter((issue) => issue.status == TicketStatusType.RESOLVED).length;
+	const healthStatus = await getHealthStatus(id);
 
 	return (
-		<div>
-			{/* <NewIssueForm kioskId={kiosk._id} /> */}
-
-			<div className={styles.issuesHeader}>
-				<h2>{issues.length == 0 ? 'No' : ''} Issues</h2>
-				{/* display count open and count closed */}
-
-				<NewIssueForm kioskId={kiosk._id} />
-				<span style={{ flex: 1 }}></span>
-				{issues.length > 0 && (
-					<span className={styles.issueCount}>
-						{issues.filter((issue) => issue.status == TicketStatusType.OPEN).length} Open,{' '}
-						{issues.filter((issue) => issue.status == TicketStatusType.RESOLVED).length} Closed
-					</span>
-				)}
+		<section className={styles.parent}>
+			<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
+			{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
+				<div className={styles.children}>
+					<h2 style={{ paddingBottom: '1em' }}>LED Preview</h2>
+					<Suspense fallback={<LedPreviewPlaceholder />}>
+						<LedPreview kioskId={kiosk._id} ledIp={kiosk.ledIp!} clickable={false} />
+					</Suspense>
+				</div>
+			)}
+			<div className={styles.children}>
+				<AdsPreview kioskId={kiosk._id} />
 			</div>
 
-			{issues && <IssuesList issues={issues} />}
-		</div>
-	);
-}
+			<div className={styles.children}>
+				<div>
+					<div className={styles.issuesHeader}>
+						<h2>{issues.length == 0 ? 'No' : issues.length} Issues</h2>
 
-interface IssuesListProps {
-	issues: KioskTicket[];
-}
+						<NewIssueRoot kioskId={kiosk._id}>
+							<NewIssueForm kioskId={kiosk._id} />
+						</NewIssueRoot>
+						<span style={{ flex: 1 }} />
+						{issues.length > 0 && (
+							<span className={styles.issueCount}>
+								{openIssues} Open, {closedIssues} Closed
+							</span>
+						)}
+					</div>
 
-function IssuesList({ issues }: IssuesListProps) {
-	if (issues.length === 0) {
-		return null;
-	}
-	// console.log(issues);
-
-	return (
-		<>
-			<div className={styles.issueList}>{issues && issues.map((issue) => <Issue key={issue.id} issue={issue} />)}</div>
-		</>
+					<IssuesList kioskId={id} />
+				</div>
+			</div>
+		</section>
 	);
 }

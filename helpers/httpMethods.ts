@@ -23,8 +23,9 @@ const defaultHeaders = {
 };
 
 export async function getHealthStatus(kioskId: string): Promise<ServerHealthStatuses | null> {
+	const uri = `${KIOSK_HEALTH_ENDPOINT}/kiosks/${kioskId}/health`;
 	try {
-		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health/${kioskId}`, {
+		const response = await fetch(uri, {
 			headers: defaultHeaders,
 			cache: 'no-cache'
 		});
@@ -51,7 +52,14 @@ export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null
 	}
 }
 
-export async function fetchKioskList() {
+export async function fetchKioskLocations(): Promise<Kiosk[]> {
+	const query = `*[_type == 'kiosk'] {location, _id}`;
+	const kiosks = await client.fetch(query, {}, defaultCache);
+
+	return kiosks;
+}
+
+export async function fetchKioskList(): Promise<Kiosk[]> {
 	const query = `*[_type == 'kiosk']`;
 	const kiosks = await client.fetch(query, {}, defaultCache);
 
@@ -95,15 +103,17 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertise
 }
 
 export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
-	// make fetch request to API_ENDPOINT
+	const uri = `${API_ENDPOINT}/kiosks/${id}/tickets`;
+	console.log('get tickets uri', uri);
 	try {
-		const response = await fetch(`${API_ENDPOINT}/kiosks/${id}/tickets`, {
+		const response = await fetch(uri, {
 			next: {
 				tags: ['tickets']
 			},
 			headers: defaultHeaders
 		});
 		const data = (await response.json()) as KioskTicket[];
+		console.log('get tickets data', data);
 		return data;
 	} catch (error) {
 		console.error(error);
@@ -113,17 +123,26 @@ export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 
 // returns true if the ticket was successfully updated
 export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/tickets`, {
-		method: 'POST',
-		headers: defaultHeaders,
-		body: JSON.stringify(ticket)
-	});
-	if (response.status === 201) {
-		revalidateTag('tickets');
-		return true;
+	const uri = `${API_ENDPOINT}/tickets`;
+	console.log('uri', { uri, data: JSON.stringify(ticket) });
+	try {
+		const response = await fetch(uri, {
+			method: 'POST',
+			headers: defaultHeaders,
+			body: JSON.stringify(ticket)
+		});
+		if (response.status === 201) {
+			revalidateTag('tickets');
+			return true;
+		} else {
+			const body = await response.json();
+			console.warn('Failed to create ticket with status', { statusCode: response.status, body });
+			return false;
+		}
+	} catch (error) {
+		console.error('failed to create ticket with error', error);
+		return false;
 	}
-	console.error('Failed to create ticket');
-	return false;
 }
 
 export async function createTicketComment(ticketId: string, markdownBody: string, createdBy: string): Promise<boolean> {
@@ -156,7 +175,9 @@ export async function deleteTicketComment(ticketNoteId: string): Promise<boolean
 }
 
 export async function updateTicketComment(ticketNoteId: string, markdownBody: string): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, {
+	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
+	console.log('edit note', { uri, body: JSON.stringify({ markdownBody }) });
+	const response = await fetch(uri, {
 		method: 'PATCH',
 		headers: defaultHeaders,
 		body: JSON.stringify({ markdownBody })
