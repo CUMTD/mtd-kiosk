@@ -8,11 +8,9 @@ import DepartureItem from './DepartureItem';
 import IconMessageCarousel from './IconMessageCarousel';
 import styles from './KioskDepartures.module.css';
 
-const DEPARTURES_PAGINATION_INTERVAL = parseInt(process.env.NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL ?? '');
-
-if (!DEPARTURES_PAGINATION_INTERVAL || isNaN(DEPARTURES_PAGINATION_INTERVAL)) {
-	throwError('NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL is not defined');
-}
+const DEPARTURES_PAGINATION_INTERVAL = parseInt(
+	process.env.NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL ?? throwError('NEXT_PUBLIC_DEPARTURES_PAGINATION_INTERVAL is not defined')
+);
 
 export default function KioskDepartureItemList() {
 	const scrollText = useRef<HTMLSpanElement>(null);
