@@ -103,15 +103,17 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertise
 }
 
 export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
-	// make fetch request to API_ENDPOINT
+	const uri = `${API_ENDPOINT}/kiosks/${id}/tickets`;
+	console.log('get tickets uri', uri);
 	try {
-		const response = await fetch(`${API_ENDPOINT}/kiosks/${id}/tickets`, {
+		const response = await fetch(uri, {
 			next: {
 				tags: ['tickets']
 			},
 			headers: defaultHeaders
 		});
 		const data = (await response.json()) as KioskTicket[];
+		console.log('get tickets data', data);
 		return data;
 	} catch (error) {
 		console.error(error);
@@ -173,7 +175,9 @@ export async function deleteTicketComment(ticketNoteId: string): Promise<boolean
 }
 
 export async function updateTicketComment(ticketNoteId: string, markdownBody: string): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, {
+	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
+	console.log('edit note', { uri, body: JSON.stringify({ markdownBody }) });
+	const response = await fetch(uri, {
 		method: 'PATCH',
 		headers: defaultHeaders,
 		body: JSON.stringify({ markdownBody })

@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import UserIcon from '../../../../components/userIcon';
@@ -13,17 +13,19 @@ import { deleteTicketComment, updateTicket, updateTicketComment } from '../../..
 import KioskTicket, { TicketNote, TicketStatusType } from '../../../../types/kioskTicket';
 import styles from './Issue.module.css';
 import { NewCommentForm } from './NewCommentForm';
-require('crypto');
 
 export interface IssueProps {
 	issue: KioskTicket;
 }
 
 export function Issue({ issue }: IssueProps) {
-	var openDate = new Date(issue.openDate);
-	// closeDate can be null if the issue is still open
+	useEffect(() => {
+		console.log('issue', { issue, notes: issue.notes });
+	}, [issue]);
 
-	var closeDate: Date | null = new Date(issue.closeDate || Date.now());
+	const openDate = new Date(issue.openDate);
+	// closeDate can be null if the issue is still open
+	const closeDate: Date | null = new Date(issue.closeDate || Date.now());
 
 	const currentDate = new Date();
 	const [issueOpen, setIssueOpen] = useState(issue.status === TicketStatusType.OPEN);
@@ -34,7 +36,7 @@ export function Issue({ issue }: IssueProps) {
 	});
 
 	const handleIssueClose = async () => {
-		let result = await updateTicket(issue.id, TicketStatusType.RESOLVED);
+		const result = await updateTicket(issue.id, TicketStatusType.RESOLVED);
 		if (!result) {
 			console.error('Failed to close issue');
 			return;
@@ -121,10 +123,10 @@ export function Issue({ issue }: IssueProps) {
 				<div className={styles.issueBody}>
 					<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
 				</div>
-				{issue.ticketNotes && issue.ticketNotes.length > 0 && (
+				{issue.notes && issue.notes.length > 0 && (
 					<div>
-						{issue.ticketNotes && issue.ticketNotes.length > 0 && <IssueCommentList comments={issue.ticketNotes} ticketStatus={issue.status} />}
-						{/* {issue.ticketNotes.length} {issue.ticketNotes.length == 1 ? 'Comment' : 'Comments'} <GoChevronRight /> */}
+						{issue.notes && issue.notes.length > 0 && <IssueCommentList comments={issue.notes} ticketStatus={issue.status} />}
+						{/* {issue.notes.length} {issue.notes.length == 1 ? 'Comment' : 'Comments'} <GoChevronRight /> */}
 					</div>
 				)}
 			</div>
@@ -159,6 +161,7 @@ interface IssueCommentListProps {
 	ticketStatus: TicketStatusType;
 }
 
+// TODO: Each element should be in its own file.
 function IssueCommentList({ comments, ticketStatus }: IssueCommentListProps) {
 	return (
 		<div className={styles.issueCommentsContainer}>
@@ -173,6 +176,11 @@ function IssueCommentList({ comments, ticketStatus }: IssueCommentListProps) {
 	);
 }
 
+// TODO: Each element should be in its own file.
+// TODO:
+// There is a really long delay after you save an edited comment where it reverts back to the original text for a few seconds before the whole page seems to refresh.
+// Since this is a client side component, should just be able to track the value using a state and never do a full page reload.
+
 interface IssueCommentProps {
 	comment: TicketNote;
 	ticketStatus: TicketStatusType;
@@ -180,6 +188,7 @@ interface IssueCommentProps {
 function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 	const router = useRouter();
 	const { data: session } = useSession({ required: true });
+
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedComment, setEditedComment] = useState(comment.markdownBody);
 
@@ -206,6 +215,8 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 
 	const handleCommentSave = async () => {
 		setPendingSave(true);
+		setEditedComment(editedComment);
+
 		let result = await updateTicketComment(comment.id, editedComment);
 		if (!result) {
 			setPendingSave(false);
@@ -213,7 +224,6 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 
 			return;
 		}
-		setEditedComment(editedComment);
 		setPendingSave(false);
 		setIsEditing(false);
 		router.refresh();

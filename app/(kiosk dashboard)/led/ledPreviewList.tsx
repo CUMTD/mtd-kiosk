@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
+import { Kiosk } from '../../../sanity.types';
 import { client } from '../../../sanity/lib/client';
 import LedPreview from './ledPreview';
 import LedPreviewPlaceholder from './ledPreviewPlaceholder';
 import styles from './page.module.css';
-import { Kiosk } from '../../../sanity.types';
 
 export default async function LedPreviewList() {
 	const query = `*[_type == 'kiosk' && defined(ledIp)] | order(displayName asc) {ledIp, _id, displayName}`;
@@ -20,7 +20,7 @@ export default async function LedPreviewList() {
 				<p className={styles.displayName}>{kiosk.displayName}</p>
 				<div className={styles.frame}>
 					<Suspense fallback={<LedPreviewPlaceholder />}>
-						<LedPreview ledIp={kiosk.ledIp ?? ''} kioskGUID={kiosk._id} clickable />
+						<LedPreview ledIp={kiosk.ledIp ?? ''} kioskId={kiosk._id} clickable />
 					</Suspense>
 				</div>
 			</div>

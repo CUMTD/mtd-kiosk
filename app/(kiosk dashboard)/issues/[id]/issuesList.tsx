@@ -8,7 +8,6 @@ interface Props {
 
 export default async function IssuesList({ kioskId }: Readonly<Props>) {
 	const issues = await fetchKioskTickets(kioskId);
-
 	return (
 		<>
 			<div className={styles.issueList}>{issues && issues.map((issue) => <Issue key={issue.id} issue={issue} />)}</div>

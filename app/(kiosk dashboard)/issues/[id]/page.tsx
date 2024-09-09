@@ -53,7 +53,7 @@ export default async function IssuePage({ params: { id } }: Readonly<Props>) {
 						<h2>{issues.length == 0 ? 'No' : issues.length} Issues</h2>
 
 						<NewIssueRoot kioskId={kiosk._id}>
-							<NewIssueForm />
+							<NewIssueForm kioskId={kiosk._id} />
 						</NewIssueRoot>
 						<span style={{ flex: 1 }} />
 						{issues.length > 0 && (

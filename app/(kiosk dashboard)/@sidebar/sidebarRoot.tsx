@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { Kiosk } from '../../../sanity.types';
 import { allKiosksState, kioskHealthStatusesState } from '../../../state/sidebarState';
@@ -13,10 +13,6 @@ interface Props {
 }
 
 export default function SidebarRoot({ kiosks, healthStatuses, children }: Props) {
-	useEffect(() => {
-		console.log('kiosks: ', { kiosks, healthStatuses });
-	}, [healthStatuses, kiosks]);
-
 	function initializeState({ set }: MutableSnapshot) {
 		set(allKiosksState, kiosks);
 		set(kioskHealthStatusesState, healthStatuses ?? []);

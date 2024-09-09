@@ -1,94 +1,66 @@
 'use client';
-
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import { useFormState } from 'react-dom';
 import { GoX } from 'react-icons/go';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { createKioskTicket } from '../../../../helpers/httpMethods';
-import { newIssueTicketState, newIssueTicketValidSelector } from '../../../../state/newIssueState';
+import SubmitButton from '../../../../components/submitButton';
 import styles from './newIssueForm.module.css';
+import { createNewIssueFormAction } from './newIssueFormServerActions';
 
-export default function NewIssueForm() {
+interface NewIssueFormProps {
+	kioskId: string;
+}
+
+// TODO: Update other forms to work this way.
+export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
-	const router = useRouter();
-	const [newIssue, setNewIssue] = useRecoilState(newIssueTicketState);
-	const valid = useRecoilValue(newIssueTicketValidSelector);
+
 	const { data: session } = useSession({ required: true });
+	const userName = useMemo(() => session?.user?.name || 'System', [session?.user?.name]);
+
+	// will call createNewIssueFormAction when form is submitted
+	// status will be 'success' if the form submission was successful
+	// errorMessage will contain the error message if status is 'error'
+	// { status: 'unset' } is the initial state, just like with useState
+	const [{ status, errorMessage }, action] = useFormState(createNewIssueFormAction, { status: 'unset' });
 
 	useEffect(() => {
-		setNewIssue({
-			...newIssue,
-			openedBy: session?.user?.name || 'System'
-		});
-	}, [session?.user?.name]);
-
-	async function submitForm(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-
-		console.log('newIssue', newIssue);
-
-		if (!valid) {
-			alert('Please fill out all fields.');
-		}
-
-		let result = false;
-		try {
-			result = await createKioskTicket(newIssue);
-		} catch (error) {
-			console.error('Error creating ticket...', error);
-		}
-
-		if (result) {
-			router.refresh();
+		// close dialog if status is 'success'
+		if (status === 'success') {
 			dialogRef.current?.close();
-		} else {
-			alert('Failed to create ticket.');
 		}
-	}
+	}, [status]);
 
 	return (
 		<>
-			<button className={styles.button} onClick={() => dialogRef.current?.showModal()} aria-controls="new-issue-dialog">
+			<button className={styles.button} onClick={() => dialogRef.current?.showModal()}>
 				New Issue
 			</button>
-			<dialog className={styles.dialog} ref={dialogRef} id="new-issue-dialog">
+			<dialog className={styles.dialog} ref={dialogRef}>
 				<div className={styles.dialogHeader}>
 					<h2 className={styles.headerText}>Create new issue</h2>
 					<button className={styles.closeButton} onClick={() => dialogRef.current?.close()}>
 						<GoX style={{ fontSize: '200%' }} />
 					</button>
 				</div>
-				<form className={styles.newIssueForm} onSubmit={submitForm}>
+				<form className={styles.newIssueForm} action={action}>
 					<label className={styles.label}>
 						Title
-						<input
-							autoComplete="off"
-							className={styles.title}
-							required
-							name="title"
-							type="text"
-							value={newIssue.title}
-							onChange={(title) => setNewIssue({ ...newIssue, title: title.target.value })}
-						/>
+						<input autoComplete="off" className={styles.title} required name="title" type="text"></input>
 					</label>
 
 					<label className={styles.label}>
 						Description
-						<textarea
-							className={styles.description}
-							name="description"
-							rows={4}
-							cols={50}
-							value={newIssue.description}
-							onChange={(description) => setNewIssue({ ...newIssue, description: description.target.value })}
-						></textarea>
+						<textarea className={styles.description} name="description" rows={4} cols={50}></textarea>
 					</label>
 
-					<label>
-						{/* Create Issue and include form data */}
-						<input type="submit" value="Create Issue" className={styles.button} />
-					</label>
+					{errorMessage && <p className={styles.message}>{errorMessage}</p>}
+
+					{/* some invisible form values */}
+					<input type="hidden" name="kioskId" value={kioskId} />
+					<input type="hidden" name="openedBy" value={userName} />
+
+					<SubmitButton label="Create Issue" loading="Creating Issue..." />
 				</form>
 			</dialog>
 		</>
