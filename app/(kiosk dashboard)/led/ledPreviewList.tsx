@@ -5,22 +5,23 @@ import LedPreview from './ledPreview';
 import LedPreviewPlaceholder from './ledPreviewPlaceholder';
 import styles from './page.module.css';
 
+// define a type based on the props we are requesting from the GROQ query.
+// this is a subset of the Kiosk type, with only the fields we need.
+// Wrap in a required since we are checking in the query to filter out kiosks without ledIp.
+type FilteredKiosk = Required<Pick<Kiosk, 'ledIp' | '_id' | 'displayName'>>;
+
 export default async function LedPreviewList() {
-	const query = `*[_type == 'kiosk' && defined(ledIp)] | order(displayName asc) {ledIp, _id, displayName}`;
-	var ledIps: Kiosk[] = await client.fetch(query);
+	const query = `*[_type == 'kiosk' && defined(ledIp) && ledIp != null && length(ledIp) > 0] | order(displayName asc) {ledIp, _id, displayName}`;
 
-	//filter out empty ledIp
-	ledIps = ledIps.filter((ledIp: Kiosk) => {
-		return ledIp.ledIp !== '';
-	});
+	var kiosks = await client.fetch<FilteredKiosk[]>(query);
 
-	return ledIps.map((kiosk: Kiosk) => {
+	return kiosks.map(({ _id: id, displayName, ledIp }) => {
 		return (
-			<div key={kiosk.ledIp}>
-				<p className={styles.displayName}>{kiosk.displayName}</p>
+			<div key={ledIp}>
+				<p className={styles.displayName}>{displayName}</p>
 				<div className={styles.frame}>
 					<Suspense fallback={<LedPreviewPlaceholder />}>
-						<LedPreview ledIp={kiosk.ledIp ?? ''} kioskId={kiosk._id} clickable />
+						<LedPreview ledIp={ledIp} kioskId={id} clickable />
 					</Suspense>
 				</div>
 			</div>

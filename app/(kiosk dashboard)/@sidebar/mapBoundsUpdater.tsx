@@ -30,9 +30,6 @@ export default function MapBoundsUpdater({ kiosks }: Props) {
 				googleBounds.extend(bound);
 			});
 			map.fitBounds(googleBounds);
-			console.log('fit bounds ran');
-		} else {
-			console.log('no map for fit bounds');
 		}
 	}, [bounds, map]);
 
