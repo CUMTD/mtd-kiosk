@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import UserIcon from '../../../../components/userIcon';
@@ -19,10 +19,6 @@ export interface IssueProps {
 }
 
 export function Issue({ issue }: IssueProps) {
-	useEffect(() => {
-		console.log('issue', { issue, notes: issue.notes });
-	}, [issue]);
-
 	const openDate = new Date(issue.openDate);
 	// closeDate can be null if the issue is still open
 	const closeDate: Date | null = new Date(issue.closeDate || Date.now());

@@ -37,14 +37,13 @@
 
 	--skeleton-background: #f0f0f088;
 	--skeleton-highlight: #f0f0f056;
-
-	/* TODO: enable before deployment */
-	cursor: none;
 }
 
 html,
 body,
 main {
+	/* TODO: enable before deployment */
+	cursor: none;
 	overflow: hidden;
 }
 

@@ -38,10 +38,8 @@
 	--focus-color: blue;
 
 	--led-sign-border-color: rgba(0, 0, 0, 0.073);
-}
 
-section {
-	/* max-width: 100%; */
+	--layout-grid: 'header header' 'content cards';
 }
 
 @media (prefers-color-scheme: dark) {

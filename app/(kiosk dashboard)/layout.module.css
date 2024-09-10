@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-rows: max-content 1fr;
 	grid-template-columns: 1fr minmax(20rem, 40rem);
-	grid-template-areas: 'header header' 'content cards';
+	grid-template-areas: var(--layout-grid);
 	height: 100vh;
 	min-height: 100vh;
 	max-height: 100vh;
@@ -12,6 +12,7 @@
 /* mobile media selector */
 @media (max-width: 768px) {
 	.layoutContainer {
+		--layout-grid: 'header' 'content' 'cards';
 		grid-template-rows: auto;
 		grid-template-columns: 1fr;
 		grid-template-areas: 'header' 'content' 'cards';

@@ -104,7 +104,6 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertise
 
 export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 	const uri = `${API_ENDPOINT}/kiosks/${id}/tickets`;
-	console.log('get tickets uri', uri);
 	try {
 		const response = await fetch(uri, {
 			next: {
@@ -112,9 +111,7 @@ export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 			},
 			headers: defaultHeaders
 		});
-		const data = (await response.json()) as KioskTicket[];
-		console.log('get tickets data', data);
-		return data;
+		return (await response.json()) as KioskTicket[];
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -124,7 +121,6 @@ export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 // returns true if the ticket was successfully updated
 export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolean> {
 	const uri = `${API_ENDPOINT}/tickets`;
-	console.log('uri', { uri, data: JSON.stringify(ticket) });
 	try {
 		const response = await fetch(uri, {
 			method: 'POST',
@@ -176,7 +172,6 @@ export async function deleteTicketComment(ticketNoteId: string): Promise<boolean
 
 export async function updateTicketComment(ticketNoteId: string, markdownBody: string): Promise<boolean> {
 	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
-	console.log('edit note', { uri, body: JSON.stringify({ markdownBody }) });
 	const response = await fetch(uri, {
 		method: 'PATCH',
 		headers: defaultHeaders,
