@@ -51,7 +51,11 @@ const structure: StructureResolver = (S, _context) => {
 									S.documentTypeList('kioskBundle')
 										.title('Bundles')
 										.defaultOrdering([{ field: 'bundleName', direction: 'asc' }])
-								)
+								),
+							S.listItem().title('Icon Messages').schemaType('iconMessage').child(
+								S.documentTypeList('iconMessage').title('Messages')
+								// .defaultOrdering([{ field: 'iconMessage', direction: 'asc' }])
+							)
 						])
 				)
 		]);

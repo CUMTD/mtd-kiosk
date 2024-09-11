@@ -81,7 +81,16 @@ export async function fetchKioskBySlug(slug: string): Promise<Kiosk> {
 }
 
 export async function fetchKioskIconMessagesByKioskId(kioskId: string): Promise<IconMessageWithImages[]> {
-	const query = `*[_type == 'iconMessage' && (displayOnAllKiosks || references($kioskId))] {..., "lightModeImageUrl": lightModeSvg.asset->url, "darkModeImageUrl": darkModeSvg.asset->url}`;
+	// console.log(kioskId);
+	const query = `*[_type == 'iconMessage' && (
+  displayOnAllKiosks ||
+  references($kioskId) ||
+references(*[_type == "kioskBundle" && references($kioskId)]._id))] {
+  ...,
+  "lightModeImageUrl": lightModeSvg.asset->url,
+  "darkModeImageUrl": darkModeSvg.asset->url
+}
+`;
 	const iconMessages = await client.fetch(query, { kioskId }, { cache: 'no-cache' });
 
 	return iconMessages;
