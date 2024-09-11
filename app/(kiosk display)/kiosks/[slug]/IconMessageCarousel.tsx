@@ -5,7 +5,7 @@ import { blockRealtimeSelector, currentIconMessageIndexState, currentPageDepartu
 import IconMessage from './IconMessage';
 import styles from './IconMessageCarousel.module.css';
 
-const pageInterval = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL ?? throwError('Missing ICON_MESSAGE_PAGINATION_INTERVAL'));
+const pageInterval = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL ?? throwError('Missing NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL'));
 
 export default function IconMessageCarousel() {
 	const iconMessages = useRecoilValue(iconMessagesSelector);
