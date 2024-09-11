@@ -1,5 +1,7 @@
 'use client';
+
 import { useEffect, useState } from 'react';
+import styles from './liveClock.module.css';
 
 export default function LiveClock() {
 	const [time, setTime] = useState<Date>(new Date());
@@ -17,5 +19,11 @@ export default function LiveClock() {
 	}, []);
 
 	//format time and remove leading zero from hours
-	return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0/, '');
+	const timeString = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0/, '');
+
+	return (
+		<time dateTime={time.toISOString()} className={styles.time}>
+			{timeString}
+		</time>
+	);
 }

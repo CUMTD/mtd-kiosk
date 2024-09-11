@@ -1,0 +1,27 @@
+.adsSection {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1em;
+	padding-bottom: 1em;
+	justify-content: space-between;
+}
+
+.proTip {
+	opacity: 0.8;
+	gap: 0.5ch;
+	display: flex;
+	align-items: center;
+}
+
+.adContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.adLink {
+	overflow: hidden;
+	height: 160px;
+}

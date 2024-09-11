@@ -1,4 +1,6 @@
-export default interface KioskTicket {
+/* eslint-disable no-unused-vars */
+
+type KioskTicket = {
 	id: string;
 	kioskId: string;
 	status: TicketStatusType;
@@ -7,8 +9,8 @@ export default interface KioskTicket {
 	openedBy: string;
 	description: string;
 	title: string;
-	ticketNotes: TicketNote[];
-}
+	notes: TicketNote[];
+};
 
 export enum TicketStatusType {
 	OPEN = 0,
@@ -16,18 +18,20 @@ export enum TicketStatusType {
 	RESOLVED = 2
 }
 
-export interface KioskTicketForm {
+export type KioskTicketForm = {
 	kioskId: string;
 	openedBy: string;
 	description: string;
 	title: string;
-}
+};
 
-export interface TicketNote {
+export type TicketNote = {
 	markdownBody: string;
 	ticketId: string;
 	createdDate: string;
 	createdBy: string;
 	id: string;
 	deleted: boolean;
-}
+};
+
+export default KioskTicket;

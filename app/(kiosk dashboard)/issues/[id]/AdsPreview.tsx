@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { fetchKioskAdsByKioskId, fetchKioskById, fetchKioskBySlug } from '../../../../helpers/httpMethods';
-import { Advertisement } from '../../../../sanity.types';
 import Link from 'next/link';
 import { GiLightBulb } from 'react-icons/gi';
+import { fetchKioskAdsByKioskId, fetchKioskById } from '../../../../helpers/httpMethods';
+import styles from './AdsPreview.module.css';
 
 interface AdsPageProps {
 	kioskId: string;
@@ -10,29 +10,24 @@ interface AdsPageProps {
 
 export default async function AdsPreview({ kioskId }: AdsPageProps) {
 	const kiosk = await fetchKioskById(kioskId);
-	if (!kiosk) return null;
 	const kioskAds = await fetchKioskAdsByKioskId(kiosk._id);
+
+	if (!kiosk) {
+		return null;
+	}
 
 	return (
 		<div>
-			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1em', paddingBottom: '1em', justifyContent: 'space-between' }}>
+			<div className={styles.adsSection}>
 				<h2>Ads</h2>
-				<p
-					style={{
-						opacity: '0.8',
-
-						gap: '.5ch',
-						display: 'flex',
-						alignItems: 'center'
-					}}
-				>
+				<p className={styles.proTip}>
 					<GiLightBulb /> Click on an ad to edit it in the studio
 				</p>
 			</div>
-			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-				{kioskAds.map((ad: Advertisement) => (
-					<Link key={ad._id} href={`/studio/structure/advertisement;${ad._id}`} passHref target="_blank">
-						<Image src={ad.imageUrl || ''} alt={ad.name || ''} width={360} height={160} />
+			<div className={styles.adContainer}>
+				{kioskAds.map(({ _id: id, name, imageUrl }) => (
+					<Link key={id} href={`/studio/structure/advertisement;${id}`} passHref target="_blank" className={styles.adLink}>
+						<Image src={imageUrl || ''} alt={name || ''} width={360} height={160} />
 					</Link>
 				))}
 			</div>

@@ -1,105 +1,126 @@
 'use server';
+
 import { revalidateTag } from 'next/cache';
-import { client } from '../sanity/lib/client';
-import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
-import throwError from './throwError';
-import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import { Advertisement, Kiosk } from '../sanity.types';
-import GroupedRoute, { GeneralMessage, KioskDeparturesAPIResponse } from '../types/kioskDisplayTypes/GroupedRoute';
-import DarkModeStatusReponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
+import { client } from '../sanity/lib/client';
+import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
+import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
+import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
+import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
+import { ServerHealthStatuses } from '../types/serverHealthStatuses';
+import throwError from './throwError';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
 
 const X_API_KEY = process.env.KIOSK_API_KEY ?? throwError('KIOSK_API_KEY is not defined');
 
+const defaultCache = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 600 } };
+
 const defaultHeaders = {
 	'X-ApiKey': X_API_KEY,
 	'Content-Type': 'application/json'
 };
 
-export default async function getHealthStatuses(kioskId?: string): Promise<ServerHealthStatuses | ServerHealthStatuses[] | null> {
-	if (!kioskId) {
-		kioskId = 'all';
-	}
-
+export async function getHealthStatus(kioskId: string): Promise<ServerHealthStatuses | null> {
+	const uri = `${KIOSK_HEALTH_ENDPOINT}/kiosks/${kioskId}/health`;
 	try {
-		const response = await fetch(
-			kioskId === 'all' ? `${KIOSK_HEALTH_ENDPOINT}/kiosks/health` : `${KIOSK_HEALTH_ENDPOINT}/kiosks/${kioskId}/health`,
-
-			{
-				headers: defaultHeaders,
-				cache: 'no-cache'
-				// next: {
-				// 	revalidate: 10000
-				// }
-			}
-		);
-
-		if (kioskId === 'all') {
-			const healthStatus = (await response.json()) as ServerHealthStatuses[];
-			return healthStatus;
-		} else {
-			const healthStatus = (await response.json()) as ServerHealthStatuses;
-			return healthStatus;
-		}
+		const response = await fetch(uri, {
+			headers: defaultHeaders,
+			cache: 'no-cache'
+		});
+		const healthStatus = (await response.json()) as ServerHealthStatuses;
+		return healthStatus;
 	} catch (error) {
 		console.error(error);
 		return null;
 	}
 }
 
-export async function fetchKioskList() {
+export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null> {
+	try {
+		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health`, {
+			headers: defaultHeaders,
+			cache: 'no-cache'
+		});
+
+		const healthStatus = (await response.json()) as ServerHealthStatuses[];
+		return healthStatus;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
+
+export async function fetchKioskLocations(): Promise<Kiosk[]> {
+	const query = `*[_type == 'kiosk'] {location, _id}`;
+	const kiosks = await client.fetch(query, {}, defaultCache);
+
+	return kiosks;
+}
+
+export async function fetchKioskList(): Promise<Kiosk[]> {
 	const query = `*[_type == 'kiosk']`;
-	const kiosks = await client.fetch(query);
+	const kiosks = await client.fetch(query, {}, defaultCache);
 
 	return kiosks;
 }
 
 export async function fetchKioskById(id: string): Promise<Kiosk> {
 	const query = `*[_type == 'kiosk' && _id == '${id}'][0]`;
-	const kiosk = await client.fetch(query);
+	const kiosk = (await client.fetch(query)) as Kiosk;
 
 	return kiosk;
 }
 
 export async function fetchKioskBySlug(slug: string): Promise<Kiosk> {
 	const query = `*[_type == 'kiosk' && slug.current == '${slug}'][0]`;
-	const kiosk = await client.fetch(query);
+	const kiosk = (await client.fetch(query, {}, defaultCache)) as Kiosk;
 
 	return kiosk;
 }
 
+export async function fetchKioskIconMessagesByKioskId(kioskId: string): Promise<IconMessageWithImages[]> {
+	// console.log(kioskId);
+	const query = `*[_type == 'iconMessage' && (
+  displayOnAllKiosks ||
+  references($kioskId) ||
+references(*[_type == "kioskBundle" && references($kioskId)]._id))] {
+  ...,
+  "lightModeImageUrl": lightModeSvg.asset->url,
+  "darkModeImageUrl": darkModeSvg.asset->url
+}
+`;
+	const iconMessages = await client.fetch(query, { kioskId }, { cache: 'no-cache' });
+
+	return iconMessages;
+}
+
 export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertisement[]> {
 	const query = `*[_type == 'advertisement'
-	&& startDate <= $currentDate
-  && (!defined(endDate) || endDate >= $currentDate)
-  	&& (displayOnAllKiosks || references($kioskId) || references(*[_type == "kioskBundle" && references($kioskId)]._id))
-	]
-  {
-	...,
-	"imageUrl": image.asset->url
-  }`;
+						&& startDate <= $currentDate
+  						&& (!defined(endDate) || endDate >= $currentDate)
+  						&& (displayOnAllKiosks || references($kioskId) || references(*[_type == "kioskBundle" && references($kioskId)]._id))
+					]
+					{
+						...,
+						"imageUrl": image.asset->url
+					}`;
 	const currentDate = new Date().toISOString(); // Get the current date in ISO format
-	const ads = await client.fetch(query, { kioskId, currentDate }, { cache: 'no-cache' });
+	const ads = (await client.fetch(query, { kioskId, currentDate }, defaultCache)) as Advertisement[];
 	return ads;
 }
 
-export async function fetchKioskTickets(id: string) {
-	// make fetch request to API_ENDPOINT
+export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
+	const uri = `${API_ENDPOINT}/kiosks/${id}/tickets`;
 	try {
-		const response = await fetch(`${API_ENDPOINT}/kiosks/${id}/tickets`, {
+		const response = await fetch(uri, {
 			next: {
 				tags: ['tickets']
 			},
 			headers: defaultHeaders
 		});
-		const data = (await response.json()) as KioskTicket[];
-
-		//sort by date
-		// data.sort((a, b) => new Date(b.openDate).getTime() - new Date(a.openDate).getTime());
-
-		return data;
+		return (await response.json()) as KioskTicket[];
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -107,21 +128,29 @@ export async function fetchKioskTickets(id: string) {
 }
 
 // returns true if the ticket was successfully updated
-export async function createKioskTicket(ticket: KioskTicketForm) {
-	const response = await fetch(`${API_ENDPOINT}/tickets`, {
-		method: 'POST',
-		headers: defaultHeaders,
-		body: JSON.stringify(ticket)
-	});
-	if (response.status === 201) {
-		revalidateTag('tickets');
-		return true;
+export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolean> {
+	const uri = `${API_ENDPOINT}/tickets`;
+	try {
+		const response = await fetch(uri, {
+			method: 'POST',
+			headers: defaultHeaders,
+			body: JSON.stringify(ticket)
+		});
+		if (response.status === 201) {
+			revalidateTag('tickets');
+			return true;
+		} else {
+			const body = await response.json();
+			console.warn('Failed to create ticket with status', { statusCode: response.status, body });
+			return false;
+		}
+	} catch (error) {
+		console.error('failed to create ticket with error', error);
+		return false;
 	}
-	console.error('Failed to create ticket');
-	return false;
 }
 
-export async function createTicketComment(ticketId: string, markdownBody: string, createdBy: string) {
+export async function createTicketComment(ticketId: string, markdownBody: string, createdBy: string): Promise<boolean> {
 	const response = await fetch(`${API_ENDPOINT}/tickets/${ticketId}/comment`, {
 		method: 'POST',
 		headers: defaultHeaders,
@@ -137,7 +166,7 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 	return false;
 }
 
-export async function deleteTicketComment(ticketNoteId: string) {
+export async function deleteTicketComment(ticketNoteId: string): Promise<boolean> {
 	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, {
 		method: 'DELETE',
 		headers: defaultHeaders
@@ -150,8 +179,9 @@ export async function deleteTicketComment(ticketNoteId: string) {
 	return false;
 }
 
-export async function updateTicketComment(ticketNoteId: string, markdownBody: string) {
-	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, {
+export async function updateTicketComment(ticketNoteId: string, markdownBody: string): Promise<boolean> {
+	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
+	const response = await fetch(uri, {
 		method: 'PATCH',
 		headers: defaultHeaders,
 		body: JSON.stringify({ markdownBody })
@@ -164,7 +194,7 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 	return false;
 }
 
-export async function updateTicket(ticketId: string, status: TicketStatusType) {
+export async function updateTicket(ticketId: string, status: TicketStatusType): Promise<boolean> {
 	const response = await fetch(`${API_ENDPOINT}/tickets/${ticketId}/status?newStatus=${status}`, {
 		method: 'PATCH',
 		headers: defaultHeaders
@@ -177,7 +207,7 @@ export async function updateTicket(ticketId: string, status: TicketStatusType) {
 	return false;
 }
 
-export async function fetchLEDPreview(ledIp: string) {
+export async function fetchLEDPreview(ledIp: string): Promise<string | null> {
 	try {
 		const response = await fetch(`${API_ENDPOINT}/led-preview?ledIp=${ledIp}`, {
 			// returns image/png
@@ -188,8 +218,6 @@ export async function fetchLEDPreview(ledIp: string) {
 			}
 		});
 		if (!response.ok) {
-			// console.log(response.url);
-			// console.error('Failed to fetch LED preview');
 			return null;
 		}
 
@@ -202,14 +230,24 @@ export async function fetchLEDPreview(ledIp: string) {
 	}
 }
 
-export async function getDepartures(stopId: string, kioskId?: string): Promise<GroupedRoute[] | null> {
+export async function getDepartures(primaryStopId: string, additionalStopIds: string[], kioskId?: string): Promise<GroupedRoute[] | null> {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/departures/${stopId}/lcd?` + (kioskId ? `kioskId=${kioskId}&` : '') + 'max=7', {
+		const params = new URLSearchParams();
+
+		for (const stopId of additionalStopIds) {
+			params.append('additionalStopIds', stopId);
+		}
+
+		if (kioskId) {
+			params.append('kioskId', kioskId);
+		}
+		params.append('max', '50');
+
+		const response = await fetch(`${API_ENDPOINT}/departures/${primaryStopId}/lcd?${params.toString()}`, {
 			headers: defaultHeaders
 		});
 
 		const data = (await response.json())['groupedDepartures'] as GroupedRoute[];
-
 		return data;
 	} catch (error) {
 		console.error(error);
@@ -244,7 +282,7 @@ export async function getDarkModeStatus(): Promise<boolean> {
 		});
 
 		// returns true if dark mode is enabled
-		const result = (await response.json()) as DarkModeStatusReponse;
+		const result = (await response.json()) as DarkModeStatusResponse;
 		return result.useDarkMode;
 	} catch (error) {
 		console.error(error);

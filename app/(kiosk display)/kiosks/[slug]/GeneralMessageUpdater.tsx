@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { generalMessageState } from '../../../../state/kioskState';
-import throwError from '../../../../helpers/throwError';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getGeneralMessage } from '../../../../helpers/httpMethods';
+import throwError from '../../../../helpers/throwError';
+import { generalMessageState, kioskState } from '../../../../state/kioskState';
 
 const GENERAL_MESSAGE_UPDATE_INTERVAL = parseInt(process.env.NEXT_PUBLIC_GENERAL_MESSAGE_UPDATE_INTERVAL ?? '');
 
@@ -12,25 +12,22 @@ if (!GENERAL_MESSAGE_UPDATE_INTERVAL || isNaN(GENERAL_MESSAGE_UPDATE_INTERVAL)) 
 	throwError('NEXT_PUBLIC_GENERAL_MESSAGE_UPDATE_INTERVAL is not defined');
 }
 
-interface GeneralMessageUpdaterProps {
-	stopId: string;
-}
-
 // static component that updates departures atom
-export default function GeneralMessageUpdater({ stopId }: GeneralMessageUpdaterProps) {
+export default function GeneralMessageUpdater() {
+	const { stopId } = useRecoilValue(kioskState);
 	const setGeneralMessage = useSetRecoilState(generalMessageState);
 
 	useEffect(() => {
-		async function updateGeneralMessages(_stopId: string) {
-			const generalMessages = await getGeneralMessage(stopId);
-
-			if (!generalMessages) {
+		async function updateGeneralMessages() {
+			if (!stopId || stopId.length === 0) {
+				console.warn('No stop ID provided');
 				return;
 			}
+			const generalMessages = await getGeneralMessage(stopId);
 
 			setGeneralMessage(generalMessages);
 		}
-		updateGeneralMessages(stopId);
+		updateGeneralMessages();
 		const timer = setInterval(updateGeneralMessages, GENERAL_MESSAGE_UPDATE_INTERVAL);
 
 		return () => clearInterval(timer);

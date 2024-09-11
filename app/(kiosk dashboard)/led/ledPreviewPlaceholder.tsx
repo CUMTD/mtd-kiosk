@@ -1,6 +1,7 @@
-import Image from 'next/image';
-import styles from './page.module.css';
+'use client';
+
 import { BsX } from 'react-icons/bs';
+import styles from './page.module.css';
 
 interface LedPreviewPlaceholderProps {
 	failed?: boolean;

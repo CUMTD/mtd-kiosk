@@ -7,5 +7,7 @@ interface RealTimeIconProps {
 }
 
 export default function RealTimeIcon({ color }: RealTimeIconProps) {
-	return <Image src={color == 'white' ? '/realtime-icon-white.svg' : '/realtime-icon-black.svg'} alt="Real-time icon" width={ICON_SIZE} height={ICON_SIZE} />;
+	return (
+		<Image src={color == 'white' ? '/realtime-icon-white.svg' : '/realtime-icon-black.svg'} alt="Real-time estimate" width={ICON_SIZE} height={ICON_SIZE} />
+	);
 }

@@ -1,104 +1,71 @@
 'use client';
+import clsx from 'clsx';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef } from 'react';
+import { GoChevronRight } from 'react-icons/go';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { focusedKioskIdState, kioskSelectorFamily } from '../state/sidebarState';
+import { HealthStatus } from '../types/HealthStatus';
+import { KioskObject } from '../types/KioskObjects';
 import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
-import kiosk, { Kiosk } from '../sanity/schemas/documents/kiosk';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { focusedKioskIdState } from '../state/mapState';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
-import { HealthStatus } from '../types/HealthStatus';
-import Link from 'next/link';
-import getHealthStatuses from '../helpers/httpMethods';
-import { HealthStatuses, ServerHealthStatuses } from '../types/serverHealthStatuses';
-import { KioskObject } from '../types/KioskObjects';
 import KioskStatusBadge from './kioskStatusBadge';
-import { showProblemsOnlyState } from '../state/kioskState';
-import { GoChevronRight } from 'react-icons/go';
-import { useRouter } from 'next/navigation';
-import HasLedSignIcon from './hasLedSignIcon';
+import LedSignIcon from './ledSignIcon';
 
 interface KioskCardProps {
-	kiosk: Kiosk;
+	kioskId: string;
 	index: number;
-	health: ServerHealthStatuses | undefined;
 	clickable?: boolean;
 }
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasLed }, index, clickable, health }: KioskCardProps) {
+export default function KioskCard({ kioskId, index, clickable }: KioskCardProps) {
 	const router = useRouter();
 
-	const KioskCardRef = useRef<HTMLDivElement>(null);
+	const kioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
-	// state for health status, to be passed into KioskStatusBadge as a prop
-	// const [healthStatus, setHealthStatus] = useState<ServerHealthStatuses | null>();
-
-	const showProblemsOnly = useRecoilValue(showProblemsOnlyState);
-
-	// useEffect(() => {
-	// 	async function fetchHealthStatus() {
-	// 		const healthStatuses = await getHealthStatuses(_id);
-	// 		if (healthStatuses) setHealthStatus(healthStatuses);
-	// 	}
-	// 	fetchHealthStatus();
-	// 	setTimeout(() => fetchHealthStatus(), 10000);
-	// }, [_id]);
+	const {
+		kiosk: { _id: id, displayName, iStop, hasLed, slug },
+		health: {
+			overallHealth,
+			openTicketCount,
+			healthStatuses: { button, lcd, led }
+		}
+	} = useRecoilValue(kioskSelectorFamily(kioskId));
 
 	useEffect(() => {
-		if (focusedKiosk === _id && KioskCardRef.current) {
-			// KioskCardRef.current.scrollIntoView({ block: 'center' });
-			KioskCardRef.current.focus();
+		if (focusedKiosk === id && kioskCardRef.current) {
+			kioskCardRef.current.focus();
 		}
-	}, [focusedKiosk, _id]);
+	}, [focusedKiosk, id]);
 
-	const [kioskCardClasses, setKioskCardClasses] = useState<string>(styles.kioskCard);
-
-	useEffect(() => {
-		if (health) {
-			setKioskCardClasses(
-				clsx(styles.kioskCard, {
-					[styles.healthy]: health.overallHealth === HealthStatus.HEALTHY,
-					[styles.warning]: health.overallHealth === HealthStatus.WARNING,
-					[styles.critical]: health.overallHealth === HealthStatus.CRITICAL,
-					[styles.unknown]: health.overallHealth === HealthStatus.UNKNOWN
-				})
-			);
-		}
-	}, [health]);
-
-	// const kioskCardClasses =
-	// 	healthStatus &&
-	// 	clsx(styles.kioskCard, {
-	// 		[styles.healthy]: healthStatus.overallHealth === HealthStatus.HEALTHY,
-	// 		[styles.warning]: healthStatus.overallHealth === HealthStatus.WARNING,
-	// 		[styles.critical]: healthStatus.overallHealth === HealthStatus.CRITICAL,
-	// 		[styles.unknown]: healthStatus.overallHealth === HealthStatus.UNKNOWN
-	// 	});
-
-	if (showProblemsOnly && health?.overallHealth === HealthStatus.HEALTHY) return null;
+	const kioskCardClasses = useMemo(() => {
+		return clsx(styles.kioskCard, {
+			[styles.healthy]: overallHealth === HealthStatus.HEALTHY,
+			[styles.warning]: overallHealth === HealthStatus.WARNING,
+			[styles.critical]: overallHealth === HealthStatus.CRITICAL,
+			[styles.unknown]: overallHealth === HealthStatus.UNKNOWN
+		});
+	}, [overallHealth]);
 
 	const issuesButtonClasses = clsx({
 		[inter.className]: true,
 		[styles.button]: true,
-		[styles.openTicketCount]: health && health.openTicketCount > 0
+		[styles.openTicketCount]: openTicketCount > 0
 	});
-
-	const handleIssuesButtonClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-		e.preventDefault();
-		router.push(`/issues/${_id}`);
-	};
 
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
 		<div
 			className={kioskCardClasses}
-			id={_id}
-			ref={KioskCardRef}
+			id={id}
+			ref={kioskCardRef}
 			tabIndex={clickable ? index : undefined}
-			onClick={() => clickable && setFocusedKiosk(_id)}
+			onClick={() => clickable && setFocusedKiosk(id)}
 			role="button"
 			onBlur={() => clickable && setFocusedKiosk(null)}
 		>
@@ -106,35 +73,31 @@ export default function KioskCard({ kiosk: { slug, _id, displayName, iStop, hasL
 				<div className={styles.kioskName}>
 					<h2>{displayName}</h2>
 					{iStop && <IStopIcon />}
-					{hasLed && <HasLedSignIcon />}
+					{hasLed && <LedSignIcon />}
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`/issues/${_id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
-						{health && health.openTicketCount > 0 ? (
+					<Link href={`/issues/${id}`} className={issuesButtonClasses}>
+						{openTicketCount > 0 ? (
 							<>
-								{health?.openTicketCount} open {health?.openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
+								{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
 							</>
 						) : (
 							'Details'
 						)}
 					</Link>
-					<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-						Launch
-					</Link>
-
-					{/* {healthStatus && healthStatus.openTicketCount > 0 && (
-					<div className={styles.openTicketCount}>
-						<span className={styles.openTicketCountText}></span>
-					</div>
-				)} */}
+					{slug?.current && (
+						<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
+							Launch
+						</Link>
+					)}
 				</div>
 			</div>
 			{
 				<div className={styles.badges}>
-					<KioskStatusBadge kioskObject={KioskObject.Button} status={health?.healthStatuses.button} align="right" />
-					{hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={health?.healthStatuses.led} align="right" />}
-					<KioskStatusBadge kioskObject={KioskObject.LCD} status={health?.healthStatuses.lcd} align="right" />
+					<KioskStatusBadge kioskObject={KioskObject.Button} status={button} align="right" />
+					{hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={led} align="right" />}
+					<KioskStatusBadge kioskObject={KioskObject.LCD} status={lcd} align="right" />
 				</div>
 			}
 		</div>

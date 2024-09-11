@@ -36,6 +36,8 @@
 
 	--realtime-icon-color: black;
 	--route-number-border-color: rgba(55, 55, 55, 0.274);
+
+	--icon-message-background: #f1f1f1;
 }
 
 .darkMode {
@@ -55,6 +57,8 @@
 
 	--realtime-icon-color: white;
 	--route-number-border-color: rgba(55, 55, 55, 0.8);
+
+	--icon-message-background: #242424;
 }
 
 .horizontal {

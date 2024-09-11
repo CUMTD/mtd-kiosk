@@ -15,12 +15,6 @@
 	color: rgb(var(--foreground-rgb));
 }
 
-/* @media (prefers-color-scheme: light) {
-	.logo {
-		filter: invert(1);
-	}
-} */
-
 .links {
 	display: flex;
 	flex-direction: row;

@@ -1,0 +1,10 @@
+.hasChildren {
+	grid-area: content;
+	width: 100%;
+	place-self: stretch;
+	height: 100%;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr;
+	place-content: stretch;
+}

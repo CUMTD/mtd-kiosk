@@ -1,11 +1,26 @@
-import { fetchKioskBySlug } from '../../../../helpers/httpMethods';
+import { fetchKioskAdsByKioskId, fetchKioskBySlug, fetchKioskIconMessagesByKioskId, getDepartures } from '../../../../helpers/httpMethods';
+import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
+import { KioskDisplay } from './KioskDisplay';
 import KioskDisplayRoot from './KioskDisplayRoot';
 
-export default async function KioskDisplayPage({ params }: { params: { slug: string } }) {
+export const revalidate = 30;
+
+export default async function Page({ params }: { params: { slug: string } }) {
 	const kiosk = await fetchKioskBySlug(params.slug);
+	const { _id: id, stopId, additionalStopIds } = kiosk;
+	let departures: GroupedRoute[] | null = null;
+	if (stopId && stopId.length > 0) {
+		departures = await getDepartures(stopId, additionalStopIds ?? [], undefined);
+	}
+
+	const ads = await fetchKioskAdsByKioskId(id);
+	const iconMessages = await fetchKioskIconMessagesByKioskId(id);
+
 	return (
 		<main>
-			<KioskDisplayRoot horizontal={kiosk?.isHorizontal} kiosk={kiosk} />
+			<KioskDisplayRoot kiosk={kiosk} departures={departures} ads={ads} iconMessages={iconMessages}>
+				<KioskDisplay />
+			</KioskDisplayRoot>
 		</main>
 	);
 }

@@ -17,7 +17,24 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.words": ["codegen", "geopoint", "GTFS", "Novelli", "Rqst", "SPFLDPRC"],
+	"cSpell.words": [
+		"clsx",
+		"codegen",
+		"datetime",
+		"geopoint",
+		"groq",
+		"GTFS",
+		"Infowindow",
+		"jdenticon",
+		"lqip",
+		"Novelli",
+		"ONHOLD",
+		"Rqst",
+		"signout",
+		"SPFLDPRC",
+		"Superview",
+		"Umbraco"
+	],
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"files.associations": {
@@ -30,6 +47,7 @@
 		"**/.next": true,
 		"**/.sanity": true,
 		"**/bin": true,
+		"**/dist": true,
 		"**/node_modules": true,
 		"**/obj": true,
 		"next-env.d.ts": true

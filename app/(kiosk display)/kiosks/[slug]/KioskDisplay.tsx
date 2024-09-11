@@ -1,29 +1,33 @@
 'use client';
-import KioskDepartures from './KioskDepartures';
-import styles from './KioskDisplay.module.css';
-import KioskHeader from './KioskHeader';
-import { Kiosk } from '../../../../sanity.types';
-import KioskAds from './KioskAds';
+
 import clsx from 'clsx';
 import { useRecoilValue } from 'recoil';
-import { darkModeState } from '../../../../state/kioskState';
-import DarkModeUpdater from './DarkModeUpdater';
+import { darkModeState, kioskState } from '../../../../state/kioskState';
+import KioskAdsCarousel from './KioskAdsCarousel';
+import KioskDataUpdater from './KioskDataUpdater';
+import KioskDepartureList from './KioskDepartureList';
+import styles from './KioskDisplay.module.css';
+import KioskHeader from './KioskHeader';
 
-interface KioskDisplayProps {
-	kiosk: Kiosk;
-	horizontal?: boolean;
-}
+export function KioskDisplay() {
+	const { isHorizontal } = useRecoilValue(kioskState);
 
-export function KioskDisplay({ kiosk, horizontal }: KioskDisplayProps) {
 	const darkMode = useRecoilValue(darkModeState);
-	const classes = clsx(styles.kioskDisplay, { [styles.horizontal]: horizontal, [styles.darkMode]: darkMode, [styles.lightMode]: !darkMode });
+	const classes = clsx({
+		[styles.kioskDisplay]: true,
+		[styles.horizontal]: isHorizontal,
+		[styles.darkMode]: darkMode,
+		[styles.lightMode]: !darkMode
+	});
 
 	return (
-		<div className={classes}>
-			<DarkModeUpdater />
-			<KioskHeader stopName={kiosk?.displayName} iStop={kiosk?.iStop} />
-			<KioskDepartures kiosk={kiosk} />
-			{!kiosk.isHorizontal && <KioskAds kiosk={kiosk} />}
-		</div>
+		<>
+			<KioskDataUpdater />
+			<div className={classes}>
+				<KioskHeader />
+				<KioskDepartureList />
+				<KioskAdsCarousel />
+			</div>
+		</>
 	);
 }

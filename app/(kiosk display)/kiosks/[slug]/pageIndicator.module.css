@@ -1,0 +1,25 @@
+.pageIndicators {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	flex-direction: row;
+	width: 100%;
+
+	margin-top: auto;
+	margin-bottom: 1em;
+}
+
+.pageIndicatorDot {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background-color: var(--departure-hopper-background-color);
+}
+
+.activePageIndicatorDot {
+	background-color: var(--departure-text-color);
+
+	border: 2px solid var(--departure-background);
+	outline: 2px solid var(--departure-text-color);
+}

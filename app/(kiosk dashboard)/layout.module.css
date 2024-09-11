@@ -1,21 +1,21 @@
 .layoutContainer {
 	display: grid;
 	grid-template-rows: max-content 1fr;
-
 	grid-template-columns: 1fr minmax(20rem, 40rem);
-
-	grid-template-areas: 'header header' 'map cards';
-}
-
-.header {
-	grid-area: header;
-	padding: 1rem 2rem;
-	border-bottom: 1px solid rgb(var(--card-rgb));
+	grid-template-areas: var(--layout-grid);
+	height: 100vh;
+	min-height: 100vh;
+	max-height: 100vh;
+	overflow: hidden;
 }
 
 /* mobile media selector */
 @media (max-width: 768px) {
 	.layoutContainer {
-		display: unset;
+		--layout-grid: 'header' 'content' 'cards';
+		grid-template-rows: auto;
+		grid-template-columns: 1fr;
+		grid-template-areas: 'header' 'content' 'cards';
+		overflow-y: unset;
 	}
 }

@@ -59,28 +59,23 @@ const kiosk = defineType({
 			type: 'string',
 			description: "How the kiosk's name should be pronounced",
 			group: 'general',
-			validation: (rule) => rule.min(3).error('Phonetic name must be at least 5 characters')
+			validation: (rule) => rule.min(3).error('Phonetic name must be at least 3 characters')
 		}),
 		defineField({
 			name: 'stopId',
-			title: 'Stop ID',
+			title: 'Primary Stop ID',
 			type: 'string',
 			group: 'general',
-
+			description: 'The GTFS stop_id of the stop where this kiosk is located. This must be a boarding point (e.g., "LSE:2")'
+		}),
+		defineField({
+			name: 'additionalStopIds',
+			title: 'Additional Stop IDs',
+			group: 'general',
+			type: 'array',
+			of: [{ type: 'string' }],
 			description:
-				'The GTFS stop_id of the stop where this kiosk is located. This can either be a parent stop (e.g., "SPFLDPRC") or a boarding point id, (e.g., "LSE:2")'
-			// components: {
-			// 	input: StopListAutocomplete
-			// }
-			// TODO: this does not want to work
-			// validation: (rule) =>
-			// 	rule.custom((val) => {
-			// 		if (val === undefined) {
-			// 			return 'Stop ID is required';
-			// 		}
-
-			// 		return /^[A-Z0-9]+(:[0-9]+)?/.test(val) || 'Please provide a validly formatted uppercase stop ID';
-			// 	})
+				'Additional stop IDs to display on the kiosk. Departures serving these stops will be presented with an icon to indicate they are across the street.'
 		}),
 		defineField({
 			name: 'iStop',
@@ -149,20 +144,3 @@ const kiosk = defineType({
 });
 
 export default kiosk;
-
-export type Kiosk = {
-	_id: string;
-	displayName: string;
-	phoneticName: string;
-	slug: {
-		current: string;
-	};
-	stopId: string;
-	iStop: boolean;
-	location: {
-		lat: number;
-		lng: number;
-	};
-	hasLed: boolean;
-	ledIp: string;
-};

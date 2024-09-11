@@ -1,26 +1,35 @@
 'use client';
-import { useEffect, useRef } from 'react';
-import styles from './newIssueForm.module.css';
-import { GoX } from 'react-icons/go';
 import { useSession } from 'next-auth/react';
-import { revalidateTag } from 'next/cache';
-import { useRouter } from 'next/navigation';
-import { getToken } from 'next-auth/jwt';
-import { createKioskTicket } from '../../../../helpers/httpMethods';
+import { useEffect, useMemo, useRef } from 'react';
+import { useFormState } from 'react-dom';
+import { GoX } from 'react-icons/go';
+import SubmitButton from '../../../../components/submitButton';
+import styles from './newIssueForm.module.css';
+import { createNewIssueFormAction } from './newIssueFormServerActions';
+
 interface NewIssueFormProps {
 	kioskId: string;
 }
 
+// TODO: Update other forms to work this way.
 export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
-	const { data: session } = useSession({ required: true });
 
-	const router = useRouter();
+	const { data: session } = useSession({ required: true });
+	const userName = useMemo(() => session?.user?.name || 'System', [session?.user?.name]);
+
+	// will call createNewIssueFormAction when form is submitted
+	// status will be 'success' if the form submission was successful
+	// errorMessage will contain the error message if status is 'error'
+	// { status: 'unset' } is the initial state, just like with useState
+	const [{ status, errorMessage }, action] = useFormState(createNewIssueFormAction, { status: 'unset' });
 
 	useEffect(() => {
-		// console.log(session?.user?.token);
-		// const token = await getToken({ req })
-	}, [session]);
+		// close dialog if status is 'success'
+		if (status === 'success') {
+			dialogRef.current?.close();
+		}
+	}, [status]);
 
 	return (
 		<>
@@ -34,29 +43,7 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 						<GoX style={{ fontSize: '200%' }} />
 					</button>
 				</div>
-				<form
-					className={styles.newIssueForm}
-					onSubmit={async (e) => {
-						e.preventDefault();
-						var result = await createKioskTicket({
-							kioskId: kioskId,
-							openedBy: session?.user?.name || 'System',
-							// @ts-expect-error TODO: fix this
-							description: e.target.description.value,
-							// @ts-expect-error
-							title: e.target.title.value
-						});
-						if (result) {
-							// @ts-expect-error
-							e.target.reset();
-
-							router.refresh();
-							dialogRef.current?.close();
-						} else {
-							alert('Failed to create ticket.');
-						}
-					}}
-				>
+				<form className={styles.newIssueForm} action={action}>
 					<label className={styles.label}>
 						Title
 						<input autoComplete="off" className={styles.title} required name="title" type="text"></input>
@@ -67,13 +54,13 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 						<textarea className={styles.description} name="description" rows={4} cols={50}></textarea>
 					</label>
 
+					{errorMessage && <p className={styles.message}>{errorMessage}</p>}
+
 					{/* some invisible form values */}
 					<input type="hidden" name="kioskId" value={kioskId} />
+					<input type="hidden" name="openedBy" value={userName} />
 
-					<label>
-						{/* Create Issue and include form data */}
-						<input type="submit" value="Create Issue" className={styles.button} />
-					</label>
+					<SubmitButton label="Create Issue" loading="Creating Issue..." />
 				</form>
 			</dialog>
 		</>

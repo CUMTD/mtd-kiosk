@@ -1,5 +1,6 @@
 .page {
-	grid-area: map / map / cards / cards;
+	grid-area: content / content / content / cards;
+	padding: 1rem;
 }
 
 .ledDashboard {

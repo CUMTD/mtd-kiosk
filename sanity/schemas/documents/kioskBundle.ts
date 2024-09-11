@@ -5,18 +5,20 @@ export const kioskBundle = defineType({
 	name: 'kioskBundle',
 	title: 'Kiosk Bundles',
 	type: 'document',
+	description: 'A collection of kiosks that are grouped together for the purpose of easily applying ads sold in a bundle.',
 	icon: FaLayerGroup,
 	preview: {
 		select: {
 			title: 'bundleName',
 			subtitle: 'kiosks'
 		},
-		prepare(selection) {
+		prepare(selection: { subtitle: Array<unknown>; title: string }) {
 			const { title, subtitle } = selection;
+			const kioskCount = subtitle?.length ?? 0;
 
 			return {
 				title: title,
-				subtitle: `${subtitle.length === 1 ? '1 kiosk' : `${subtitle.length} kiosks`}`
+				subtitle: `${kioskCount === 1 ? '1 kiosk' : `${kioskCount} kiosks`}`
 			};
 		}
 	},
@@ -38,7 +40,8 @@ export const kioskBundle = defineType({
 					type: 'reference',
 					to: [{ type: 'kiosk' }]
 				}
-			]
+			],
+			validation: (rule) => rule.required().min(1).error('At least one kiosk must be included in the bundle.')
 		})
 	]
 });

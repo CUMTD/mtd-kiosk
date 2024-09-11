@@ -68,6 +68,7 @@ export type Advertisement = {
 	_updatedAt: string;
 	_rev: string;
 	name?: string;
+	imageUrl?: string;
 	image?: {
 		asset?: {
 			_ref: string;
@@ -79,8 +80,60 @@ export type Advertisement = {
 		crop?: SanityImageCrop;
 		_type: 'image';
 	};
-	imageUrl?: string;
-	landscapeImage?: {
+	displayOnAllKiosks?: boolean;
+	kiosks?: Array<
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kioskBundle';
+		  }
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kiosk';
+		  }
+	>;
+	startDate?: string;
+	endDate?: string;
+};
+
+export type KioskBundle = {
+	_id: string;
+	_type: 'kioskBundle';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	bundleName?: string;
+	kiosks?: Array<{
+		_ref: string;
+		_type: 'reference';
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: 'kiosk';
+	}>;
+};
+
+export type IconMessage = {
+	_id: string;
+	_type: 'iconMessage';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	message?: string;
+	lightModeSvg?: {
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+		};
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
+	};
+	darkModeSvg?: {
 		asset?: {
 			_ref: string;
 			_type: 'reference';
@@ -92,15 +145,22 @@ export type Advertisement = {
 		_type: 'image';
 	};
 	displayOnAllKiosks?: boolean;
-	kiosks?: Array<{
-		_ref: string;
-		_type: 'reference';
-		_weak?: boolean;
-		_key: string;
-		[internalGroqTypeReferenceTo]?: 'kiosk';
-	}>;
-	startDate?: string;
-	endDate?: string;
+	kiosks?: Array<
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kioskBundle';
+		  }
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kiosk';
+		  }
+	>;
+	realtimeOnly?: boolean;
+	acrossStreetOnly?: boolean;
 };
 
 export type SanityImageCrop = {
@@ -170,6 +230,7 @@ export type Kiosk = {
 	slug?: Slug;
 	phoneticName?: string;
 	stopId?: string;
+	additionalStopIds?: Array<string>;
 	iStop?: boolean;
 	location?: Geopoint;
 	isHorizontal?: boolean;
@@ -197,6 +258,8 @@ export type AllSanitySchemaTypes =
 	| SanityImageDimensions
 	| SanityFileAsset
 	| Advertisement
+	| KioskBundle
+	| IconMessage
 	| SanityImageCrop
 	| SanityImageHotspot
 	| SanityImageAsset
