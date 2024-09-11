@@ -9,10 +9,6 @@ export default function GeneralMessage() {
 
 	const generalMessage = useRecoilValue(generalMessageState);
 
-	useEffect(() => {
-		console.log('gm', { generalMessage, block: generalMessage?.blockRealtime });
-	}, [generalMessage]);
-
 	const scrollAnimationDurationSeconds = useMemo(() => {
 		if (!(generalMessage && generalMessage.text && scrollText.current && scrollContainer.current)) {
 			return '0s';
@@ -37,12 +33,10 @@ export default function GeneralMessage() {
 	}, [generalMessage, scrollAnimationDurationSeconds]);
 
 	if (!generalMessage) {
-		console.log('none');
 		return null;
 	}
 
 	if (generalMessage.blockRealtime) {
-		console.log('block');
 		return <div className={styles.realtimeBlockingGeneralMessage}>{generalMessage.text}</div>;
 	}
 
