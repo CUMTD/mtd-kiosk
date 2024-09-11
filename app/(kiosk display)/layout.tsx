@@ -4,7 +4,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en">
 			<head>
-				<link rel="stylesheet" href="https://use.typekit.net/egw4kmy.css"></link>
+				<link rel="preload" href="https://use.typekit.net/egw4kmy.css" as="style" />
+				<link rel="stylesheet" href="https://use.typekit.net/egw4kmy.css" fetchPriority="high" />
 			</head>
 			<body>{children}</body>
 		</html>

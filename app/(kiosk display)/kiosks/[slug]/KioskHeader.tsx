@@ -1,26 +1,24 @@
 import clsx from 'clsx';
+import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
+import { kioskState } from '../../../../state/kioskState';
 import styles from './KioskHeader.module.css';
 import LiveClock from './LiveClock';
 
-interface KioskHeaderProps {
-	stopName: string | undefined;
-	iStop: boolean | undefined;
-}
+export default function KioskHeader() {
+	const { iStop, displayName } = useRecoilValue(kioskState);
 
-export default function KioskHeader({ stopName, iStop }: KioskHeaderProps) {
-	const headerClasses = clsx(styles.header, {
+	const headerClasses = clsx({
+		[styles.header]: true,
 		[styles.headerIstop]: iStop
 	});
 
 	return (
 		<header className={headerClasses}>
-			<img src="/logo.svg" alt="MTD" className={styles.logo} />
-			<h1 className={styles.stopName}>{stopName}</h1>
-			<time className={styles.time}>
-				<LiveClock />
-			</time>
-
-			{iStop && <img src="/istop.svg" alt="iStop" className={styles.istopIcon} />}
+			<Image src="/logo.svg" alt="MTD" className={styles.logo} width={288} height={160} priority />
+			<h1 className={styles.stopName}>{displayName}</h1>
+			<LiveClock />
+			{iStop && <Image src="/istop.svg" alt="iStop" className={styles.istopIcon} width={60} height={60} priority />}
 		</header>
 	);
 }

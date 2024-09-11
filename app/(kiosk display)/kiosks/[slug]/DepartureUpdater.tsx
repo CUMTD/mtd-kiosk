@@ -1,11 +1,11 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { connectionErrorState, departureState } from '../../../../state/kioskState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getDepartures } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
-import { useSearchParams } from 'next/navigation';
+import { connectionErrorState, departureState, kioskState } from '../../../../state/kioskState';
 
 const DEPARTURES_UPDATE_INTERVAL = parseInt(process.env.NEXT_PUBLIC_DEPARTURES_UPDATE_INTERVAL ?? '');
 
@@ -13,14 +13,10 @@ if (!DEPARTURES_UPDATE_INTERVAL || isNaN(DEPARTURES_UPDATE_INTERVAL)) {
 	throwError('NEXT_PUBLIC_DEPARTURES_UPDATE_INTERVAL is not defined');
 }
 
-interface DepartureUpdaterProps {
-	primaryStopId: string;
-	additionalStopIds: string[];
-	kioskId: string;
-}
-
 // static component that updates departures atom
-export default function DepartureUpdater({ primaryStopId, additionalStopIds, kioskId }: DepartureUpdaterProps) {
+export default function DepartureUpdater() {
+	const { _id: id, stopId, additionalStopIds } = useRecoilValue(kioskState);
+
 	// only send a heartbeat (kioskId) if the heartbeat query param is true
 	const params = useSearchParams();
 	const heartbeat = params.get('heartbeat') === 'true';
@@ -30,7 +26,13 @@ export default function DepartureUpdater({ primaryStopId, additionalStopIds, kio
 
 	useEffect(() => {
 		async function updateDepartures() {
-			const departures = await getDepartures(primaryStopId, additionalStopIds, heartbeat ? kioskId : undefined);
+			if (!stopId || stopId.length === 0) {
+				console.warn('No stop ID provided');
+				return;
+			}
+
+			const departures = await getDepartures(stopId, additionalStopIds ?? [], heartbeat ? id : undefined);
+
 			if (!departures) {
 				setConnectionErrorState(true);
 				return;
@@ -42,7 +44,7 @@ export default function DepartureUpdater({ primaryStopId, additionalStopIds, kio
 		const timer = setInterval(updateDepartures, DEPARTURES_UPDATE_INTERVAL);
 
 		return () => clearInterval(timer);
-	}, [setDepartures, setConnectionErrorState, kioskId, heartbeat, primaryStopId, additionalStopIds]);
+	}, [setDepartures, setConnectionErrorState, heartbeat, additionalStopIds, stopId, id]);
 
 	return null;
 }

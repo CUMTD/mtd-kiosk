@@ -1,17 +1,12 @@
 'use client';
 
-import KioskAdsUpdater from './KioskAdsUpdater';
-import { Kiosk } from '../../../../sanity.types';
 import KioskAdsCarousel from './KioskAdsCarousel';
+import KioskAdsUpdater from './KioskAdsUpdater';
 
-interface KioskAdsProps {
-	kiosk: Kiosk;
-}
-
-export default function KioskAds({ kiosk }: KioskAdsProps) {
+export default function KioskAds() {
 	return (
 		<>
-			<KioskAdsUpdater kiosk={kiosk} />
+			<KioskAdsUpdater />
 			<KioskAdsCarousel />
 		</>
 	);

@@ -20,7 +20,7 @@ export type DepartureTime = {
 };
 
 export type GeneralMessage = {
-	blocksRealtime: boolean;
+	blockRealtime: boolean;
 	text: string;
 };
 

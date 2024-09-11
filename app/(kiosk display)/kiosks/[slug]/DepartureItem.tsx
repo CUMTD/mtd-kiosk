@@ -1,42 +1,45 @@
 import clsx from 'clsx';
+import { FaPersonWalkingDashedLineArrowRight } from 'react-icons/fa6';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../../../../state/kioskState';
 import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
 import styles from './DepartureItem.module.css';
 import RealTimeIcon from './RealTimeIcon';
-import { useRecoilValue } from 'recoil';
-import { darkModeState } from '../../../../state/kioskState';
-import { FaPersonWalkingDashedLineArrowRight } from 'react-icons/fa6';
 
 interface DepartureProps {
 	route: GroupedRoute;
 }
 
-export default function DepartureItem({ route }: DepartureProps) {
+export default function DepartureItem({
+	route: { number, name, backgroundHexColor, foregroundHexColor, isAcrossStreet, direction, departureTimes }
+}: DepartureProps) {
 	const darkMode = useRecoilValue(darkModeState);
 
-	const routeNumberClasses = clsx(styles.routeNumber, {
-		[styles.smallRouteNumber]: route.number.length > 2
+	const routeNumberClasses = clsx({
+		[styles.routeNumber]: true,
+		[styles.smallRouteNumber]: number.length > 2
 	});
 	return (
 		<div className={styles.departureItem} style={{ animationDelay: `${Math.random() * 0.1}s` }}>
 			<div
 				className={routeNumberClasses}
 				style={{
-					backgroundColor: route.backgroundHexColor,
-					color: route.foregroundHexColor
+					backgroundColor: backgroundHexColor,
+					color: foregroundHexColor
 				}}
 			>
-				{route.number}
+				{number}
 			</div>
 			<div className={styles.routeInfo}>
 				<span className={styles.headsign}>
-					{route.name} {route.isAcrossStreet && <FaPersonWalkingDashedLineArrowRight className={styles.acrossStreetIcon} />}
+					{name} {isAcrossStreet && <FaPersonWalkingDashedLineArrowRight className={styles.acrossStreetIcon} />}
 				</span>
 				<br />
-				<span className={styles.direction}>{route.direction}</span>
+				<span className={styles.direction}>{direction}</span>
 			</div>
 			<div className={styles.departureTimes}>
-				{route.departureTimes &&
-					route.departureTimes.map((time, index) => (
+				{departureTimes &&
+					departureTimes.map((time, index) => (
 						<div className={`${styles.departureTime} ${time.isHopper ? styles.hopper : ''} `} key={index}>
 							<div className={styles.time}>
 								{time.time}
@@ -52,6 +55,5 @@ export default function DepartureItem({ route }: DepartureProps) {
 
 export function DepartureItemSkeleton() {
 	const classes = clsx(styles.departureItem, styles.skeleton);
-
-	return <div className={classes}></div>;
+	return <div className={classes} />;
 }

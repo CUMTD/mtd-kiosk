@@ -1,24 +1,24 @@
 'use client';
-import { Kiosk } from '../../../../sanity.types';
-import KioskDepartureItemList from './KioskDepartureItemList';
+import { useRecoilValue } from 'recoil';
+import { kioskState } from '../../../../state/kioskState';
 import DepartureUpdater from './DepartureUpdater';
-import throwError from '../../../../helpers/throwError';
 import GeneralMessageUpdater from './GeneralMessageUpdater';
 import IconMessageUpdater from './IconMessageUpdater';
+import KioskDepartureItemList from './KioskDepartureItemList';
 
-interface KioskDeparturesProps {
-	kiosk: Kiosk;
-}
+export default function KioskDepartures() {
+	const { stopId } = useRecoilValue(kioskState);
 
-export default function KioskDepartures({ kiosk }: KioskDeparturesProps) {
-	if (!kiosk.stopId) {
-		throwError("Kiosk is null or doesn't have a stop ID");
+	if (!stopId || stopId.length === 0) {
+		console.warn('No stop ID provided');
+		return;
 	}
+
 	return (
 		<>
-			<DepartureUpdater primaryStopId={kiosk.stopId} additionalStopIds={kiosk.additionalStopIds || []} kioskId={kiosk._id} />
-			<GeneralMessageUpdater stopId={kiosk.stopId} />
-			<IconMessageUpdater kioskId={kiosk._id} />
+			<DepartureUpdater />
+			<GeneralMessageUpdater />
+			<IconMessageUpdater />
 			<KioskDepartureItemList />
 		</>
 	);
