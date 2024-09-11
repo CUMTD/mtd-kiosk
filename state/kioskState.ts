@@ -90,15 +90,6 @@ export const currentIconMessageIndexState = atom<number>({
 	default: 0
 });
 
-export const currentIconMessageSelector = selector<IconMessageWithImages>({
-	key: 'currentIconMessageSelector',
-	get: ({ get }) => {
-		const iconMessages = get(allIconMessagesState);
-		const currentIconMessageIndex = get(currentIconMessageIndexState);
-		return iconMessages[currentIconMessageIndex];
-	}
-});
-
 export const iconMessageSelectorFamily = selectorFamily<IconMessageWithImages, number>({
 	key: 'iconMessageSelectorFamily',
 	get:

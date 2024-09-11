@@ -1,12 +1,13 @@
 'use client';
 import { useRecoilValue } from 'recoil';
 import { kioskState } from '../../../../state/kioskState';
+import DarkModeUpdater from './DarkModeUpdater';
 import DepartureUpdater from './DepartureUpdater';
 import GeneralMessageUpdater from './GeneralMessageUpdater';
 import IconMessageUpdater from './IconMessageUpdater';
-import KioskDepartureItemList from './KioskDepartureItemList';
+import KioskAdsUpdater from './KioskAdsUpdater';
 
-export default function KioskDepartures() {
+export default function KioskDataUpdater() {
 	const { stopId } = useRecoilValue(kioskState);
 
 	if (!stopId || stopId.length === 0) {
@@ -16,10 +17,11 @@ export default function KioskDepartures() {
 
 	return (
 		<>
+			<DarkModeUpdater />
 			<DepartureUpdater />
 			<GeneralMessageUpdater />
 			<IconMessageUpdater />
-			<KioskDepartureItemList />
+			<KioskAdsUpdater />
 		</>
 	);
 }
