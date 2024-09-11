@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import throwError from '../../../../helpers/throwError';
 import { blockRealtimeSelector, currentIconMessageIndexState, currentPageDeparturesSelector, iconMessagesSelector } from '../../../../state/kioskState';
 import IconMessage from './IconMessage';
 import styles from './IconMessageCarousel.module.css';
+
+const pageInterval = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL ?? throwError('Missing ICON_MESSAGE_PAGINATION_INTERVAL'));
 
 export default function IconMessageCarousel() {
 	const iconMessages = useRecoilValue(iconMessagesSelector);
@@ -14,7 +17,7 @@ export default function IconMessageCarousel() {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentIconMessageIndex(currentIconMessageIndex + 1 >= iconMessages.length ? 0 : currentIconMessageIndex + 1);
-		}, 15_000);
+		}, pageInterval);
 
 		return () => clearInterval(interval);
 	}, [setCurrentIconMessageIndex, currentIconMessageIndex, iconMessages.length]);

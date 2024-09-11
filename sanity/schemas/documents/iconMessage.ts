@@ -1,6 +1,6 @@
+import { getExtension } from '@sanity/asset-utils';
 import { BiMessageRoundedError } from 'react-icons/bi';
 import { defineField, defineType } from 'sanity';
-import { getExtension, getImageDimensions } from '@sanity/asset-utils';
 
 const iconMessage = defineType({
 	name: 'iconMessage',

@@ -27,10 +27,10 @@ export default function GeneralMessage() {
 	}, [generalMessage]);
 
 	useEffect(() => {
-		if (generalMessage && generalMessage.text && scrollText.current && scrollContainer.current) {
+		if (scrollText.current && scrollContainer.current) {
 			scrollText.current.style.animationDuration = scrollAnimationDurationSeconds;
 		}
-	}, [generalMessage, scrollAnimationDurationSeconds]);
+	}, [scrollAnimationDurationSeconds]);
 
 	if (!generalMessage) {
 		return null;

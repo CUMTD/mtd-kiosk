@@ -16,12 +16,10 @@ export default function CurrentDepartures() {
 	}
 
 	return (
-		<>
-			<div className={styles.kioskDepartures}>
-				{currentPageDepartures.map((departure, index) => (
-					<DepartureItem route={departure} key={index} />
-				))}
-			</div>
-		</>
+		<div className={styles.kioskDepartures}>
+			{currentPageDepartures.map((departure, index) => (
+				<DepartureItem route={departure} key={index} />
+			))}
+		</div>
 	);
 }

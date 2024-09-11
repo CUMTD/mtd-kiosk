@@ -25,8 +25,6 @@ export default function GeneralMessageUpdater() {
 			}
 			const generalMessages = await getGeneralMessage(stopId);
 
-			// console.log('generalMessages', generalMessages);
-
 			setGeneralMessage(generalMessages);
 		}
 		updateGeneralMessages();

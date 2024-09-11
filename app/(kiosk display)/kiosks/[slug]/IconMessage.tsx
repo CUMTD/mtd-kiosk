@@ -1,9 +1,9 @@
 'use client';
 
-import { useRecoilValue } from 'recoil';
-import { currentIconMessageIndexState, darkModeState, iconMessageSelectorFamily } from '../../../../state/kioskState';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
+import { currentIconMessageIndexState, darkModeState, iconMessageSelectorFamily } from '../../../../state/kioskState';
 import styles from './IconMessage.module.css';
 
 interface Props {

@@ -20,7 +20,7 @@ export default function DepartureItem({
 		[styles.smallRouteNumber]: number.length > 2
 	});
 	return (
-		<div className={styles.departureItem} style={{ animationDelay: `${Math.random() * 0.1}s` }}>
+		<div className={styles.departureItem}>
 			<div
 				className={routeNumberClasses}
 				style={{
@@ -51,9 +51,4 @@ export default function DepartureItem({
 			</div>
 		</div>
 	);
-}
-
-export function DepartureItemSkeleton() {
-	const classes = clsx(styles.departureItem, styles.skeleton);
-	return <div className={classes} />;
 }

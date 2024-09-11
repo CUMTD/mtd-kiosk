@@ -58,12 +58,6 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 		[styles.openTicketCount]: openTicketCount > 0
 	});
 
-	// TODO: why hijack default behavior of anchor tag?
-	const handleIssuesButtonClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-		e.preventDefault();
-		router.push(`/issues/${id}`);
-	};
-
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
 		<div
@@ -83,7 +77,7 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`/issues/${id}`} className={issuesButtonClasses} onClick={handleIssuesButtonClick}>
+					<Link href={`/issues/${id}`} className={issuesButtonClasses}>
 						{openTicketCount > 0 ? (
 							<>
 								{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />

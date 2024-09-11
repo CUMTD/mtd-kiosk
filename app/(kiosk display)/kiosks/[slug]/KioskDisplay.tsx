@@ -3,9 +3,9 @@
 import clsx from 'clsx';
 import { useRecoilValue } from 'recoil';
 import { darkModeState, kioskState } from '../../../../state/kioskState';
-import DarkModeUpdater from './DarkModeUpdater';
-import KioskAds from './KioskAds';
-import KioskDepartures from './KioskDepartures';
+import KioskAdsCarousel from './KioskAdsCarousel';
+import KioskDataUpdater from './KioskDataUpdater';
+import KioskDepartureList from './KioskDepartureList';
 import styles from './KioskDisplay.module.css';
 import KioskHeader from './KioskHeader';
 
@@ -21,11 +21,13 @@ export function KioskDisplay() {
 	});
 
 	return (
-		<div className={classes}>
-			<DarkModeUpdater />
-			<KioskHeader />
-			<KioskDepartures />
-			<KioskAds />
-		</div>
+		<>
+			<KioskDataUpdater />
+			<div className={classes}>
+				<KioskHeader />
+				<KioskDepartureList />
+				<KioskAdsCarousel />
+			</div>
+		</>
 	);
 }

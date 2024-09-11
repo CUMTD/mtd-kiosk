@@ -7,10 +7,11 @@ import IconMessageCarousel from './IconMessageCarousel';
 import styles from './KioskDepartures.module.css';
 import PageIndicator from './pageIndicator';
 
-export default function KioskDepartureItemList() {
+export default function KioskDepartureList() {
 	const connectionError = useRecoilValue(connectionErrorState);
 
 	if (connectionError) {
+		// TODO: Make this its own component
 		return (
 			<div className={styles.connectionError}>
 				<RiWifiOffLine /> Network error. Call 217-384-8188 for help.
@@ -19,13 +20,11 @@ export default function KioskDepartureItemList() {
 	}
 
 	return (
-		<>
-			<div className={styles.kioskDeparturesContainer}>
-				<GeneralMessage />
-				<CurrentDepartures />
-				<IconMessageCarousel />
-				<PageIndicator />
-			</div>
-		</>
+		<div className={styles.kioskDeparturesContainer}>
+			<GeneralMessage />
+			<CurrentDepartures />
+			<IconMessageCarousel />
+			<PageIndicator />
+		</div>
 	);
 }
