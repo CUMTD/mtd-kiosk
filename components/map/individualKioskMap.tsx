@@ -29,7 +29,7 @@ export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMap
 					defaultCenter={locationCoords}
 					defaultZoom={15}
 					gestureHandling={'greedy'}
-					mapId={mapId} //todo .env
+					mapId={mapId}
 					zoomControl={false}
 					disableDefaultUI={true}
 					styles={mapStyle}

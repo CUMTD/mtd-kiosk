@@ -13,20 +13,12 @@
 }
 
 .noDepartures,
-.connectionError,
 .generalMessage,
 .realtimeBlockingGeneralMessage {
 	font-size: var(--departure-first-font-size);
 	padding: var(--departure-x-pad);
 	background-color: var(--messaging-background-color);
 	color: black;
-}
-
-.connectionError {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5ch;
 }
 
 .generalMessage,

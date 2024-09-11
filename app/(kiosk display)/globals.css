@@ -42,7 +42,6 @@
 html,
 body,
 main {
-	/* TODO: enable before deployment */
 	cursor: none;
 	overflow: hidden;
 }
