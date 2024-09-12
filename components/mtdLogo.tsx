@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import styles from './MtdLogo.module.css';
+import styles from './mtdLogo.module.css';
 
 export default function MtdLogo() {
 	const logoClasses = clsx({
