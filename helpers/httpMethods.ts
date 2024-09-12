@@ -68,14 +68,24 @@ export async function fetchKioskList(): Promise<Kiosk[]> {
 
 export async function fetchKioskById(id: string): Promise<Kiosk> {
 	const query = `*[_type == 'kiosk' && _id == '${id}'][0]`;
-	const kiosk = (await client.fetch(query)) as Kiosk;
+	const kiosk = await client.fetch<Kiosk>(query);
 
 	return kiosk;
 }
 
-export async function fetchKioskBySlug(slug: string): Promise<Kiosk> {
-	const query = `*[_type == 'kiosk' && slug.current == '${slug}'][0]`;
-	const kiosk = (await client.fetch(query, {}, defaultCache)) as Kiosk;
+type KioskWithClassName = Kiosk & { layoutClass?: { className: string; customCss?: string } };
+
+export async function fetchKioskBySlug(slug: string): Promise<KioskWithClassName> {
+	const query = `
+	*[_type == 'kiosk' && slug.current == '${slug}'][0]{
+		...,
+		layoutClass-> {
+			className,
+			"customCss": customCss.code
+		}
+	}`;
+
+	const kiosk = await client.fetch<KioskWithClassName>(query, {}, defaultCache);
 
 	return kiosk;
 }
@@ -96,7 +106,9 @@ references(*[_type == "kioskBundle" && references($kioskId)]._id))] {
 	return iconMessages;
 }
 
-export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertisement[]> {
+export type AdsWithImageUrl = Advertisement & { imageUrl: string };
+
+export async function fetchKioskAdsByKioskId(kioskId: string): Promise<AdsWithImageUrl[]> {
 	const query = `*[_type == 'advertisement'
 						&& startDate <= $currentDate
   						&& (!defined(endDate) || endDate >= $currentDate)
@@ -107,7 +119,7 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<Advertise
 						"imageUrl": image.asset->url
 					}`;
 	const currentDate = new Date().toISOString(); // Get the current date in ISO format
-	const ads = (await client.fetch(query, { kioskId, currentDate }, defaultCache)) as Advertisement[];
+	const ads = await client.fetch<AdsWithImageUrl[]>(query, { kioskId, currentDate }, defaultCache);
 	return ads;
 }
 
