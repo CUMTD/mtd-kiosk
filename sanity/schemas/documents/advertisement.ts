@@ -70,7 +70,7 @@ const advertisement = defineType({
 			name: 'image',
 			title: 'Image',
 			type: 'image',
-			description: 'Must be at least 1080 x 480 pixels and in a 2.25:1 aspect ratio',
+			description: 'Must be at least 1080 x 480 pixels',
 			options: {
 				accept: 'image/*'
 			},
@@ -80,15 +80,15 @@ const advertisement = defineType({
 						return true;
 					}
 
-					const { width, aspectRatio } = getImageDimensions(image.asset._ref);
+					const { width, height } = getImageDimensions(image.asset._ref);
 
-					if (width < 1920) {
-						return 'Image must be at least 1920x480 pixels.';
+					if (width < 1920 || height < 480) {
+						return 'Image must be at least 1080x480 pixels.';
 					}
 
-					if (Math.abs(aspectRatio - 2.25) > 0.02) {
-						return 'Image must have a 2.25:1 aspect ratio (1920x480)';
-					}
+					// if (Math.abs(aspectRatio - 2.25) > 0.02) {
+					// 	return 'Image must have a 2.25:1 aspect ratio (1920x480)';
+					// }
 
 					return true;
 				})
