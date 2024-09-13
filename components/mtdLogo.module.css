@@ -1,6 +1,6 @@
 .logo {
 	grid-area: logo;
-	width: 288px;
+	width: var(--logo-width);
 }
 
 .swoosh {
