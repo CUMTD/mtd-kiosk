@@ -55,14 +55,14 @@ export default function DepartureItem({
 			<div className={departureTimesClasses}>
 				{departureTimes &&
 					departureTimes.map((time, index) => (
-						<div className={`${departureTimeClasses} ${time.isHopper ? styles.hopper : ''} `} key={index}>
+						<div className={clsx(departureTimeClasses, { [styles.hopper]: time.isHopper })} key={index}>
 							<div className={timeClasses}>
 								{time.time}
 								<div className={realtimeIconClasses}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
 							</div>
-							<div className={styles.timeSubtitle}>
-								{time.isHopper && 'HOPPER'}
-								{time.modifier && ' ' + time.modifier}
+							<div className={timeSubtitleClasses}>
+								{time.isHopper && 'Hopper'}
+								{time.modifier && ` ${time.modifier}`}
 							</div>
 						</div>
 					))}
