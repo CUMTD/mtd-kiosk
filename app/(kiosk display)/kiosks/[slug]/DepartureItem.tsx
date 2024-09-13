@@ -19,6 +19,12 @@ export default function DepartureItem({
 		[styles.routeNumber]: true,
 		[styles.smallRouteNumber]: number.length > 2
 	});
+
+	const departureTimeClasses = clsx({
+		[styles.departureTime]: true
+		// [styles.multiLineDepartures]: departureTimes.filter(({ isHopper, modifier }) => isHopper || (modifier && modifier.length > 0)).length > 0
+	});
+
 	return (
 		<div className={styles.departureItem}>
 			<div
@@ -40,12 +46,15 @@ export default function DepartureItem({
 			<div className={styles.departureTimes}>
 				{departureTimes &&
 					departureTimes.map((time, index) => (
-						<div className={`${styles.departureTime} ${time.isHopper ? styles.hopper : ''} `} key={index}>
+						<div className={`${departureTimeClasses} ${time.isHopper ? styles.hopper : ''} `} key={index}>
 							<div className={styles.time}>
 								{time.time}
 								<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
 							</div>
-							<div className={styles.timeSubtitle}>{time.isHopper && 'HOPPER'}</div>
+							<div className={styles.timeSubtitle}>
+								{time.isHopper && 'HOPPER'}
+								{time.modifier && ' ' + time.modifier}
+							</div>
 						</div>
 					))}
 			</div>
