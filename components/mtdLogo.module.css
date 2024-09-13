@@ -1,0 +1,12 @@
+.logo {
+	grid-area: logo;
+	width: 288px;
+}
+
+.swoosh {
+	fill: var(--logo-swoosh);
+}
+
+.mtd {
+	fill: var(--logo-mtd);
+}

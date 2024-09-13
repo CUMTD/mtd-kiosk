@@ -1,5 +1,6 @@
 import { atom, selector, selectorFamily } from 'recoil';
-import { Advertisement, Kiosk } from '../sanity.types';
+import { AdsWithImageUrl } from '../helpers/httpMethods';
+import { Kiosk } from '../sanity.types';
 import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
 
@@ -30,7 +31,7 @@ export const kioskState = atom<Kiosk>({
 	}
 });
 
-export const advertisementsState = atom<Advertisement[]>({
+export const advertisementsState = atom<AdsWithImageUrl[]>({
 	key: 'advertisementsState',
 	default: []
 });
