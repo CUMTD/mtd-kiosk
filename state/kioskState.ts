@@ -109,10 +109,9 @@ export const currentPageState = atom<number>({
 export const showPagerSelector = selector<boolean>({
 	key: 'showPagerSelector',
 	get: ({ get }) => {
-		const departures = get(departureState);
 		const blockRealtime = get(blockRealtimeSelector);
-		const departuresPerPage = get(departuresPerPageSelector);
-		return departures.length > departuresPerPage && !blockRealtime;
+		const totalPages = get(totalPagesSelector);
+		return totalPages > 1 && !blockRealtime;
 	}
 });
 
@@ -131,6 +130,12 @@ export const currentPageDeparturesSelector = selector<GroupedRoute[]>({
 		const departures = get(departureState);
 		const page = get(currentPageState);
 		const departuresPerPage = get(departuresPerPageSelector);
+
+		// just in case
+		if (departures.length <= departuresPerPage) {
+			return departures;
+		}
+
 		return departures.slice(page * departuresPerPage, (page + 1) * departuresPerPage);
 	}
 });

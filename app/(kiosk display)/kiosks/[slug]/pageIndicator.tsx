@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import throwError from '../../../../helpers/throwError';
 import { currentPageState, showPagerSelector, totalPagesSelector } from '../../../../state/kioskState';
 import styles from './pageIndicator.module.css';
@@ -11,15 +11,20 @@ const DEPARTURES_PAGINATION_INTERVAL = parseInt(
 
 export default function PageIndicator() {
 	const showPager = useRecoilValue(showPagerSelector);
-	const currentPage = useRecoilValue(currentPageState);
+	const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 	const totalPages = useRecoilValue(totalPagesSelector);
-	const setCurrentPage = useSetRecoilState(currentPageState);
 
 	useEffect(() => {
+		// show pager will be true if block realtime is false
+		// and totalPages is > 1
 		if (!showPager) {
+			// reset current page to 0 so we don't get stuck
+			// on page index 1 with fewer than 2 pages of departures
+			setCurrentPage(0);
 			return () => {};
 		}
 
+		// only set the interval if we have multiple pages
 		const interval = setInterval(() => {
 			setCurrentPage((page) => (page + 1) % totalPages);
 		}, DEPARTURES_PAGINATION_INTERVAL);
