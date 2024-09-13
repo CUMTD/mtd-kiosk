@@ -15,7 +15,7 @@ export default function Toolbar() {
 	return (
 		<div className={styles.toolbar}>
 			<Link href="/" style={{ gridArea: 'logo' }} passHref>
-				<div style={{ display: 'flex', gap: '1ch' }}>
+				<div className={styles.logo}>
 					<MTDLogo />
 					<h1 style={{ fontWeight: '500' }}>Kiosks</h1>
 				</div>
