@@ -5,6 +5,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { Kiosk } from '../../../sanity.types';
 import { allKiosksState, kioskHealthStatusesState } from '../../../state/sidebarState';
 import { ServerHealthStatuses } from '../../../types/serverHealthStatuses';
+import KioskHealthUpdater from './kioskHealthUpdater';
 
 interface Props {
 	kiosks: Kiosk[];
@@ -18,5 +19,10 @@ export default function SidebarRoot({ kiosks, healthStatuses, children }: Props)
 		set(kioskHealthStatusesState, healthStatuses ?? []);
 	}
 
-	return <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>;
+	return (
+		<RecoilRoot initializeState={initializeState}>
+			<KioskHealthUpdater />
+			{children}
+		</RecoilRoot>
+	);
 }

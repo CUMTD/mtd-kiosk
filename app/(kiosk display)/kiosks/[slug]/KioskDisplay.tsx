@@ -26,7 +26,8 @@ export function KioskDisplay() {
 			<div className={classes}>
 				<KioskHeader />
 				<KioskDepartureList />
-				<KioskAdsCarousel />
+
+				{!isHorizontal && <KioskAdsCarousel />}
 			</div>
 		</>
 	);

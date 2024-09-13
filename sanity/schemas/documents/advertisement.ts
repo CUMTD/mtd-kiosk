@@ -82,7 +82,7 @@ const advertisement = defineType({
 
 					const { width, height } = getImageDimensions(image.asset._ref);
 
-					if (width < 1920 || height < 480) {
+					if (width < 1080 || height < 480) {
 						return 'Image must be at least 1080x480 pixels.';
 					}
 

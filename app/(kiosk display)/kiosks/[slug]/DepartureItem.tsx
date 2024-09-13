@@ -15,18 +15,27 @@ export default function DepartureItem({
 }: DepartureProps) {
 	const darkMode = useRecoilValue(darkModeState);
 
+	const departureItemClasses = clsx({
+		['departureItem']: true,
+		[styles.departureItem]: true
+	});
+
 	const routeNumberClasses = clsx({
+		['routeNumber']: true,
 		[styles.routeNumber]: true,
 		[styles.smallRouteNumber]: number.length > 2
 	});
 
-	const departureTimeClasses = clsx({
-		[styles.departureTime]: true
-		// [styles.multiLineDepartures]: departureTimes.filter(({ isHopper, modifier }) => isHopper || (modifier && modifier.length > 0)).length > 0
-	});
+	const routeInfoClasses = clsx('routeInfo', styles.routeInfo);
+	const directionClasses = clsx('direction', styles.direction);
+	const departureTimesClasses = clsx('departureTimes', styles.departureTimes);
+	const timeClasses = clsx('departure-time', styles.time);
+	const departureTimeClasses = clsx('departureTime', styles.departureTime);
+	const timeSubtitleClasses = clsx('timeSubtitle', styles.timeSubtitle);
+	const realtimeIconClasses = clsx('realtimeIcon', styles.realtimeIcon);
 
 	return (
-		<div className={styles.departureItem}>
+		<div className={departureItemClasses}>
 			<div
 				className={routeNumberClasses}
 				style={{
@@ -36,20 +45,20 @@ export default function DepartureItem({
 			>
 				{number}
 			</div>
-			<div className={styles.routeInfo}>
+			<div className={routeInfoClasses}>
 				<span className={styles.headsign}>
 					{name} {isAcrossStreet && <FaPersonWalkingDashedLineArrowRight className={styles.acrossStreetIcon} />}
 				</span>
 				<br />
-				<span className={styles.direction}>{direction}</span>
+				<span className={directionClasses}>{direction}</span>
 			</div>
-			<div className={styles.departureTimes}>
+			<div className={departureTimesClasses}>
 				{departureTimes &&
 					departureTimes.map((time, index) => (
 						<div className={`${departureTimeClasses} ${time.isHopper ? styles.hopper : ''} `} key={index}>
-							<div className={styles.time}>
+							<div className={timeClasses}>
 								{time.time}
-								<div className={styles.realtimeIcon}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
+								<div className={realtimeIconClasses}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
 							</div>
 							<div className={styles.timeSubtitle}>
 								{time.isHopper && 'HOPPER'}

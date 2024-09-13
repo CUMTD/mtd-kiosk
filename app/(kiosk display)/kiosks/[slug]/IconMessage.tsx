@@ -11,18 +11,19 @@ interface Props {
 }
 
 export default function IconMessage({ index }: Props) {
-	const { darkModeImageUrl, lightModeImageUrl, message } = useRecoilValue(iconMessageSelectorFamily(index));
+	const { _id: id, darkModeImageUrl, lightModeImageUrl, message } = useRecoilValue(iconMessageSelectorFamily(index));
 	const currentIconMessageIndex = useRecoilValue(currentIconMessageIndexState);
 	const isCurrent = index === currentIconMessageIndex;
 	const darkMode = useRecoilValue(darkModeState);
 
 	const className = clsx({
+		'icon-message': true,
 		[styles.iconMessage]: true,
 		[styles.current]: isCurrent
 	});
 
 	return (
-		<div className={className}>
+		<div className={className} id={id}>
 			<Image src={darkMode ? darkModeImageUrl : lightModeImageUrl} alt="" width={30} height={30} />
 			{message}
 		</div>

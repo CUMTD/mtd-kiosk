@@ -1,5 +1,6 @@
 import { CgDisplaySpacing } from 'react-icons/cg';
 import { FaGear } from 'react-icons/fa6';
+import { LuLayout } from 'react-icons/lu';
 import type { StructureResolver } from 'sanity/structure';
 
 const structure: StructureResolver = (S, _context) => {
@@ -51,13 +52,19 @@ const structure: StructureResolver = (S, _context) => {
 									S.documentTypeList('kioskBundle')
 										.title('Bundles')
 										.defaultOrdering([{ field: 'bundleName', direction: 'asc' }])
-								),
-							S.listItem().title('Icon Messages').schemaType('iconMessage').child(
-								S.documentTypeList('iconMessage').title('Messages')
-								// .defaultOrdering([{ field: 'iconMessage', direction: 'asc' }])
-							)
+								)
 						])
-				)
+				),
+			S.listItem()
+				.title('Layout Classes')
+				.icon(LuLayout)
+				.schemaType('layoutClass')
+				.child(S.documentTypeList('layoutClass').title('Layout Classes'))
+				.icon(LuLayout),
+			S.listItem().title('Icon Messages').schemaType('iconMessage').child(
+				S.documentTypeList('iconMessage').title('Messages')
+				// .defaultOrdering([{ field: 'iconMessage', direction: 'asc' }])
+			)
 		]);
 };
 

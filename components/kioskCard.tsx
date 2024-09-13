@@ -2,7 +2,6 @@
 import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef } from 'react';
 import { GoChevronRight } from 'react-icons/go';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -23,8 +22,6 @@ interface KioskCardProps {
 const inter = Inter({ subsets: ['latin'] });
 
 export default function KioskCard({ kioskId, index, clickable }: KioskCardProps) {
-	const router = useRouter();
-
 	const kioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
