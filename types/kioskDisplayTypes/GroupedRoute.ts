@@ -17,6 +17,7 @@ export type DepartureTime = {
 	time: string;
 	isRealTime: boolean;
 	isHopper: boolean;
+	modifier: string;
 };
 
 export type GeneralMessage = {

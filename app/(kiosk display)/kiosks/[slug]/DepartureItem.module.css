@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-areas: 'num route departures';
 
-	grid-template-columns: 1fr 4fr 6fr;
+	grid-template-columns: 1fr 3.5fr 6fr;
 	grid-template-rows: 1fr;
 
 	gap: 1em;
@@ -17,6 +17,10 @@
 	font-family: interstate-condensed, sans-serif;
 	border-bottom: 5px solid var(--departure-line-color);
 }
+
+/* .departureItem.multiline {
+	justify-content: flex-start;
+} */
 
 .realtimeIcon {
 	position: absolute;
@@ -98,6 +102,10 @@
 	gap: 15px;
 }
 
+.departureTime.multiLineDepartures {
+	justify-content: flex-start;
+}
+
 .hopper {
 	background-color: var(--departure-hopper-background-color);
 }
@@ -121,6 +129,7 @@
 } */
 
 .time {
+	text-wrap: nowrap;
 	position: relative;
 
 	display: flex;
@@ -137,7 +146,10 @@
 
 .timeSubtitle {
 	font-weight: 200;
-	font-size: var(--departure-second-font-size);
+	/* font-size: var(--departure-second-font-size); */
+	font-size: 25px;
+	text-wrap: nowrap;
+	text-transform: uppercase;
 
 	text-align: center;
 
