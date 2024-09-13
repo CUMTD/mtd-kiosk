@@ -70,3 +70,29 @@
 	border-radius: 50%;
 	object-fit: cover;
 }
+
+.logo {
+	display: 'flex';
+	gap: '1ch';
+}
+
+.logo {
+	--logo-width: 5em;
+	--logo-mtd: #fff;
+	--logo-swoosh: #e10027;
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+
+@media (prefers-color-scheme: light) {
+	.logo {
+		--logo-mtd: #0071ce;
+	}
+}
+
+.logo svg {
+	display: block;
+	margin-right: 1ch;
+	margin-top: 0.5ch;
+}
