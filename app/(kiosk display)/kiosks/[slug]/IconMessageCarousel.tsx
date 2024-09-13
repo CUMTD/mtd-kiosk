@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import throwError from '../../../../helpers/throwError';
@@ -26,8 +27,10 @@ export default function IconMessageCarousel() {
 		return null;
 	}
 
+	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel);
+
 	return (
-		<div className={styles.iconMessageCarousel}>
+		<div className={iconMessageCarouselClasses}>
 			{iconMessages.map(({ _id: id }, index) => (
 				<IconMessage key={id} index={index} />
 			))}

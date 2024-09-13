@@ -2,7 +2,7 @@
 	grid-area: time;
 	font-weight: 900;
 	font-style: normal;
-	text-align: right;
+	text-align: var(--header-align);
 	font-size: 120px;
 	margin: -14px 0 -18px 0;
 }

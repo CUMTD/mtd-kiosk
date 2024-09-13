@@ -1,3 +1,4 @@
+import { codeInput } from '@sanity/code-input';
 import { googleMapsInput } from '@sanity/google-maps-input';
 import { visionTool } from '@sanity/vision';
 import { structureTool } from 'sanity/structure';
@@ -6,9 +7,10 @@ import throwError from './helpers/throwError';
 import structure from './sanity/deskStructure';
 import { apiVersion, dataset, projectId } from './sanity/env';
 import advertisement from './sanity/schemas/documents/advertisement';
+import iconMessage from './sanity/schemas/documents/iconMessage';
 import kiosk from './sanity/schemas/documents/kiosk';
 import { kioskBundle } from './sanity/schemas/documents/kioskBundle';
-import iconMessage from './sanity/schemas/documents/iconMessage';
+import layoutClass from './sanity/schemas/documents/layoutClass';
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
@@ -17,7 +19,7 @@ const config = {
 	projectId,
 	dataset,
 	schema: {
-		types: [kiosk, iconMessage, kioskBundle, advertisement]
+		types: [kiosk, iconMessage, kioskBundle, advertisement, layoutClass]
 	},
 	title: '',
 	icon: SanityStudioIcon,
@@ -31,7 +33,8 @@ const config = {
 			defaultZoom: 12
 		}),
 		visionTool({ defaultApiVersion: apiVersion }),
-		structureTool({ structure })
+		structureTool({ structure }),
+		codeInput()
 	]
 };
 

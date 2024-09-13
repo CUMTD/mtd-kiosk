@@ -37,6 +37,14 @@
 
 	--skeleton-background: #f0f0f088;
 	--skeleton-highlight: #f0f0f056;
+
+	--header-areas: 'logo time time' 'logo istop name';
+	--header-rows: min-content 1fr;
+	--header-columns: min-content min-content 1fr;
+	--header-align: right;
+
+	--logo-mtd: #fff;
+	--logo-swoosh: #e10027;
 }
 
 html,

@@ -139,6 +139,14 @@ const kiosk = defineType({
 			type: 'boolean',
 			group: 'development',
 			initialValue: false
+		}),
+		defineField({
+			name: 'layoutClass',
+			title: 'Layout Class',
+			type: 'reference',
+			to: [{ type: 'layoutClass' }], // Reference to the layoutClass schema
+			description: 'Select a layout class to apply specific styles to the kiosk',
+			group: 'development'
 		})
 	]
 });

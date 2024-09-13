@@ -16,11 +16,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const ads = await fetchKioskAdsByKioskId(id);
 	const iconMessages = await fetchKioskIconMessagesByKioskId(id);
 
+	const mainClass = kiosk.layoutClass?.className ?? '';
+	const customCss = kiosk.layoutClass?.customCss;
+
 	return (
-		<main>
-			<KioskDisplayRoot kiosk={kiosk} departures={departures} ads={ads} iconMessages={iconMessages}>
-				<KioskDisplay />
-			</KioskDisplayRoot>
-		</main>
+		<>
+			{customCss && <style dangerouslySetInnerHTML={{ __html: customCss }} />}
+			<main className={mainClass}>
+				<KioskDisplayRoot kiosk={kiosk} departures={departures} ads={ads} iconMessages={iconMessages}>
+					<KioskDisplay />
+				</KioskDisplayRoot>
+			</main>
+		</>
 	);
 }

@@ -24,63 +24,62 @@ export type SanityImagePaletteSwatch = {
 export type SanityImagePalette = {
 	_type: 'sanity.imagePalette';
 	darkMuted?: SanityImagePaletteSwatch;
-	lightVibrant?: SanityImagePaletteSwatch;
 	darkVibrant?: SanityImagePaletteSwatch;
-	vibrant?: SanityImagePaletteSwatch;
 	dominant?: SanityImagePaletteSwatch;
 	lightMuted?: SanityImagePaletteSwatch;
+	lightVibrant?: SanityImagePaletteSwatch;
 	muted?: SanityImagePaletteSwatch;
+	vibrant?: SanityImagePaletteSwatch;
 };
 
 export type SanityImageDimensions = {
 	_type: 'sanity.imageDimensions';
+	aspectRatio?: number;
 	height?: number;
 	width?: number;
-	aspectRatio?: number;
 };
 
 export type SanityFileAsset = {
-	_id: string;
-	_type: 'sanity.fileAsset';
 	_createdAt: string;
-	_updatedAt: string;
+	_id: string;
 	_rev: string;
-	originalFilename?: string;
-	label?: string;
-	title?: string;
-	description?: string;
+	_type: 'sanity.fileAsset';
+	_updatedAt: string;
 	altText?: string;
-	sha1hash?: string;
-	extension?: string;
-	mimeType?: string;
-	size?: number;
 	assetId?: string;
-	uploadId?: string;
+	description?: string;
+	extension?: string;
+	label?: string;
+	mimeType?: string;
+	originalFilename?: string;
 	path?: string;
-	url?: string;
+	sha1hash?: string;
+	size?: number;
 	source?: SanityAssetSourceData;
+	title?: string;
+	uploadId?: string;
+	url?: string;
 };
 
 export type Advertisement = {
-	_id: string;
-	_type: 'advertisement';
 	_createdAt: string;
-	_updatedAt: string;
+	_id: string;
 	_rev: string;
-	name?: string;
-	imageUrl?: string;
+	_type: 'advertisement';
+	_updatedAt: string;
+	displayOnAllKiosks?: boolean;
+	endDate?: string;
 	image?: {
+		_type: 'image';
 		asset?: {
 			_ref: string;
 			_type: 'reference';
 			_weak?: boolean;
 			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 		};
-		hotspot?: SanityImageHotspot;
 		crop?: SanityImageCrop;
-		_type: 'image';
+		hotspot?: SanityImageHotspot;
 	};
-	displayOnAllKiosks?: boolean;
 	kiosks?: Array<
 		| {
 				_ref: string;
@@ -95,8 +94,8 @@ export type Advertisement = {
 				[internalGroqTypeReferenceTo]?: 'kiosk';
 		  }
 	>;
+	name?: string;
 	startDate?: string;
-	endDate?: string;
 };
 
 export type KioskBundle = {
@@ -165,85 +164,101 @@ export type IconMessage = {
 
 export type SanityImageCrop = {
 	_type: 'sanity.imageCrop';
-	top?: number;
 	bottom?: number;
 	left?: number;
 	right?: number;
+	top?: number;
 };
 
 export type SanityImageHotspot = {
 	_type: 'sanity.imageHotspot';
-	x?: number;
-	y?: number;
 	height?: number;
 	width?: number;
+	x?: number;
+	y?: number;
 };
 
 export type SanityImageAsset = {
-	_id: string;
-	_type: 'sanity.imageAsset';
 	_createdAt: string;
-	_updatedAt: string;
+	_id: string;
 	_rev: string;
-	originalFilename?: string;
-	label?: string;
-	title?: string;
-	description?: string;
+	_type: 'sanity.imageAsset';
+	_updatedAt: string;
 	altText?: string;
-	sha1hash?: string;
-	extension?: string;
-	mimeType?: string;
-	size?: number;
 	assetId?: string;
-	uploadId?: string;
-	path?: string;
-	url?: string;
+	description?: string;
+	extension?: string;
+	label?: string;
 	metadata?: SanityImageMetadata;
+	mimeType?: string;
+	originalFilename?: string;
+	path?: string;
+	sha1hash?: string;
+	size?: number;
 	source?: SanityAssetSourceData;
+	title?: string;
+	uploadId?: string;
+	url?: string;
 };
 
 export type SanityAssetSourceData = {
 	_type: 'sanity.assetSourceData';
-	name?: string;
 	id?: string;
+	name?: string;
 	url?: string;
 };
 
 export type SanityImageMetadata = {
 	_type: 'sanity.imageMetadata';
-	location?: Geopoint;
-	dimensions?: SanityImageDimensions;
-	palette?: SanityImagePalette;
-	lqip?: string;
 	blurHash?: string;
+	dimensions?: SanityImageDimensions;
 	hasAlpha?: boolean;
 	isOpaque?: boolean;
+	location?: Geopoint;
+	lqip?: string;
+	palette?: SanityImagePalette;
+};
+
+export type KioskBundle_2 = {
+	_createdAt: string;
+	_id: string;
+	_rev: string;
+	_type: 'kioskBundle';
+	_updatedAt: string;
+	bundleName?: string;
+	kiosks?: Array<{
+		_ref: string;
+		_type: 'reference';
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: 'kiosk';
+	}>;
 };
 
 export type Kiosk = {
-	_id: string;
-	_type: 'kiosk';
 	_createdAt: string;
-	_updatedAt: string;
+	_id: string;
 	_rev: string;
-	displayName?: string;
-	slug?: Slug;
-	phoneticName?: string;
-	stopId?: string;
+	_type: 'kiosk';
+	_updatedAt: string;
 	additionalStopIds?: Array<string>;
-	iStop?: boolean;
-	location?: Geopoint;
-	isHorizontal?: boolean;
+	displayName?: string;
 	hasLed?: boolean;
+	iStop?: boolean;
+	isHorizontal?: boolean;
 	ledIp?: string;
+	location?: Geopoint;
+	phoneticName?: string;
+	slug?: Slug;
+	stopId?: string;
 	useCentralizedService?: boolean;
 };
 
 export type Geopoint = {
 	_type: 'geopoint';
+	alt?: number;
 	lat?: number;
 	lng?: number;
-	alt?: number;
 };
 
 export type Slug = {
@@ -265,6 +280,7 @@ export type AllSanitySchemaTypes =
 	| SanityImageAsset
 	| SanityAssetSourceData
 	| SanityImageMetadata
+	| KioskBundle_2
 	| Kiosk
 	| Geopoint
 	| Slug;

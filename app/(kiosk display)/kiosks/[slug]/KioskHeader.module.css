@@ -5,7 +5,7 @@
 	font-style: normal;
 	font-size: 60px;
 	margin: -7px 0 -9px 0;
-	text-align: right;
+	text-align: var(--header-align);
 }
 
 .logo {
@@ -31,22 +31,13 @@
 	max-height: var(--header-height);
 	padding: 40px;
 	display: grid;
-	grid-template-rows: min-content 1fr;
-	grid-template-columns: min-content 1fr;
-	grid-template-areas:
-		'logo time'
-		'logo name';
+	grid-template-rows: var(--header-rows);
+	grid-template-columns: var(--header-columns);
+	grid-template-areas: var(--header-areas);
 	grid-gap: 30px;
 	justify-content: center;
 	align-items: center;
 
 	color: var(--header-color);
 	background-color: var(--header-background);
-}
-
-.headerIstop {
-	grid-template-columns: min-content 1fr min-content;
-	grid-template-areas:
-		'logo time time '
-		'logo name istop';
 }

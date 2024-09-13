@@ -29,6 +29,7 @@ export default function PageIndicator() {
 
 	// visual page indicator like ios does
 	const classes = clsx({
+		pager: true,
 		[styles.pageIndicators]: true,
 		[styles.hidden]: totalPages <= 1
 	});

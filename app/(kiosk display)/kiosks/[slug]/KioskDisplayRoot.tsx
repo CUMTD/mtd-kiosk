@@ -2,7 +2,8 @@
 
 import { ReactNode } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
-import { Advertisement, Kiosk } from '../../../../sanity.types';
+import { AdsWithImageUrl } from '../../../../helpers/httpMethods';
+import { Kiosk } from '../../../../sanity.types';
 import { advertisementsState, allIconMessagesState, connectionErrorState, departureState, kioskState } from '../../../../state/kioskState';
 import IconMessageWithImages from '../../../../types/groqQueryTypes/IconMessageWithImages';
 import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
@@ -10,7 +11,7 @@ import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
 export interface KioskDisplayRootProps {
 	kiosk: Kiosk;
 	departures: GroupedRoute[] | null;
-	ads: Advertisement[];
+	ads: AdsWithImageUrl[];
 	iconMessages: IconMessageWithImages[];
 	children: ReactNode;
 }
