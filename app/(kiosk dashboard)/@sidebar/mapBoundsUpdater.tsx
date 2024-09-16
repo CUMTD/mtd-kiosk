@@ -3,6 +3,8 @@
 import { useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useMemo } from 'react';
 import { Kiosk } from '../../../sanity.types';
+import { useRecoilValue } from 'recoil';
+import { focusedKioskIdState } from '../../../state/sidebarState';
 
 interface Props {
 	kiosks: Kiosk[];
@@ -10,6 +12,7 @@ interface Props {
 
 export default function MapBoundsUpdater({ kiosks }: Props) {
 	const map = useMap();
+	const focusedKioskId = useRecoilValue(focusedKioskIdState);
 
 	const bounds = useMemo(
 		() =>
@@ -32,6 +35,16 @@ export default function MapBoundsUpdater({ kiosks }: Props) {
 			map.fitBounds(googleBounds);
 		}
 	}, [bounds, map]);
+
+	useEffect(() => {
+		if (focusedKioskId) {
+			const focusedKiosk = kiosks.find((k) => k._id === focusedKioskId);
+			if (focusedKiosk?.location && focusedKiosk.location.lat && focusedKiosk.location.lng) {
+				const location = { lat: focusedKiosk.location.lat, lng: focusedKiosk.location.lng };
+				map?.panTo(location);
+			}
+		}
+	}, [focusedKioskId, kiosks, map]);
 
 	return null;
 }

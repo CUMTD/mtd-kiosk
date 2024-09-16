@@ -11,9 +11,14 @@ interface LedPreviewProps {
 }
 
 export default async function LedPreview({ kioskId, ledIp, clickable }: LedPreviewProps) {
-	const ledPreviewImg = await fetchLEDPreview(ledIp);
+	var ledPreviewImg: string | null = null;
+	try {
+		ledPreviewImg = await fetchLEDPreview(ledIp);
+	} catch (error) {
+		console.error(error);
+	}
 
-	if (!ledPreviewImg) {
+	if (!ledPreviewImg || ledPreviewImg.length === 0) {
 		return <LedPreviewPlaceholder failed />;
 	}
 
