@@ -15,6 +15,8 @@ interface Props {
 	params: { id: string };
 }
 
+export const revalidate = 0;
+
 export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
 	const kiosk = await fetchKioskById(id);
 
