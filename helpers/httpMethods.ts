@@ -41,7 +41,10 @@ export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null
 	try {
 		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health`, {
 			headers: defaultHeaders,
-			cache: 'no-cache'
+			cache: 'no-cache',
+			next: {
+				revalidate: 60
+			}
 		});
 
 		const healthStatus = (await response.json()) as ServerHealthStatuses[];
@@ -228,6 +231,7 @@ export async function fetchLEDPreview(ledIp: string): Promise<string | null> {
 			next: {
 				tags: ['ledPreview']
 			}
+			// signal: AbortSignal.timeout(9000)
 		});
 		if (!response.ok) {
 			return null;
