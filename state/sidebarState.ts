@@ -28,11 +28,17 @@ export const showProblemsOnlyState = atom<boolean>({
 	default: false
 });
 
+export const showDevelopmentKiosksState = atom<boolean>({
+	key: 'showDevelopmentKiosksState',
+	default: false
+});
+
 export const currentlyFilteredKiosksSelector = selector<Kiosk[]>({
 	key: 'currentlyFilteredKiosksSelector',
 	get: ({ get }) => {
 		const kiosks = get(allKiosksState);
 		const showProblemsOnly = get(showProblemsOnlyState);
+		const showDevelopmentKiosks = get(showDevelopmentKiosksState);
 		const healthStatuses = get(kioskHealthStatusesState);
 
 		let returnKiosks = kiosks;
@@ -42,6 +48,10 @@ export const currentlyFilteredKiosksSelector = selector<Kiosk[]>({
 				const health = healthStatuses.find((h) => h.kioskId === k._id);
 				return health && health.overallHealth !== HealthStatus.HEALTHY;
 			});
+		}
+
+		if (!showDevelopmentKiosks) {
+			returnKiosks = returnKiosks.filter((k) => !k.displayName?.includes('development'));
 		}
 
 		return [...returnKiosks].sort((a, b) => (a.displayName ?? '')?.localeCompare(b.displayName ?? ''));
