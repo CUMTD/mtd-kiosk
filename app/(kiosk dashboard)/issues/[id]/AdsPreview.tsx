@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { GiLightBulb } from 'react-icons/gi';
 import { fetchKioskAdsByKioskId, fetchKioskById } from '../../../../helpers/httpMethods';
 import styles from './AdsPreview.module.css';
 
@@ -20,9 +19,7 @@ export default async function AdsPreview({ kioskId }: AdsPageProps) {
 		<div>
 			<div className={styles.adsSection}>
 				<h2>Ads</h2>
-				<p className={styles.proTip}>
-					<GiLightBulb /> Click on an ad to edit it in the studio
-				</p>
+				<p className={styles.proTip}>Click on an ad for more details.</p>
 			</div>
 			<div className={styles.adContainer}>
 				{kioskAds.map(({ _id: id, name, imageUrl }) => (
