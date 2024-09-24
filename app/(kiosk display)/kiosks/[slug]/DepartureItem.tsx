@@ -57,7 +57,8 @@ export default function DepartureItem({
 					departureTimes.map((time, index) => (
 						<div className={clsx(departureTimeClasses, { [styles.hopper]: time.isHopper })} key={index}>
 							<div className={timeClasses}>
-								{time.time}
+								{time.time.split(' ')[0]}
+								<span className={styles.timeSuffix}>{time.time.split(' ')[1]?.replace('mins', 'min')}</span>
 								<div className={realtimeIconClasses}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
 							</div>
 							<div className={timeSubtitleClasses}>

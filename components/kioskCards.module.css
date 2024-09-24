@@ -11,6 +11,19 @@
 	overflow-y: auto;
 }
 
+.openAllKiosks {
+	text-wrap: nowrap;
+	padding: 0 1em;
+}
+
+.kioskCardsHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
 .collapsed {
 	display: none;
 	grid-area: unset;
