@@ -1,7 +1,7 @@
 'use client';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentlyFilteredKiosksSelector, showProblemsOnlyState } from '../state/sidebarState';
+import { currentlyFilteredKiosksSelector, showDevelopmentKiosksState, showProblemsOnlyState } from '../state/sidebarState';
 import KioskCard from './kioskCard';
 import styles from './kioskCards.module.css';
 
@@ -10,10 +10,15 @@ interface KioskCardsProps {
 }
 export default function KioskCards({ readonly }: KioskCardsProps) {
 	const [showProblemsOnly, setShowProblemsOnly] = useRecoilState(showProblemsOnlyState);
+	const [showDevelopmentKiosks, setShowDevelopmentKiosks] = useRecoilState(showDevelopmentKiosksState);
 	const currentlyFilteredKiosks = useRecoilValue(currentlyFilteredKiosksSelector);
 
 	const toggleShowProblemsOnly = () => {
 		setShowProblemsOnly(!showProblemsOnly);
+	};
+
+	const toggleShowDevelopmentKiosks = () => {
+		setShowDevelopmentKiosks(!showDevelopmentKiosks);
 	};
 
 	const handleOpenAllKiosks = () => {
@@ -31,6 +36,11 @@ export default function KioskCards({ readonly }: KioskCardsProps) {
 				<label className={styles.showProblemsOnly}>
 					<input type="checkbox" onClick={toggleShowProblemsOnly} value={`${showProblemsOnly}`} />
 					Show Problems Only
+				</label>
+
+				<label className={styles.showProblemsOnly}>
+					<input type="checkbox" onClick={toggleShowDevelopmentKiosks} value={`${showDevelopmentKiosks}`} />
+					Show Dev Kiosks
 				</label>
 
 				<button className={styles.openAllKiosks} onClick={handleOpenAllKiosks}>
