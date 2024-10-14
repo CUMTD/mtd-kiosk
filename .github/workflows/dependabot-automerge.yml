@@ -40,7 +40,7 @@ jobs:
             });
             console.log(`Approved PR #${pr_number}`);
 
-      # Step 4: Enable Auto-Merge for Semver Patch Updates
+      # Step 4: Enable Auto-Merge for Semver Patch and Minor Updates
       - name: Enable Auto-Merge for Semver Patch Updates
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
