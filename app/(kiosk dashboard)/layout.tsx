@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import './globals.css';
-import Header from './header';
 import styles from './layout.module.css';
 import SessionWrapper from './sessionWrapper';
+import { SessionContent } from './SessionContent';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,10 +22,10 @@ export default async function RootLayout({
 		<html lang="en">
 			<body className={bodyClass}>
 				<SessionWrapper>
-					<Header />
-					{children}
+					<SessionContent>
+						{children} {sidebar}
+					</SessionContent>
 				</SessionWrapper>
-				{sidebar}
 			</body>
 		</html>
 	);
