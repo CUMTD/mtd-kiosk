@@ -39,11 +39,17 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x, 21.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -53,13 +59,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Install Dependancies
+      - name: Install Dependencies
         run: |
           npm ci
-          npm install -g @sanity/cli@latest
+          # Removed global installation of @sanity/cli
 
       - name: Build Next
         run: npm run build:next
 
       - name: Build Sanity
-        run: npm run build:sanity
+        run: npx sanity build # Using npx instead of global install
