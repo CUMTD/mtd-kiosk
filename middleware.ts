@@ -15,7 +15,13 @@ export default withAuth(middleware, {
 			token
 		}) => {
 			// Allow access to public pages without authentication
-			if (pathname.startsWith('/api/auth/') || pathname.startsWith('/kiosks/') || pathname === '/studio' || pathname.startsWith('/studio/')) {
+			if (
+				pathname.startsWith('/api/auth/') ||
+				pathname.startsWith('/kiosks/') ||
+				pathname === '/studio' ||
+				pathname.startsWith('/studio/') ||
+				pathname.match(/\.(svg|png|jpg|jpeg|webp)$/)
+			) {
 				// true === authorized
 				return true;
 			}
