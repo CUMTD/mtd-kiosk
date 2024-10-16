@@ -1,10 +1,8 @@
 import clsx from 'clsx';
 import { FaPersonWalkingDashedLineArrowRight } from 'react-icons/fa6';
-import { useRecoilValue } from 'recoil';
-import { darkModeState } from '../../../../state/kioskState';
 import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
 import styles from './DepartureItem.module.css';
-import RealTimeIcon from './RealTimeIcon';
+import DepartureItemTime from './DepartureItemTime';
 
 interface DepartureProps {
 	route: GroupedRoute;
@@ -13,8 +11,6 @@ interface DepartureProps {
 export default function DepartureItem({
 	route: { number, name, backgroundHexColor, foregroundHexColor, isAcrossStreet, direction, departureTimes }
 }: DepartureProps) {
-	const darkMode = useRecoilValue(darkModeState);
-
 	const departureItemClasses = clsx({
 		['departureItem']: true,
 		[styles.departureItem]: true
@@ -29,10 +25,6 @@ export default function DepartureItem({
 	const routeInfoClasses = clsx('routeInfo', styles.routeInfo);
 	const directionClasses = clsx('direction', styles.direction);
 	const departureTimesClasses = clsx('departureTimes', styles.departureTimes);
-	const timeClasses = clsx('departure-time', styles.time);
-	const departureTimeClasses = clsx('departureTime', styles.departureTime);
-	const timeSubtitleClasses = clsx('timeSubtitle', styles.timeSubtitle);
-	const realtimeIconClasses = clsx('realtimeIcon', styles.realtimeIcon);
 
 	return (
 		<div className={departureItemClasses}>
@@ -53,20 +45,7 @@ export default function DepartureItem({
 				<span className={directionClasses}>{direction}</span>
 			</div>
 			<div className={departureTimesClasses}>
-				{departureTimes &&
-					departureTimes.map((time, index) => (
-						<div className={clsx(departureTimeClasses, { [styles.hopper]: time.isHopper })} key={index}>
-							<div className={timeClasses}>
-								{time.time.split(' ')[0]}
-								<span className={styles.timeSuffix}>{time.time.split(' ')[1]?.replace('mins', 'min')}</span>
-								<div className={realtimeIconClasses}>{time.isRealTime ? <RealTimeIcon color={darkMode ? 'white' : 'black'} /> : null}</div>
-							</div>
-							<div className={timeSubtitleClasses}>
-								{time.isHopper && 'Hopper'}
-								{time.modifier && ` ${time.modifier}`}
-							</div>
-						</div>
-					))}
+				{departureTimes && departureTimes.map((time, index) => <DepartureItemTime time={time} index={index} key={index} />)}
 			</div>
 		</div>
 	);
