@@ -2,7 +2,7 @@
 	--scale: 1;
 	--width: 1080px;
 	--height: 1920px;
-	--header-height: 250px;
+	--header-height: 200px;
 	--ad-height: 480px;
 	--ad-width: 1080px;
 	--viewport-border-radius: 10px;
@@ -48,7 +48,7 @@
 	--logo-mtd: #fff;
 	--logo-swoosh: #e10027;
 
-	--logo-width: 288px;
+	--logo-width: 230px;
 }
 
 html,
