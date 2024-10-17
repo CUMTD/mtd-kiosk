@@ -24,12 +24,12 @@
 
 .soonDark {
 	/* color: #ff7f7f; */
-	color: #fc7272;
+	color: var(--soon-departure-dark-mode-color);
 }
 
 .soonLight {
 	/* color: #b30000; */
-	color: #b30000;
+	color: var(--soon-departure-light-mode-color);
 }
 
 .realtimeIcon {

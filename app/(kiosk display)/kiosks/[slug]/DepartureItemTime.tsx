@@ -6,14 +6,14 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../../state/kioskState';
 
 interface DepartureItemTimeProps {
-	time: DepartureTime;
+	departureTime: DepartureTime;
 	index: number;
 }
 
-export default function DepartureItemTime({ time, index }: DepartureItemTimeProps) {
-	const timeAsInt = parseInt(time.time.split(' ')[0]);
+export default function DepartureItemTime({ departureTime: { time, isHopper, isRealTime, modifier }, index }: DepartureItemTimeProps) {
+	const timeAsInt = parseInt(time.split(' ')[0]);
 	const isDarkMode = useRecoilValue(darkModeState);
-	const isSoon = time.time == 'DUE' || (!isNaN(timeAsInt) && timeAsInt < 5);
+	const isSoon = time == 'DUE' || (!isNaN(timeAsInt) && timeAsInt < 5);
 
 	const timeClasses = clsx('departure-time', styles.time, { [styles.soonDark]: isDarkMode && isSoon }, { [styles.soonLight]: !isDarkMode && isSoon });
 	const departureTimeClasses = clsx('departureTime', styles.departureTime);
@@ -21,15 +21,15 @@ export default function DepartureItemTime({ time, index }: DepartureItemTimeProp
 	const realtimeIconClasses = clsx('realtimeIcon', styles.realtimeIcon);
 
 	return (
-		<div className={clsx(departureTimeClasses, { [styles.hopper]: time.isHopper })} key={index}>
+		<div className={clsx(departureTimeClasses, { [styles.hopper]: isHopper })} key={`${time}-${isHopper}-${modifier}`}>
 			<div className={timeClasses}>
-				<span>{time.time.split(' ')[0]}</span>
-				<span className={styles.timeSuffix}>{time.time.split(' ')[1]?.replace('mins', 'min')}</span>
-				<div className={realtimeIconClasses}>{time.isRealTime ? <RealTimeIcon color={isDarkMode ? 'white' : 'black'} /> : null}</div>
+				<span>{time.split(' ')[0]}</span>
+				<span className={styles.timeSuffix}>{time.split(' ')[1]?.replace('mins', 'min')}</span>
+				<div className={realtimeIconClasses}>{isRealTime ? <RealTimeIcon color={isDarkMode ? 'white' : 'black'} /> : null}</div>
 			</div>
 			<div className={timeSubtitleClasses}>
-				{time.isHopper && 'Hopper'}
-				{time.modifier && ` ${time.modifier}`}
+				{isHopper && 'Hopper'}
+				{modifier && ` ${modifier}`}
 			</div>
 		</div>
 	);

@@ -45,7 +45,7 @@ export default function DepartureItem({
 				<span className={directionClasses}>{direction}</span>
 			</div>
 			<div className={departureTimesClasses}>
-				{departureTimes && departureTimes.map((time, index) => <DepartureItemTime time={time} index={index} key={index} />)}
+				{departureTimes && departureTimes.map((time, index) => <DepartureItemTime departureTime={time} index={index} key={index} />)}
 			</div>
 		</div>
 	);
