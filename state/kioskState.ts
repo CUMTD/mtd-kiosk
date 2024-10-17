@@ -7,7 +7,7 @@ import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/Grouped
 export const departuresPerPageSelector = selector<number>({
 	key: 'departuresPerPageSelector',
 	get: ({ get }) => {
-		const DEPARTURES_PER_PAGE = 7;
+		const DEPARTURES_PER_PAGE = 8;
 
 		const generalMessage = get(generalMessageState);
 		if (generalMessage) {
