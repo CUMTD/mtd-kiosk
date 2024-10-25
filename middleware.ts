@@ -38,5 +38,5 @@ export default withAuth(middleware, {
 });
 
 export const config = {
-	matcher: '/:path*' // match all paths
+	matcher: '/dashboard/:path*' // just dashboard for auth
 };

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import KioskCards from '../../../components/kioskCards';
-import { fetchKioskList, getHealthStatuses } from '../../../helpers/httpMethods';
+import KioskCards from '../../../../components/kioskCards';
+import { fetchKioskList, getHealthStatuses } from '../../../../helpers/httpMethods';
 import styles from './sidebarLayout.module.css';
 import SidebarRoot from './sidebarRoot';
 

@@ -9,7 +9,7 @@ import SessionWrapper from './sessionWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default async function RootLayout({
+export default async function Layout({
 	children,
 	sidebar
 }: Readonly<{
@@ -19,14 +19,13 @@ export default async function RootLayout({
 	const bodyClass = clsx(styles.layoutContainer, inter.className);
 
 	return (
-		<html lang="en">
-			<body className={bodyClass}>
-				<SessionWrapper>
-					<Header />
-					{children}
-				</SessionWrapper>
-				{sidebar}
-			</body>
-		</html>
+		<div className={bodyClass}>
+			{/* <p>hey</p> */}
+			<SessionWrapper>
+				<Header />
+				{children}
+			</SessionWrapper>
+			{sidebar}
+		</div>
 	);
 }

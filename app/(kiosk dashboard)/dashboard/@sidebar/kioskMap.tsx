@@ -3,10 +3,10 @@
 import { APIProvider, Map, MapMouseEvent } from '@vis.gl/react-google-maps';
 import { useCallback } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import mapStyle from '../../../components/map/kioskMap.styles';
-import throwError from '../../../helpers/throwError';
-import useMapId from '../../../hooks/useMapId';
-import { currentlyFilteredKiosksSelector, focusedKioskIdState } from '../../../state/sidebarState';
+import mapStyle from '../../../../components/map/kioskMap.styles';
+import throwError from '../../../../helpers/throwError';
+import useMapId from '../../../../hooks/useMapId';
+import { currentlyFilteredKiosksSelector, focusedKioskIdState } from '../../../../state/sidebarState';
 import styles from './kioskMap.module.css';
 import KioskMapMarker from './kioskMapMarker';
 import MapBoundsUpdater from './mapBoundsUpdater';

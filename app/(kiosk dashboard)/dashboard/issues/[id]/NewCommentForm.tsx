@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { GoX } from 'react-icons/go';
-import LoadingAnimation from '../../../../components/loadingAnimation';
-import { createTicketComment } from '../../../../helpers/httpMethods';
+import LoadingAnimation from '../../../../../components/loadingAnimation';
+import { createTicketComment } from '../../../../../helpers/httpMethods';
 import styles from './newIssueForm.module.css';
 
 interface NewCommentFormProps {

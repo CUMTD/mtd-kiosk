@@ -1,12 +1,12 @@
-import AttributeBadge from '../../../../components/attributeBadge';
-import IStopIcon from '../../../../components/iStopIcon';
-import KioskStatusBadge from '../../../../components/kioskStatusBadge';
-import LedSignIcon from '../../../../components/ledSignIcon';
-import IndividualKioskMap from '../../../../components/map/individualKioskMap';
-import { Kiosk } from '../../../../sanity.types';
-import { HealthStatus } from '../../../../types/HealthStatus';
-import { KioskObject } from '../../../../types/KioskObjects';
-import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
+import AttributeBadge from '../../../../../components/attributeBadge';
+import IStopIcon from '../../../../../components/iStopIcon';
+import KioskStatusBadge from '../../../../../components/kioskStatusBadge';
+import LedSignIcon from '../../../../../components/ledSignIcon';
+import IndividualKioskMap from '../../../../../components/map/individualKioskMap';
+import { Kiosk } from '../../../../../sanity.types';
+import { HealthStatus } from '../../../../../types/HealthStatus';
+import { KioskObject } from '../../../../../types/KioskObjects';
+import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
 import styles from './InfoContainer.module.css';
 
 interface InfoContainerProps {
