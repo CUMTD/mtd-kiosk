@@ -7,10 +7,10 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
-import LoadingAnimation from '../../../../components/loadingAnimation';
-import UserIcon from '../../../../components/userIcon';
-import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../helpers/httpMethods';
-import KioskTicket, { TicketNote, TicketStatusType } from '../../../../types/kioskTicket';
+import LoadingAnimation from '../../../../../components/loadingAnimation';
+import UserIcon from '../../../../../components/userIcon';
+import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../../helpers/httpMethods';
+import KioskTicket, { TicketNote, TicketStatusType } from '../../../../../types/kioskTicket';
 import styles from './Issue.module.css';
 import { NewCommentForm } from './NewCommentForm';
 

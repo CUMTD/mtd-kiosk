@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../helpers/httpMethods';
-import { TicketStatusType } from '../../../../types/kioskTicket';
+import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../../helpers/httpMethods';
+import { TicketStatusType } from '../../../../../types/kioskTicket';
 import LedPreview from '../../led/ledPreview';
 import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import AdsPreview from './AdsPreview';

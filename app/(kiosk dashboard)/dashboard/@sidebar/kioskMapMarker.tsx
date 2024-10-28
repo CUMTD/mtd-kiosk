@@ -2,8 +2,8 @@
 
 import { useCallback } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import KioskMarker from '../../../components/map/kioskMarker';
-import { focusedKioskIdState, kioskSelectorFamily } from '../../../state/sidebarState';
+import KioskMarker from '../../../../components/map/kioskMarker';
+import { focusedKioskIdState, kioskSelectorFamily } from '../../../../state/sidebarState';
 
 interface Props {
 	kioskId: string;

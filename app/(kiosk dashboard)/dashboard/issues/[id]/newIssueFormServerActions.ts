@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createKioskTicket } from '../../../../helpers/httpMethods';
+import { createKioskTicket } from '../../../../../helpers/httpMethods';
 
 type CreateNewIssueFormState = {
 	status: 'unset' | 'error' | 'success';

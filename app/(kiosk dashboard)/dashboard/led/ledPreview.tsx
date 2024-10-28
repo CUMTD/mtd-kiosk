@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchLEDPreview } from '../../../helpers/httpMethods';
+import { fetchLEDPreview } from '../../../../helpers/httpMethods';
 import LedPreviewPlaceholder from './ledPreviewPlaceholder';
 import styles from './page.module.css';
 

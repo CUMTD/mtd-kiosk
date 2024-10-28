@@ -1,0 +1,33 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+
+	border: 1px solid rgb(var(--foreground-rgb));
+	padding: 2em;
+	border-radius: 10px;
+
+	/* center vertically within the body */
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.icon {
+	width: 100px;
+	height: 50px;
+}
+
+.loginButton {
+	color: white;
+	background-color: green;
+	width: 100%;
+	text-align: center;
+	border: none;
+	padding: 0.5em 1em;
+	border-radius: 5px;
+	cursor: pointer;
+}

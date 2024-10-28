@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { Kiosk } from '../../../sanity.types';
-import { client } from '../../../sanity/lib/client';
+import { Kiosk } from '../../../../sanity.types';
+import { client } from '../../../../sanity/lib/client';
 import LedPreview from './ledPreview';
 import LedPreviewPlaceholder from './ledPreviewPlaceholder';
 import styles from './page.module.css';

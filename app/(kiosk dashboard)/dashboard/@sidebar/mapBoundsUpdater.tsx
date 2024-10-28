@@ -2,9 +2,9 @@
 
 import { useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useMemo } from 'react';
-import { Kiosk } from '../../../sanity.types';
+import { Kiosk } from '../../../../sanity.types';
 import { useRecoilValue } from 'recoil';
-import { focusedKioskIdState } from '../../../state/sidebarState';
+import { focusedKioskIdState } from '../../../../state/sidebarState';
 
 interface Props {
 	kiosks: Kiosk[];

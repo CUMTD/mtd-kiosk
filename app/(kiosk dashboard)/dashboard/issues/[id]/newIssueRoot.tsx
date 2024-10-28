@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
-import { newIssueKioskIdState, newIssueTicketState } from '../../../../state/newIssueState';
+import { newIssueKioskIdState, newIssueTicketState } from '../../../../../state/newIssueState';
 
 interface Props {
 	kioskId: string;

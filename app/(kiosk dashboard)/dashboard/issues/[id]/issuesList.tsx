@@ -1,4 +1,4 @@
-import { fetchKioskTickets } from '../../../../helpers/httpMethods';
+import { fetchKioskTickets } from '../../../../../helpers/httpMethods';
 import { Issue } from './Issue';
 import styles from './issuesList.module.css';
 

@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useRef } from 'react';
 import { useFormState } from 'react-dom';
 import { GoX } from 'react-icons/go';
-import SubmitButton from '../../../../components/submitButton';
+import SubmitButton from '../../../../../components/submitButton';
 import styles from './newIssueForm.module.css';
 import { createNewIssueFormAction } from './newIssueFormServerActions';
 
