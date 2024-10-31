@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../../helpers/httpMethods';
-import { TicketStatusType } from '../../../../../types/kioskTicket';
+import KioskTicket, { TicketStatusType } from '../../../../../types/kioskTicket';
 import LedPreview from '../../led/ledPreview';
 import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
 import AdsPreview from './AdsPreview';
@@ -10,6 +10,8 @@ import IssuesList from './issuesList';
 import NewIssueForm from './newIssueForm';
 import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
+import { Kiosk } from '../../../../../sanity.types';
+import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
 
 interface Props {
 	params: { id: string };
@@ -34,6 +36,22 @@ export default async function IssuePage({ params: { id } }: Readonly<Props>) {
 
 	return (
 		<section className={styles.parent}>
+			<IssuePageStructure kiosk={kiosk} issues={issues} openIssues={openIssues} closedIssues={closedIssues} healthStatus={healthStatus} />
+		</section>
+	);
+}
+
+interface IssuePageStructureProps {
+	kiosk: Kiosk;
+	issues: KioskTicket[];
+	openIssues: number;
+	closedIssues: number;
+	healthStatus: ServerHealthStatuses | null;
+}
+
+function IssuePageStructure({ kiosk, issues, openIssues, closedIssues, healthStatus }: IssuePageStructureProps) {
+	return (
+		<>
 			<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
 			{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
 				<div className={styles.children}>
@@ -63,9 +81,9 @@ export default async function IssuePage({ params: { id } }: Readonly<Props>) {
 						)}
 					</div>
 
-					<IssuesList kioskId={id} />
+					<IssuesList kioskId={kiosk._id} />
 				</div>
 			</div>
-		</section>
+		</>
 	);
 }
