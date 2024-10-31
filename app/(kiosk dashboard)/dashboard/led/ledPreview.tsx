@@ -25,7 +25,7 @@ export default async function LedPreview({ kioskId, ledIp, clickable }: LedPrevi
 	if (clickable) {
 		return (
 			<div>
-				<Link href={`/issues/${kioskId}`} className={styles.previewContainer} target="_blank">
+				<Link href={`/dashboard/issues/${kioskId}`} className={styles.previewContainer} target="_blank">
 					<Image src={ledPreviewImg} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
 				</Link>
 			</div>
