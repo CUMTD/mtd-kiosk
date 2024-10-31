@@ -74,7 +74,7 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 				</div>
 
 				<div className={styles.buttonContainer}>
-					<Link href={`/issues/${id}`} className={issuesButtonClasses}>
+					<Link href={`/dashboard/issues/${id}`} className={issuesButtonClasses}>
 						{openTicketCount > 0 ? (
 							<>
 								{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
