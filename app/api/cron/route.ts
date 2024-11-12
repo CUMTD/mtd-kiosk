@@ -16,7 +16,7 @@ export async function GET() {
 	return NextResponse.json({ ok: true });
 }
 
-export function calculateAdStatus(advertisement: Advertisement) {
+export function calculateAdStatus(advertisement: Advertisement): number {
 	if (!advertisement.startDate || !advertisement.endDate) {
 		return 0;
 	}
