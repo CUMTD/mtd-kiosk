@@ -28,7 +28,7 @@ export default function Toolbar() {
 					<AttributeBadge icon={<LedSignIcon alt="" title="" />} text="LED Superview" />
 				</Link>
 
-				<Link href="/studio/structure/advertisement" passHref>
+				<Link href="/studio/structure/advertisements" passHref>
 					<AttributeBadge icon={<RiAdvertisementFill />} text="Manage Ads" />
 				</Link>
 
