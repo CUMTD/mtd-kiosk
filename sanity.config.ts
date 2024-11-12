@@ -11,12 +11,21 @@ import iconMessage from './sanity/schemas/documents/iconMessage';
 import kiosk from './sanity/schemas/documents/kiosk';
 import { kioskBundle } from './sanity/schemas/documents/kioskBundle';
 import layoutClass from './sanity/schemas/documents/layoutClass';
+import { ManuallyUpdateAdStatusAction, createImprovedAction } from './sanity/lib/actions';
+import { DocumentActionComponent } from 'sanity';
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
 const config = {
 	basePath: '/studio',
 	projectId,
+	document: {
+		actions: (prev: DocumentActionComponent[]) => {
+			const existing = prev.map((originalAction) => (originalAction.action === 'publish' ? createImprovedAction(originalAction) : originalAction));
+
+			return [...existing, ManuallyUpdateAdStatusAction];
+		}
+	},
 	dataset,
 	schema: {
 		types: [kiosk, iconMessage, kioskBundle, advertisement, layoutClass]

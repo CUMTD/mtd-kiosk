@@ -24,7 +24,7 @@ export default function Toolbar() {
 			</Link>
 
 			<div className={styles.links}>
-				<Link href="/led" passHref>
+				<Link href="/dashboard/led" passHref>
 					<AttributeBadge icon={<LedSignIcon alt="" title="" />} text="LED Superview" />
 				</Link>
 

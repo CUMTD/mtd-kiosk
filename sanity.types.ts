@@ -24,62 +24,63 @@ export type SanityImagePaletteSwatch = {
 export type SanityImagePalette = {
 	_type: 'sanity.imagePalette';
 	darkMuted?: SanityImagePaletteSwatch;
+	lightVibrant?: SanityImagePaletteSwatch;
 	darkVibrant?: SanityImagePaletteSwatch;
+	vibrant?: SanityImagePaletteSwatch;
 	dominant?: SanityImagePaletteSwatch;
 	lightMuted?: SanityImagePaletteSwatch;
-	lightVibrant?: SanityImagePaletteSwatch;
 	muted?: SanityImagePaletteSwatch;
-	vibrant?: SanityImagePaletteSwatch;
 };
 
 export type SanityImageDimensions = {
 	_type: 'sanity.imageDimensions';
-	aspectRatio?: number;
 	height?: number;
 	width?: number;
+	aspectRatio?: number;
 };
 
 export type SanityFileAsset = {
-	_createdAt: string;
 	_id: string;
-	_rev: string;
 	_type: 'sanity.fileAsset';
+	_createdAt: string;
 	_updatedAt: string;
-	altText?: string;
-	assetId?: string;
-	description?: string;
-	extension?: string;
-	label?: string;
-	mimeType?: string;
+	_rev: string;
 	originalFilename?: string;
-	path?: string;
-	sha1hash?: string;
-	size?: number;
-	source?: SanityAssetSourceData;
+	label?: string;
 	title?: string;
+	description?: string;
+	altText?: string;
+	sha1hash?: string;
+	extension?: string;
+	mimeType?: string;
+	size?: number;
+	assetId?: string;
 	uploadId?: string;
+	path?: string;
 	url?: string;
+	source?: SanityAssetSourceData;
 };
 
 export type Advertisement = {
-	_createdAt: string;
 	_id: string;
-	_rev: string;
 	_type: 'advertisement';
+	_createdAt: string;
 	_updatedAt: string;
-	displayOnAllKiosks?: boolean;
-	endDate?: string;
+	_rev: string;
+	status?: number;
+	name?: string;
 	image?: {
-		_type: 'image';
 		asset?: {
 			_ref: string;
 			_type: 'reference';
 			_weak?: boolean;
 			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
 		};
-		crop?: SanityImageCrop;
 		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
 	};
+	displayOnAllKiosks?: boolean;
 	kiosks?: Array<
 		| {
 				_ref: string;
@@ -94,8 +95,8 @@ export type Advertisement = {
 				[internalGroqTypeReferenceTo]?: 'kiosk';
 		  }
 	>;
-	name?: string;
 	startDate?: string;
+	endDate?: string;
 };
 
 export type KioskBundle = {
@@ -164,107 +165,115 @@ export type IconMessage = {
 
 export type SanityImageCrop = {
 	_type: 'sanity.imageCrop';
+	top?: number;
 	bottom?: number;
 	left?: number;
 	right?: number;
-	top?: number;
 };
 
 export type SanityImageHotspot = {
 	_type: 'sanity.imageHotspot';
-	height?: number;
-	width?: number;
 	x?: number;
 	y?: number;
+	height?: number;
+	width?: number;
 };
 
 export type SanityImageAsset = {
-	_createdAt: string;
 	_id: string;
-	_rev: string;
 	_type: 'sanity.imageAsset';
+	_createdAt: string;
 	_updatedAt: string;
-	altText?: string;
-	assetId?: string;
-	description?: string;
-	extension?: string;
-	label?: string;
-	metadata?: SanityImageMetadata;
-	mimeType?: string;
+	_rev: string;
 	originalFilename?: string;
-	path?: string;
-	sha1hash?: string;
-	size?: number;
-	source?: SanityAssetSourceData;
+	label?: string;
 	title?: string;
+	description?: string;
+	altText?: string;
+	sha1hash?: string;
+	extension?: string;
+	mimeType?: string;
+	size?: number;
+	assetId?: string;
 	uploadId?: string;
+	path?: string;
 	url?: string;
+	metadata?: SanityImageMetadata;
+	source?: SanityAssetSourceData;
 };
 
 export type SanityAssetSourceData = {
 	_type: 'sanity.assetSourceData';
-	id?: string;
 	name?: string;
+	id?: string;
 	url?: string;
 };
 
 export type SanityImageMetadata = {
 	_type: 'sanity.imageMetadata';
-	blurHash?: string;
+	location?: Geopoint;
 	dimensions?: SanityImageDimensions;
+	palette?: SanityImagePalette;
+	lqip?: string;
+	blurHash?: string;
 	hasAlpha?: boolean;
 	isOpaque?: boolean;
-	location?: Geopoint;
-	lqip?: string;
-	palette?: SanityImagePalette;
-};
-
-export type KioskBundle_2 = {
-	_createdAt: string;
-	_id: string;
-	_rev: string;
-	_type: 'kioskBundle';
-	_updatedAt: string;
-	bundleName?: string;
-	kiosks?: Array<{
-		_ref: string;
-		_type: 'reference';
-		_weak?: boolean;
-		_key: string;
-		[internalGroqTypeReferenceTo]?: 'kiosk';
-	}>;
 };
 
 export type Kiosk = {
-	_createdAt: string;
 	_id: string;
-	_rev: string;
 	_type: 'kiosk';
+	_createdAt: string;
 	_updatedAt: string;
-	additionalStopIds?: Array<string>;
+	_rev: string;
 	displayName?: string;
-	hasLed?: boolean;
-	iStop?: boolean;
-	isHorizontal?: boolean;
-	ledIp?: string;
-	location?: Geopoint;
-	phoneticName?: string;
 	slug?: Slug;
+	phoneticName?: string;
 	stopId?: string;
+	additionalStopIds?: Array<string>;
+	iStop?: boolean;
+	location?: Geopoint;
+	isHorizontal?: boolean;
+	hasLed?: boolean;
+	ledIp?: string;
 	useCentralizedService?: boolean;
+	layoutClass?: {
+		_ref: string;
+		_type: 'reference';
+		_weak?: boolean;
+		[internalGroqTypeReferenceTo]?: 'layoutClass';
+	};
+};
+
+export type LayoutClass = {
+	_id: string;
+	_type: 'layoutClass';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	className?: string;
+	customCss?: Code;
 };
 
 export type Geopoint = {
 	_type: 'geopoint';
-	alt?: number;
 	lat?: number;
 	lng?: number;
+	alt?: number;
 };
 
 export type Slug = {
 	_type: 'slug';
 	current?: string;
 	source?: string;
+};
+
+export type Code = {
+	_type: 'code';
+	language?: string;
+	filename?: string;
+	code?: string;
+	highlightedLines?: Array<number>;
 };
 
 export type AllSanitySchemaTypes =
@@ -280,8 +289,9 @@ export type AllSanitySchemaTypes =
 	| SanityImageAsset
 	| SanityAssetSourceData
 	| SanityImageMetadata
-	| KioskBundle_2
 	| Kiosk
+	| LayoutClass
 	| Geopoint
-	| Slug;
+	| Slug
+	| Code;
 export declare const internalGroqTypeReferenceTo: unique symbol;
