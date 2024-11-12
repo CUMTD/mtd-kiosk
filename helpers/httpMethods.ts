@@ -41,9 +41,7 @@ export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null
 	try {
 		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health`, {
 			headers: defaultHeaders,
-			next: {
-				revalidate: 60
-			}
+			cache: 'no-cache'
 		});
 
 		const healthStatus = (await response.json()) as ServerHealthStatuses[];

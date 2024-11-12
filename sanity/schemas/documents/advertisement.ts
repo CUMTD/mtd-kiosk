@@ -2,6 +2,7 @@ import { getImageDimensions } from '@sanity/asset-utils';
 import { RiAdvertisementFill } from 'react-icons/ri';
 import { defineField, defineType } from 'sanity';
 import { Advertisement } from '../../../sanity.types';
+import AdStatusIndicator from '../../components/AdStatusIndicator';
 
 function formatDate(date: Date) {
 	const now = new Date();
@@ -22,25 +23,21 @@ const advertisement = defineType({
 			title: 'name',
 			startDateString: 'startDate',
 			endDateString: 'endDate',
-			media: 'image'
+			media: 'image',
+			status: 'status'
 		},
 		prepare(selection) {
-			const { title, startDateString, endDateString, media } = selection;
-			const now = new Date();
+			const { title, startDateString, endDateString, media, status } = selection;
 			const startDate = new Date(startDateString);
 			const endDate = endDateString ? new Date(endDateString) : null;
 			const dateRange = `${formatDate(startDate)} – ${endDate ? formatDate(endDate) : '∞'}`;
 
-			let status = 0; // 0: Live, 1: Upcoming, 2: Expired
 			let subtitle = '';
-			if (startDate > now) {
-				status = 1;
+			if (status == 1) {
 				subtitle = `🟡 Upcoming, runs: ${dateRange}`;
-			} else if (endDate && endDate < now) {
-				status = 2;
+			} else if (status == 2) {
 				subtitle = `❌ Expired, ran: ${dateRange}`;
 			} else {
-				status = 0;
 				subtitle = `✅ Live, running ${dateRange}`;
 			}
 
@@ -57,7 +54,10 @@ const advertisement = defineType({
 			name: 'status',
 			title: 'Status',
 			type: 'number',
-			hidden: true
+			readOnly: true,
+			components: {
+				input: AdStatusIndicator
+			}
 		}),
 		defineField({
 			name: 'name',
@@ -139,9 +139,7 @@ const advertisement = defineType({
 			name: 'status',
 			title: 'Order By Status',
 			by: [
-				{ field: 'status', direction: 'asc' }, // Sort by status first
-				{ field: 'startDate', direction: 'asc' }, // Then by startDate
-				{ field: 'endDate', direction: 'asc' } // Then by endDate
+				{ field: 'status', direction: 'asc' } // Sort by status first
 			]
 		},
 		{
