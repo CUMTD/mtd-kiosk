@@ -17,6 +17,9 @@ export async function GET() {
 }
 
 export function calculateAdStatus(advertisement: Advertisement) {
+	if (!advertisement.startDate || !advertisement.endDate) {
+		return 0;
+	}
 	const newStartDate = new Date(advertisement.startDate ?? '');
 	const newEndDate = new Date(advertisement.endDate ?? '');
 	const now = new Date();
