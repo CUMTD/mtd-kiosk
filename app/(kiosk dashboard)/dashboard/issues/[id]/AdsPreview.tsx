@@ -23,7 +23,7 @@ export default async function AdsPreview({ kioskId }: AdsPageProps) {
 			</div>
 			<div className={styles.adContainer}>
 				{kioskAds.map(({ _id: id, name, imageUrl }) => (
-					<Link key={id} href={`/studio/structure/advertisement;${id}`} passHref target="_blank" className={styles.adLink}>
+					<Link key={id} href={`/studio/structure/advertisements;${id}`} passHref target="_blank" className={styles.adLink}>
 						<Image src={imageUrl || ''} alt={name || ''} width={360} height={160} />
 					</Link>
 				))}
