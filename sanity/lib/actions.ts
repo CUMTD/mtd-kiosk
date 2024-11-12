@@ -1,6 +1,6 @@
 import { DocumentActionComponent, DocumentActionProps, useDocumentOperation } from 'sanity';
 import { Advertisement } from '../../sanity.types';
-import { calculateAdStatus } from '../../app/api/cron/route';
+import { calculateAdStatus } from '../../helpers/calculateAdStatus';
 
 export function createImprovedAction(originalPublishAction: DocumentActionComponent) {
 	console.log('building custom action');
