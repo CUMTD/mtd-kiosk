@@ -101,7 +101,15 @@ references(*[_type == "kioskBundle" && references($kioskId)]._id))] {
   "darkModeImageUrl": darkModeSvg.asset->url
 }
 `;
-	const iconMessages = await client.fetch(query, { kioskId }, { cache: 'no-cache' });
+	const iconMessages = await client.fetch(
+		query,
+		{ kioskId },
+		{
+			next: {
+				revalidate: 3600
+			}
+		}
+	);
 
 	return iconMessages;
 }
