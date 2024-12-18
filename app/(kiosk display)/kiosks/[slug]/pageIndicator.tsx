@@ -46,7 +46,11 @@ export default function PageIndicator() {
 	return (
 		<div className={classes}>
 			{Array.from({ length: totalPages }).map((_, index) => (
-				<div key={index} className={clsx(styles.pageIndicatorDot, { [styles.activePageIndicatorDot]: index == currentPage })}></div>
+				<div
+					style={{ animationDuration: `${DEPARTURES_PAGINATION_INTERVAL}ms` }}
+					key={index}
+					className={clsx(styles.pageIndicatorDot, { [styles.activePageIndicatorDot]: index == currentPage })}
+				></div>
 			))}
 		</div>
 	);
