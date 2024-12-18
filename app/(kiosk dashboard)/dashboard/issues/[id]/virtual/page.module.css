@@ -1,0 +1,41 @@
+.container {
+	margin-top: 1em;
+	width: 600px;
+	/* background-color: rgb(161, 165, 169); */
+	/* metal gradient */
+	background: linear-gradient(to bottom, #dbdbdb, #f9f9f9, #dbdbdb);
+	display: flex;
+
+	flex-direction: column;
+
+	justify-content: center;
+
+	align-items: center;
+	gap: 1em;
+	/* height: 900px; */
+	margin-right: 3em;
+	margin-left: 3em;
+}
+
+.iframe {
+	transform: scale(0.43);
+	transform-origin: top center;
+	/* border: 6em solid gray; */
+	/* border-bottom-width: 7em; */
+	background-color: gray;
+	border: none;
+	overflow: visible;
+}
+
+.ledPreview {
+	transform: scale(0.9);
+	transform-origin: top center;
+	padding: 2em;
+	padding-bottom: 4em;
+	/* border: 1px solid gray; */
+	background-color: rgb(37, 37, 37);
+}
+
+.chassis {
+	/* width: inherit; */
+}

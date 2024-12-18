@@ -7,8 +7,9 @@ import styles from './kioskCards.module.css';
 
 interface KioskCardsProps {
 	readonly?: boolean;
+	defaultFocusedKioskId?: string;
 }
-export default function KioskCards({ readonly }: KioskCardsProps) {
+export default function KioskCards({ readonly, defaultFocusedKioskId }: KioskCardsProps) {
 	const [showProblemsOnly, setShowProblemsOnly] = useRecoilState(showProblemsOnlyState);
 	const [showDevelopmentKiosks, setShowDevelopmentKiosks] = useRecoilState(showDevelopmentKiosksState);
 	const currentlyFilteredKiosks = useRecoilValue(currentlyFilteredKiosksSelector);
@@ -48,7 +49,9 @@ export default function KioskCards({ readonly }: KioskCardsProps) {
 				</button>
 			</div>
 			{currentlyFilteredKiosks.length > 0 &&
-				currentlyFilteredKiosks.map(({ _id: id }, idx) => <KioskCard key={id} kioskId={id} index={idx} clickable={!readonly} />)}
+				currentlyFilteredKiosks.map(({ _id: id }, idx) => (
+					<KioskCard key={id} kioskId={id} index={idx} clickable={!readonly} focused={id === defaultFocusedKioskId} />
+				))}
 		</aside>
 	);
 }

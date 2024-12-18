@@ -15,10 +15,6 @@
 	/* overflow-y: auto; */
 }
 
-.previewImage {
-	display: block;
-}
-
 .displayName {
 	opacity: 0.8;
 	margin-bottom: 0.3em;
@@ -56,11 +52,4 @@
 
 .frame {
 	border: 2px solid var(--led-sign-border-color);
-}
-
-.previewContainer {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	/* align-items: center; */
 }
