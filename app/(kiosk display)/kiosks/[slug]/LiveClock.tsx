@@ -28,7 +28,7 @@ export default function LiveClock() {
 	});
 
 	return (
-		<time dateTime={time.toISOString()} className={timeClasses}>
+		<time dateTime={time.toISOString()} className={timeClasses} suppressHydrationWarning>
 			{timeString}
 		</time>
 	);
