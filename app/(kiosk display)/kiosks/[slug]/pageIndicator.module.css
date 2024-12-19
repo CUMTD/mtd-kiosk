@@ -27,12 +27,12 @@
 @property --percent {
 	syntax: '<percentage>';
 	inherits: false;
-	initial-value: 0%;
+	initial-value: 0.001%;
 }
 
 @keyframes conic-gradient {
 	from {
-		--percent: 0%;
+		--percent: 0.001%;
 	}
 	to {
 		--percent: 100%;
