@@ -1,5 +1,9 @@
 import SidebarLayout from '../../sidebarLayout';
 
-export default function Page() {
-	return <SidebarLayout />;
+interface Props {
+	params: { id: string };
+}
+
+export default function Page({ params: { id } }: Readonly<Props>) {
+	return <SidebarLayout defaultFocusedKioskId={id} />;
 }

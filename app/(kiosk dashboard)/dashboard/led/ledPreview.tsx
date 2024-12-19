@@ -2,7 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fetchLEDPreview } from '../../../../helpers/httpMethods';
 import LedPreviewPlaceholder from './ledPreviewPlaceholder';
-import styles from './page.module.css';
+import styles from './ledPreview.module.css';
+import { TiRefresh } from 'react-icons/ti';
 
 interface LedPreviewProps {
 	kioskId: string;
@@ -25,6 +26,10 @@ export default async function LedPreview({ kioskId, ledIp, clickable }: LedPrevi
 	if (clickable) {
 		return (
 			<div>
+				{/* <div className={styles.refreshButton}>
+					<TiRefresh />
+				</div> */}
+
 				<Link href={`/dashboard/issues/${kioskId}`} className={styles.previewContainer} target="_blank">
 					<Image src={ledPreviewImg} className={styles.previewImage} alt="LED Preview" width={600} height={75} />
 				</Link>

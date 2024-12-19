@@ -6,15 +6,16 @@ import SidebarRoot from './sidebarRoot';
 
 interface Props {
 	children?: ReactNode;
+	defaultFocusedKioskId?: string;
 }
 
-export default async function SidebarLayout({ children }: Readonly<Props>) {
+export default async function SidebarLayout({ children, defaultFocusedKioskId }: Readonly<Props>) {
 	const kiosks = await fetchKioskList();
 	const healthStatuses = await getHealthStatuses();
 
 	return (
 		<SidebarRoot kiosks={kiosks} healthStatuses={healthStatuses}>
-			<KioskCards />
+			<KioskCards defaultFocusedKioskId={defaultFocusedKioskId} />
 			{children && <div className={styles.hasChildren}>{children}</div>}
 		</SidebarRoot>
 	);

@@ -1,0 +1,14 @@
+.previewImage {
+	display: block;
+}
+.previewContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* align-items: center; */
+}
+
+.refreshButton {
+	position: absolute;
+	margin-left: auto;
+}

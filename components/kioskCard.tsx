@@ -12,16 +12,19 @@ import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
 import KioskStatusBadge from './kioskStatusBadge';
 import LedSignIcon from './ledSignIcon';
+import { FaCircleExclamation, FaMagnifyingGlass } from 'react-icons/fa6';
+import { LuExternalLink } from 'react-icons/lu';
 
 interface KioskCardProps {
 	kioskId: string;
 	index: number;
 	clickable?: boolean;
+	focused?: boolean;
 }
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function KioskCard({ kioskId, index, clickable }: KioskCardProps) {
+export default function KioskCard({ kioskId, index, clickable, focused }: KioskCardProps) {
 	const kioskCardRef = useRef<HTMLDivElement>(null);
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
@@ -39,6 +42,13 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 			kioskCardRef.current.focus();
 		}
 	}, [focusedKiosk, id]);
+
+	// if focused is true, focus the kiosk card
+	useEffect(() => {
+		if (focused && kioskCardRef.current) {
+			kioskCardRef.current.focus();
+		}
+	}, [focused]);
 
 	const kioskCardClasses = useMemo(() => {
 		return clsx(styles.kioskCard, {
@@ -77,17 +87,17 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 					<Link href={`/dashboard/issues/${id}`} className={issuesButtonClasses}>
 						{openTicketCount > 0 ? (
 							<>
-								{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
+								<FaCircleExclamation />
+								&nbsp;{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
 							</>
 						) : (
-							'Details'
+							<>
+								<FaMagnifyingGlass />
+								&nbsp;Details
+							</>
 						)}
 					</Link>
-					{slug?.current && (
-						<Link href={`/kiosks/${slug.current}/`} target="_blank" className={`${inter.className}  ${styles.button}`}>
-							Launch
-						</Link>
-					)}
+					{slug?.current && <LaunchKioskButton slug={slug.current} />}
 				</div>
 			</div>
 			{
@@ -98,5 +108,18 @@ export default function KioskCard({ kioskId, index, clickable }: KioskCardProps)
 				</div>
 			}
 		</div>
+	);
+}
+
+interface LaunchKioskButtonProps {
+	slug: string;
+}
+
+export function LaunchKioskButton({ slug }: LaunchKioskButtonProps) {
+	return (
+		<Link href={`/kiosks/${slug}/`} target="_blank" className={styles.button}>
+			<LuExternalLink />
+			&nbsp;Launch
+		</Link>
 	);
 }

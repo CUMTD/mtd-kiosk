@@ -12,6 +12,7 @@ import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
 import { Kiosk } from '../../../../../sanity.types';
 import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
+import LedSignIcon from '../../../../../components/ledSignIcon';
 
 interface Props {
 	params: { id: string };
@@ -55,7 +56,15 @@ function IssuePageStructure({ kiosk, issues, openIssues, closedIssues, healthSta
 			<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
 			{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
 				<div className={styles.children}>
-					<h2 style={{ paddingBottom: '1em' }}>LED Preview</h2>
+					<h2 style={{ paddingBottom: '1em' }}>
+						<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+							<span>
+								<LedSignIcon /> LED Sign{' '}
+							</span>
+							<code style={{ fontWeight: 'regular' }}>{kiosk.ledIp}</code>
+						</span>
+					</h2>
+
 					<Suspense fallback={<LedPreviewPlaceholder />}>
 						<LedPreview kioskId={kiosk._id} ledIp={kiosk.ledIp!} clickable={false} />
 					</Suspense>
