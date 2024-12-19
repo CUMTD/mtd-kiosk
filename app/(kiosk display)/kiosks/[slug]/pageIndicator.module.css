@@ -32,7 +32,7 @@
 
 @keyframes conic-gradient {
 	from {
-		--percent: 0%;
+		--percent: 0.001%;
 	}
 	to {
 		--percent: 100%;
