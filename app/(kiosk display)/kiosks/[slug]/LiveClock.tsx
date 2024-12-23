@@ -20,7 +20,7 @@ export default function LiveClock() {
 	}, []);
 
 	//format time and remove leading zero from hours
-	const timeString = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0/, '');
+	const timeString = time.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit' }).replace(/^0/, '');
 
 	const timeClasses = clsx({
 		['time']: true,
