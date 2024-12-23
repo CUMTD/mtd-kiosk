@@ -14,6 +14,14 @@ const kiosk = defineType({
 	},
 	fields: [
 		defineField({
+			name: 'active',
+			title: 'Active',
+			type: 'boolean',
+			description: 'Whether or not this layout class is currently active.',
+			initialValue: false,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
 			name: 'className',
 			title: 'Class Name',
 			type: 'string',
@@ -39,6 +47,13 @@ const kiosk = defineType({
 				languageAlternatives: [],
 				withFilename: false
 			}
+		}),
+		defineField({
+			name: 'kiosks',
+			title: 'Kiosks',
+			description: 'The kiosks that this layout class will be applied to.',
+			type: 'array',
+			of: [{ type: 'reference', to: [{ type: 'kioskBundle' }, { type: 'kiosk' }] }]
 		})
 	]
 });
