@@ -1,4 +1,10 @@
-import { fetchKioskAdsByKioskId, fetchKioskBySlug, fetchKioskIconMessagesByKioskId, getDepartures } from '../../../../helpers/httpMethods';
+import {
+	fetchKioskAdsByKioskId,
+	fetchKioskBySlug,
+	fetchKioskIconMessagesByKioskId,
+	fetchKioskLayoutClassesByKioskId,
+	getDepartures
+} from '../../../../helpers/httpMethods';
 import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
 import { KioskDisplay } from './KioskDisplay';
 import KioskDisplayRoot from './KioskDisplayRoot';
@@ -15,9 +21,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	const ads = await fetchKioskAdsByKioskId(id);
 	const iconMessages = await fetchKioskIconMessagesByKioskId(id);
+	const layoutClass = await fetchKioskLayoutClassesByKioskId(id);
 
-	const mainClass = kiosk.layoutClass?.className ?? '';
-	const customCss = kiosk.layoutClass?.customCss;
+	const mainClass = layoutClass[0]?.className ?? '';
+	const customCss = layoutClass[0]?.customCss?.code ?? '';
 
 	return (
 		<>

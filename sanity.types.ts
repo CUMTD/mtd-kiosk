@@ -61,6 +61,31 @@ export type SanityFileAsset = {
 	source?: SanityAssetSourceData;
 };
 
+export type LayoutClass = {
+	_id: string;
+	_type: 'layoutClass';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	active?: boolean;
+	className?: string;
+	customCss?: Code;
+	kiosks?: Array<
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kioskBundle';
+		  }
+		| {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'kiosk';
+		  }
+	>;
+};
+
 export type Advertisement = {
 	_id: string;
 	_type: 'advertisement';
@@ -237,22 +262,6 @@ export type Kiosk = {
 	hasLed?: boolean;
 	ledIp?: string;
 	useCentralizedService?: boolean;
-	layoutClass?: {
-		_ref: string;
-		_type: 'reference';
-		_weak?: boolean;
-		[internalGroqTypeReferenceTo]?: 'layoutClass';
-	};
-};
-
-export type LayoutClass = {
-	_id: string;
-	_type: 'layoutClass';
-	_createdAt: string;
-	_updatedAt: string;
-	_rev: string;
-	className?: string;
-	customCss?: Code;
 };
 
 export type Geopoint = {
@@ -281,6 +290,7 @@ export type AllSanitySchemaTypes =
 	| SanityImagePalette
 	| SanityImageDimensions
 	| SanityFileAsset
+	| LayoutClass
 	| Advertisement
 	| KioskBundle
 	| IconMessage
@@ -290,7 +300,6 @@ export type AllSanitySchemaTypes =
 	| SanityAssetSourceData
 	| SanityImageMetadata
 	| Kiosk
-	| LayoutClass
 	| Geopoint
 	| Slug
 	| Code;

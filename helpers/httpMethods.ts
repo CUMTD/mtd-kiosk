@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidateTag } from 'next/cache';
-import { Advertisement, Kiosk } from '../sanity.types';
+import { Advertisement, Kiosk, LayoutClass } from '../sanity.types';
 import { client } from '../sanity/lib/client';
 import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
@@ -129,6 +129,18 @@ export async function fetchKioskAdsByKioskId(kioskId: string): Promise<AdsWithIm
 	const currentDate = new Date().toISOString(); // Get the current date in ISO format
 	const ads = await client.fetch<AdsWithImageUrl[]>(query, { kioskId, currentDate }, defaultCache);
 	return ads;
+}
+
+export async function fetchKioskLayoutClassesByKioskId(kioskId: string): Promise<LayoutClass[]> {
+	const query = `*[_type == 'layoutClass'
+						&& (references($kioskId) || references(*[_type == "kioskBundle" && references($kioskId)]._id))
+						&& active
+					]
+					{
+						...,
+					}`;
+	const layoutClasses = await client.fetch<LayoutClass[]>(query, { kioskId }, defaultCache);
+	return layoutClasses;
 }
 
 export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
