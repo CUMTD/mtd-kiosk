@@ -1,15 +1,13 @@
 {
 	"compilerOptions": {
+		"inlineSources": true,
+		"sourceMap": true,
 		"allowJs": true,
 		"esModuleInterop": true,
 		"incremental": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		],
+		"lib": ["dom", "dom.iterable", "esnext"],
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"noEmit": true,
@@ -22,27 +20,9 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES2017",
-		"typeRoots": [
-			"./node_modules/@types"
-		]
+		"typeRoots": ["./node_modules/@types"]
 	},
-	"exclude": [
-		"node_modules"
-	],
-	"include": [
-		"next-env.d.ts",
-		"types/*.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts"
-	],
-	"types": [
-		"google",
-		"google.maps",
-		"node",
-		"react",
-		"react-dom",
-		"sanity",
-		"sanity-codegen"
-	]
+	"exclude": ["node_modules"],
+	"include": ["next-env.d.ts", "types/*.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"types": ["google", "google.maps", "node", "react", "react-dom", "sanity", "sanity-codegen"]
 }
