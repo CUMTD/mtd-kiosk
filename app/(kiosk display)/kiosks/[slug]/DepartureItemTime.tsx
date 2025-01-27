@@ -10,7 +10,7 @@ interface DepartureItemTimeProps {
 	index: number;
 }
 
-export default function DepartureItemTime({ departureTime: { time, isHopper, isRealTime, modifier }, index }: DepartureItemTimeProps) {
+export default function DepartureItemTime({ departureTime: { time, isHopper, isRealTime, modifier } }: DepartureItemTimeProps) {
 	const timeAsInt = parseInt(time.split(' ')[0]);
 	const isDarkMode = useRecoilValue(darkModeState);
 	const isSoon = isRealTime && (time == 'DUE' || (!isNaN(timeAsInt) && timeAsInt < 5));
