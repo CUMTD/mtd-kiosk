@@ -1,6 +1,5 @@
 import AttributeBadge from '../../../../../components/attributeBadge';
 import IStopIcon from '../../../../../components/iStopIcon';
-import { LaunchKioskButton } from '../../../../../components/kioskCard';
 import KioskStatusBadge from '../../../../../components/kioskStatusBadge';
 import LedSignIcon from '../../../../../components/ledSignIcon';
 import IndividualKioskMap from '../../../../../components/map/individualKioskMap';
@@ -28,7 +27,6 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 					{kiosk.iStop && <AttributeBadge icon={<IStopIcon />} text={'iStop'} />}
 					{kiosk.hasLed && <AttributeBadge icon={<LedSignIcon />} text={'LED Sign'} />}
 				</div>
-				{/* <div>{kiosk.slug?.current && <LaunchKioskButton slug={kiosk.slug.current} />}</div> */}
 				<div className={styles.healthBadges}>
 					{healthStatus && (
 						<AttributeBadge
