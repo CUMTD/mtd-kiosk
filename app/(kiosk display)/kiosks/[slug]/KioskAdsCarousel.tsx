@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { advertisementsState } from '../../../../state/kioskState';
 import styles from './KioskAdsCarousel.module.css';
 import throwError from '../../../../helpers/throwError';
+import BusRealtimeMap from './KioskAdMap';
 
 const AD_ROTATION_INTERVAL = parseInt(process.env.NEXT_PUBLIC_AD_ROTATION_INTERVAL ?? '');
 
@@ -26,7 +27,13 @@ export default function KioskAdsCarousel() {
 
 		return () => clearInterval(interval);
 	}, [advertisements]);
+	// return (
+	// 	<footer className={styles.footer}>{ad && <span>{ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</span>}</footer>
+	// );
+
 	return (
-		<footer className={styles.footer}>{ad && <span>{ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</span>}</footer>
+		<footer className={styles.footer}>
+			<BusRealtimeMap />;
+		</footer>
 	);
 }

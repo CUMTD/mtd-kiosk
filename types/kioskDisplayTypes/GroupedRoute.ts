@@ -15,6 +15,8 @@ export type KioskDeparturesAPIResponse = {
 
 export type DepartureTime = {
 	time: string;
+	vehicleId: string | null;
+	tripId: string;
 	isRealTime: boolean;
 	isHopper: boolean;
 	modifier: string;

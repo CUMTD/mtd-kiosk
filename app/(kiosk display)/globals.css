@@ -75,3 +75,17 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+/* remove unnecessary google maps text */
+.gmnoprint a,
+.gmnoprint span {
+	display: none;
+}
+.gmnoprint div {
+	background: none !important;
+}
+
+/* animate bus markers */
+.yNHHyP-marker-view {
+	transition: all 2s linear;
+}
