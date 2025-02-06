@@ -52,6 +52,10 @@
 	--soon-departure-light-mode-color: #b30000;
 
 	--logo-width: 230px;
+
+	/* bus map */
+	--legend-box-shadow: 0 0 5px rgba(0, 0, 0, 0.397);
+	--map-margin: 1em;
 }
 
 html,
@@ -88,4 +92,6 @@ body {
 /* animate bus markers */
 .yNHHyP-marker-view {
 	transition: all 2s linear;
+	/* fade out animation */
+	animation: busMarkerFadeOut 2s linear;
 }

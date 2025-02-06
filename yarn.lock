@@ -1364,7 +1364,7 @@
     h3-js "^4.1.0"
     long "^3.2.0"
 
-"@deck.gl/google-maps@9.1.0":
+"@deck.gl/google-maps@9.1.0", "@deck.gl/google-maps@^9.1.0":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@deck.gl/google-maps/-/google-maps-9.1.0.tgz#d6421babf7d8ec55b4c97449b568280f30579043"
   integrity sha512-mF9lfTCq9o2SiYcNTWQUzLa8LZl4so8P4HdLKRMt/Wqrkm7K005vStd9BARXyQa8jz0Y83qOzwPkvRIjSY8qrQ==

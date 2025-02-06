@@ -7,4 +7,5 @@ export type RealTimeBusPosition = {
 	trip: string | null | undefined;
 	routeId: string | null | undefined;
 	occupancyStatus: number | null | undefined;
+	currentStopId: string | null | undefined;
 };

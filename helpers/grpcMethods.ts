@@ -14,7 +14,7 @@ export async function getRealtimePositions(): Promise<RealTimeBusPosition[] | nu
 		}
 		const buffer = await response.arrayBuffer();
 		const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(new Uint8Array(buffer));
-		console.log(feed);
+		// console.log(feed);
 
 		const positions: RealTimeBusPosition[] = feed.entity
 			.map((entity) => {
@@ -26,6 +26,7 @@ export async function getRealtimePositions(): Promise<RealTimeBusPosition[] | nu
 				if (!position) {
 					return null;
 				}
+				vehicle.stopId;
 				const busPosition: RealTimeBusPosition = {
 					id: vehicle.vehicle?.id,
 					latitude: position.latitude,
@@ -34,7 +35,8 @@ export async function getRealtimePositions(): Promise<RealTimeBusPosition[] | nu
 					speed: position.speed,
 					trip: vehicle.trip?.tripId,
 					routeId: vehicle.trip?.routeId,
-					occupancyStatus: vehicle.occupancyStatus
+					occupancyStatus: vehicle.occupancyStatus,
+					currentStopId: vehicle.stopId
 				};
 
 				return busPosition;

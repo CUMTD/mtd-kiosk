@@ -1,18 +1,23 @@
 import { AdvancedMarker, AdvancedMarkerAnchorPoint, APIProvider, limitTiltRange, Map, Pin, RenderingType, useMap } from '@vis.gl/react-google-maps';
 import throwError from '../../../../helpers/throwError';
 import { useRecoilValue } from 'recoil';
-import { kioskState } from '../../../../state/kioskState';
-import { busPositionsState } from '../../../../state/realtimeBusPositionState';
+import { departureState, kioskState } from '../../../../state/kioskState';
+import { busPositionsState, routePolylinesState } from '../../../../state/realtimeBusPositionState';
 import styles from './KioskAdMap.module.css';
 import Image from 'next/image';
 import KioskAdMapBusMarkers from './KioskAdMapBusMarkers';
-import DeckGL from '@deck.gl/react';
+import OccupancyLegend from './OccupancyLegend';
+import RouteOverlays from './RouteOverlays';
 
 const NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not defined');
 
 export default function BusRealtimeMap() {
 	const kiosk = useRecoilValue(kioskState);
 	const realTimeBusPositions = useRecoilValue(busPositionsState);
+	const departures = useRecoilValue(departureState);
+	const tripIdstoEncodedPolyline = useRecoilValue(routePolylinesState);
+
+	// flatten departures into a list of unique tripIds
 
 	// console.log('departures', departures);
 
@@ -24,27 +29,25 @@ export default function BusRealtimeMap() {
 
 	return (
 		<APIProvider apiKey={NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-			{/* <DeckGL controller={false} onViewStateChange={limitTiltRange}> */}
-
 			<Map
 				style={{ width: '100%', height: '100%' }}
-				className={styles.map}
-				center={{ lat: kiosk.location.lat, lng: kiosk.location.lng }}
+				defaultCenter={{ lat: kiosk.location.lat, lng: kiosk.location.lng }}
 				// 51.5072° N, 0.1276° W
 				// center={{ lat: 51.5072, lng: -0.1276 }}
 				defaultZoom={zoom}
-				gestureHandling={'none'}
-				clickableIcons={false}
-				disableDefaultUI={true}
+				gestureHandling={'greedy'}
+				// clickableIcons={false}
+				// disableDefaultUI={true}
 				mapId={'e70e48099570facb'}
-				draggableCursor={null}
-				draggingCursor={null}
+				// draggableCursor={null}
+				// draggingCursor={null}
 				heading={heading}
 				renderingType={RenderingType.VECTOR}
 				keyboardShortcuts={false}
 			>
+				<RouteOverlays />
 				<CompassRose heading={heading} />
-
+				<OccupancyLegend />
 				{/* <TransitLayer /> */}
 				<AdvancedMarker
 					position={{ lat: kiosk.location.lat, lng: kiosk.location.lng }}
@@ -57,7 +60,6 @@ export default function BusRealtimeMap() {
 				{/* TODO: this is so sloppy, must fix */}
 				<KioskAdMapBusMarkers realTimeBusPositions={realTimeBusPositions} />
 			</Map>
-			{/* </DeckGL> */}
 		</APIProvider>
 	);
 }

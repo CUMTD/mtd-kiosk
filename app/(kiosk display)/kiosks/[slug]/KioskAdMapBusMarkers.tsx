@@ -1,41 +1,86 @@
 import { useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
 import { RealTimeBusPosition } from '../../../../types/realtimeBusPosition';
-import { departureState } from '../../../../state/kioskState';
+import { departureState, kioskState } from '../../../../state/kioskState';
 import { AdvancedMarker, AdvancedMarkerAnchorPoint } from '@vis.gl/react-google-maps';
-import { FaBus } from 'react-icons/fa6';
 import styles from './KioskAdMapBusMarkers.module.css';
 import GroupedRoute from '../../../../types/kioskDisplayTypes/GroupedRoute';
 import GtfsRealtimeBindings from 'gtfs-realtime-bindings';
-import { BsPerson, BsPersonFill } from 'react-icons/bs';
+import OccupancyIndicator from './OccupancyIndicator';
 
 interface KioskAdMapBusMarkersProps {
 	realTimeBusPositions: RealTimeBusPosition[] | null;
 }
 
+type BusMarkerState = {
+	bus: RealTimeBusPosition;
+	groupedRoute: GroupedRoute;
+	isVisible: boolean; // Controls fade-in/out
+};
+
 export default function KioskAdMapBusMarkers({ realTimeBusPositions }: KioskAdMapBusMarkersProps) {
-	console.log('realTimeBusPositions', realTimeBusPositions);
+	const kiosk = useRecoilValue(kioskState);
 	const departures = useRecoilValue(departureState);
-	if (!realTimeBusPositions) {
-		return null;
-	}
+	const [busMarkers, setBusMarkers] = useState<BusMarkerState[]>([]);
 
-	console.log(departures);
-	const busPositionToGroupedRoute = realTimeBusPositions
-		.map((bus) => {
-			// first try to match the trip id for most accurate result, then fallback to vehicle id (example: someone at IT platform C is waiting for a 12E, but it is currently loggrf in as a 12W)
+	useEffect(() => {
+		if (!realTimeBusPositions) return;
 
-			let matchingRouteGroup = departures.find((departure) => departure.departureTimes.find((departureTime) => departureTime.tripId === bus.trip));
-			// if (!matchingRouteGroup) {
-			// 	matchingRouteGroup = departures.find((departure) => departure.departureTimes.find((departureTime) => departureTime.vehicleId === bus.id));
-			// }
-			return { bus, matchingRouteGroup: matchingRouteGroup };
-		})
-		.filter((item) => item.matchingRouteGroup);
+		// Map current real-time positions to routes
+		const newBusPositions = realTimeBusPositions
+			.map((bus) => {
+				const matchingRouteGroup = departures.find((departure) => departure.departureTimes.find((departureTime) => departureTime.tripId === bus.trip));
+
+				if (matchingRouteGroup) {
+					return { bus, groupedRoute: matchingRouteGroup, isVisible: true };
+				}
+				return null;
+			})
+			.filter((item): item is BusMarkerState => item !== null);
+
+		// Update positions, add new buses, and mark disappeared buses
+		setBusMarkers((prevMarkers) => {
+			const updatedMarkers = prevMarkers.map((marker) => {
+				const matchingNewBus = newBusPositions.find((newBus) => newBus.bus.id === marker.bus.id);
+
+				if (matchingNewBus) {
+					// Update position if bus still exists
+					return { ...marker, bus: matchingNewBus.bus, groupedRoute: matchingNewBus.groupedRoute, isVisible: true };
+				} else {
+					// Mark bus as fading out if it's no longer in real-time positions
+
+					// TODO: this will animate EVERY marker to transition into the kiosk location, which is not ideal
+					// update this so that either it animated based on distance of the bus, or
+					// it animates based on if the kiosk stop ID has been seen in the realtimePosition's currentStopID
+					if (kiosk.location && kiosk.location.lat && kiosk.location.lng) {
+						// change lat lng of marker to lat lng of kiosk.location to make a nice "suck in" animation
+						return { ...marker, bus: { ...marker.bus, latitude: kiosk.location.lat, longitude: kiosk.location.lng }, isVisible: false };
+					} else {
+						return { ...marker, isVisible: false };
+					}
+				}
+			});
+
+			// Add buses that weren't in previous markers
+			const newMarkers = newBusPositions.filter((newBus) => !prevMarkers.some((prevMarker) => prevMarker.bus.id === newBus.bus.id));
+
+			return [...updatedMarkers, ...newMarkers];
+		});
+	}, [realTimeBusPositions, departures]);
+
+	// Remove buses after fade-out transition
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setBusMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.isVisible));
+		}, 5000); // Match this with your CSS transition time (5s)
+
+		return () => clearTimeout(timeout);
+	}, [busMarkers]);
 
 	return (
 		<>
-			{busPositionToGroupedRoute.map((item) => (
-				<KioskAdMapBusMarker key={item.bus.id} busPosition={item.bus} groupedRoute={item.matchingRouteGroup!} />
+			{busMarkers.map((marker) => (
+				<KioskAdMapBusMarker key={marker.bus.id} busPosition={marker.bus} groupedRoute={marker.groupedRoute} isVisible={marker.isVisible} />
 			))}
 		</>
 	);
@@ -44,92 +89,30 @@ export default function KioskAdMapBusMarkers({ realTimeBusPositions }: KioskAdMa
 interface KioskAdMapBusMarkerProps {
 	busPosition: RealTimeBusPosition;
 	groupedRoute: GroupedRoute;
+	isVisible: boolean;
 }
 
-function KioskAdMapBusMarker({ busPosition, groupedRoute }: KioskAdMapBusMarkerProps) {
-	console.log(groupedRoute.name, groupedRoute.direction, busPosition.id);
-
+function KioskAdMapBusMarker({ busPosition, groupedRoute, isVisible }: KioskAdMapBusMarkerProps) {
 	return (
 		<AdvancedMarker
 			key={busPosition.id}
 			position={{ lat: busPosition.latitude, lng: busPosition.longitude }}
 			anchorPoint={AdvancedMarkerAnchorPoint.CENTER}
-			className={styles.busMarker}
+			className={`${styles.busMarker} ${isVisible ? styles.visible : styles.fadingOut}`}
 			style={{
 				backgroundColor: groupedRoute.backgroundHexColor,
 				color: groupedRoute.foregroundHexColor
 			}}
 		>
 			<OccupancyIndicator
+				absolute
 				occupancyStatus={busPosition.occupancyStatus ?? GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.NO_DATA_AVAILABLE}
-				backgroundHexColor={groupedRoute.backgroundHexColor}
 			/>
 			<div className={styles.number}>
 				{groupedRoute.number}
 				{groupedRoute.direction[0]}
+				{/* <span style={{ fontSize: '0.5em', fontWeight: 'normal' }}>{busPosition.currentStopId}</span> */}
 			</div>
-			{/* <div className={styles.route}>
-				<span className={styles.routeName}>
-					{groupedRoute.name} <br />
-				</span>
-				<span className={styles.direction}>{groupedRoute.direction}</span>
-			</div> */}
 		</AdvancedMarker>
 	);
-}
-interface OccupancyIndicatorProps {
-	occupancyStatus: number;
-	backgroundHexColor?: string;
-}
-
-function OccupancyIndicator({ occupancyStatus, backgroundHexColor }: OccupancyIndicatorProps) {
-	if (occupancyStatus === GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.NO_DATA_AVAILABLE) {
-		return null;
-	}
-
-	if (occupancyStatus === GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.CRUSHED_STANDING_ROOM_ONLY) {
-		return 'FULL';
-	}
-	return (
-		<div className={styles.occupancyIndicator} style={{ backgroundColor: backgroundHexColor }}>
-			{occupancyStatus > 0 ? <BsPersonFill /> : <BsPerson />}
-			{occupancyStatus > 2 ? <BsPersonFill /> : <BsPerson />}
-			{occupancyStatus > 4 ? <BsPersonFill /> : <BsPerson />}
-		</div>
-	);
-}
-
-function occupancyStatusToString(occupancyStatus: number) {
-	let occupancyStatusString = '';
-	switch (occupancyStatus) {
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.EMPTY:
-			occupancyStatusString = 'Empty';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.MANY_SEATS_AVAILABLE:
-			occupancyStatusString = 'Many seats available';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.FEW_SEATS_AVAILABLE:
-			occupancyStatusString = 'Few seats available';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.STANDING_ROOM_ONLY:
-			occupancyStatusString = 'Standing room only';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.CRUSHED_STANDING_ROOM_ONLY:
-			occupancyStatusString = 'Crushed standing room only';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.FULL:
-			occupancyStatusString = 'Full';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.NOT_ACCEPTING_PASSENGERS:
-			occupancyStatusString = 'Not accepting passengers';
-			break;
-		case GtfsRealtimeBindings.transit_realtime.VehiclePosition.OccupancyStatus.NO_DATA_AVAILABLE:
-			occupancyStatusString = 'No data';
-			break;
-		default:
-			occupancyStatusString = 'Unknown';
-			break;
-	}
-
-	return occupancyStatusString;
 }

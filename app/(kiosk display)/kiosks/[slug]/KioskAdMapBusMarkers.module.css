@@ -18,6 +18,9 @@
 	/* TODO use clsx for this */
 	/* border-top-right-radius: 0; */
 	/* border-bottom-right-radius: 0; */
+
+	/* fade out when removed */
+	transition: all 5s ease-in-out;
 }
 
 .route {
@@ -43,26 +46,11 @@
 	font-size: 10px;
 }
 
-.occupancyIndicator {
-	display: none;
-	/* padding: 3px 3px 0 3px; */
-	/* top: calc(-1em - 3px); */
-	bottom: calc(-1em - 3px);
-	margin: auto;
-	padding: 0 3px 3px 3px;
-	border-radius: 5px;
-	border: 1px solid rgba(0, 0, 0, 0.26);
-	/* border-bottom: none;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0; */
-	border-top: none;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	position: absolute;
-	display: flex;
-	flex-direction: row;
+.visible {
+	opacity: 0.95;
+}
 
-	justify-content: center;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: -200;
+.fadingOut {
+	opacity: 0;
+	scale: 0.85;
 }

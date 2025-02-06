@@ -26,7 +26,7 @@ export default function RealtimePositionUpdater() {
 			}
 
 			const busPositions = await getRealtimePositions();
-			console.log('busPositions');
+			// console.log('busPositions');
 			setBusPositions(busPositions);
 		}
 		updateBusPositions();

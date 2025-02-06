@@ -322,3 +322,23 @@ export async function getDarkModeStatus(): Promise<boolean> {
 		return true;
 	}
 }
+
+export async function getEncodedTripPolylines(tripsIds: string[]): Promise<Record<string, string> | null> {
+	const params = new URLSearchParams();
+	for (const tripId of tripsIds) {
+		params.append('tripIds', tripId);
+	}
+	try {
+		const response = await fetch(`${API_ENDPOINT}/route-shapes/shapes?tripIds=${params.toString()}`, {
+			headers: defaultHeaders,
+			cache: 'force-cache'
+		});
+
+		const data = (await response.json()) as Record<string, string>;
+		// console.log(data);
+		return data;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}

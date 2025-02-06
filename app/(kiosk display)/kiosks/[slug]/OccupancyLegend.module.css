@@ -1,0 +1,57 @@
+.container {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	top: 0;
+	left: 0;
+	background-color: rgba(255, 255, 255, 0.733);
+
+	backdrop-filter: blur(4px);
+	padding: 5px;
+	font-size: 12px;
+	margin: var(--map-margin);
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.495);
+	min-width: 200px !important;
+	box-shadow: var(--legend-box-shadow);
+}
+
+.table {
+	/* nice fade animation */
+
+	animation: 0.5s fade-in;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* space between cols */
+.occupancyIndicator {
+	padding-right: 1ch;
+}
+
+.legendTitle {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	line-height: 1;
+}
+
+.description {
+}
+
+.infoIcon {
+	top: -9px;
+	left: -9px;
+	position: absolute;
+	background-color: white;
+	border-radius: 50%;
+	/* background-size: 10%; */
+}

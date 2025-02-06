@@ -7,6 +7,7 @@ import GeneralMessageUpdater from './GeneralMessageUpdater';
 import IconMessageUpdater from './IconMessageUpdater';
 import KioskAdsUpdater from './KioskAdsUpdater';
 import RealtimePositionUpdater from './realtimePositionUpdater';
+import RoutePolylinesUpdater from './RoutePolylinesUpdater';
 
 export default function KioskDataUpdater() {
 	const { stopId } = useRecoilValue(kioskState);
@@ -24,6 +25,7 @@ export default function KioskDataUpdater() {
 			<IconMessageUpdater />
 			<KioskAdsUpdater />
 			<RealtimePositionUpdater />
+			<RoutePolylinesUpdater />
 		</>
 	);
 }
