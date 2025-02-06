@@ -10,6 +10,7 @@ import { currentlyFilteredKiosksSelector, focusedKioskIdState } from '../../../.
 import styles from './kioskMap.module.css';
 import KioskMapMarker from './kioskMapMarker';
 import MapBoundsUpdater from './mapBoundsUpdater';
+import RouteOverlays from '../../../(kiosk display)/kiosks/[slug]/RouteOverlays';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 
@@ -42,6 +43,7 @@ export default function KioskMap() {
 					defaultCenter={defaultCenter}
 					defaultZoom={17}
 				>
+					<RouteOverlays />
 					{kiosks.length > 0 && kiosks.map(({ _id: id }) => <KioskMapMarker key={id} kioskId={id} />)}
 					<MapBoundsUpdater kiosks={kiosks} />
 				</Map>

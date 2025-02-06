@@ -88,7 +88,8 @@ export default function RouteOverlays() {
 
 function DeckGLOverlay(props: DeckProps) {
 	const map = useMap();
-	const overlay = useMemo(() => new GoogleMapsOverlay(props));
+	console.log('map', map);
+	const overlay = useMemo(() => new GoogleMapsOverlay(props), [props]);
 
 	useEffect(() => {
 		overlay.setMap(map);
