@@ -14,6 +14,7 @@ import KioskStatusBadge from './kioskStatusBadge';
 import LedSignIcon from './ledSignIcon';
 import { FaCircleExclamation, FaMagnifyingGlass } from 'react-icons/fa6';
 import { LuExternalLink } from 'react-icons/lu';
+import { RiListCheck3 } from 'react-icons/ri';
 
 interface KioskCardProps {
 	kioskId: string;
@@ -92,7 +93,7 @@ export default function KioskCard({ kioskId, index, clickable, focused }: KioskC
 							</>
 						) : (
 							<>
-								<FaMagnifyingGlass />
+								<RiListCheck3 />
 								&nbsp;Details
 							</>
 						)}

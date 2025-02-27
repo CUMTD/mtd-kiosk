@@ -245,6 +245,7 @@ export async function fetchLEDPreview(ledIp: string): Promise<string | null> {
 			// returns image/png
 			method: 'GET',
 			headers: defaultHeaders,
+			cache: 'no-cache',
 			next: {
 				tags: ['ledPreview']
 			}
