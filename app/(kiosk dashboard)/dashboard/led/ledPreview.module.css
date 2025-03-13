@@ -12,3 +12,9 @@
 	position: absolute;
 	margin-left: auto;
 }
+@media (max-width: 700px) {
+	.previewImage {
+		width: 100%;
+		height: auto;
+	}
+}

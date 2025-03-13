@@ -110,6 +110,13 @@ const kiosk = defineType({
 			initialValue: true
 		}),
 		defineField({
+			name: 'hasAnnunciator',
+			title: 'Has Annunciator',
+			type: 'boolean',
+			group: 'general',
+			initialValue: true
+		}),
+		defineField({
 			name: 'ledIp',
 			title: 'LED IP',
 			type: 'string',

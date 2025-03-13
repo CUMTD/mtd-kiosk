@@ -20,31 +20,13 @@ export const departuresPerPageSelector = selector<number>({
 	}
 });
 
-export const kioskState = atom<Kiosk>({
-	key: 'loadedKioskState',
-	default: {
-		_id: '',
-		_type: 'kiosk',
-		_createdAt: '',
-		_updatedAt: '',
-		_rev: ''
-	}
-});
+export const kioskState = atom<Kiosk>({ key: 'loadedKioskState', default: { _id: '', _type: 'kiosk', _createdAt: '', _updatedAt: '', _rev: '' } });
 
-export const advertisementsState = atom<AdsWithImageUrl[]>({
-	key: 'advertisementsState',
-	default: []
-});
+export const advertisementsState = atom<AdsWithImageUrl[]>({ key: 'advertisementsState', default: [] });
 
-export const departureState = atom<GroupedRoute[]>({
-	key: 'departureState',
-	default: []
-});
+export const departureState = atom<GroupedRoute[]>({ key: 'departureState', default: [] });
 
-export const generalMessageState = atom<GeneralMessage | null>({
-	key: 'generalMessageState',
-	default: null
-});
+export const generalMessageState = atom<GeneralMessage | null>({ key: 'generalMessageState', default: null });
 
 export const blockRealtimeSelector = selector<boolean>({
 	key: 'blockRealtimeSelector',
@@ -54,20 +36,11 @@ export const blockRealtimeSelector = selector<boolean>({
 	}
 });
 
-export const connectionErrorState = atom<boolean>({
-	key: 'errorState',
-	default: false
-});
+export const connectionErrorState = atom<boolean>({ key: 'errorState', default: false });
 
-export const darkModeState = atom<boolean>({
-	key: 'darkModeState',
-	default: false
-});
+export const darkModeState = atom<boolean>({ key: 'darkModeState', default: false });
 
-export const allIconMessagesState = atom<IconMessageWithImages[]>({
-	key: 'allIconMessagesState',
-	default: []
-});
+export const allIconMessagesState = atom<IconMessageWithImages[]>({ key: 'allIconMessagesState', default: [] });
 
 // filters out acrossStreetOnly icon messages if there are no departures across the street
 export const iconMessagesSelector = selector<IconMessageWithImages[]>({
@@ -78,7 +51,7 @@ export const iconMessagesSelector = selector<IconMessageWithImages[]>({
 
 		const hasAcrossStreet = departures.some((departure) => departure.isAcrossStreet);
 
-		if (!hasAcrossStreet) {
+		if (iconMessages && !hasAcrossStreet) {
 			return iconMessages.filter((iconMessage) => !iconMessage.acrossStreetOnly);
 		}
 
@@ -86,10 +59,7 @@ export const iconMessagesSelector = selector<IconMessageWithImages[]>({
 	}
 });
 
-export const currentIconMessageIndexState = atom<number>({
-	key: 'currentIconMessageIndexState',
-	default: 0
-});
+export const currentIconMessageIndexState = atom<number>({ key: 'currentIconMessageIndexState', default: 0 });
 
 export const iconMessageSelectorFamily = selectorFamily<IconMessageWithImages, number>({
 	key: 'iconMessageSelectorFamily',
@@ -101,10 +71,7 @@ export const iconMessageSelectorFamily = selectorFamily<IconMessageWithImages, n
 		}
 });
 
-export const currentPageState = atom<number>({
-	key: 'currentPageState',
-	default: 0
-});
+export const currentPageState = atom<number>({ key: 'currentPageState', default: 0 });
 
 export const showPagerSelector = selector<boolean>({
 	key: 'showPagerSelector',

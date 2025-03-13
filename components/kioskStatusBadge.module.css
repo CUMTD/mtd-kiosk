@@ -38,3 +38,10 @@
 .unknown {
 	background-color: var(--kiosk-unknown);
 }
+
+@media (max-width: 700px) {
+	.kioskStatusBadge {
+		font-size: 12px;
+		white-space: nowrap;
+	}
+}

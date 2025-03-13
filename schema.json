@@ -1390,6 +1390,13 @@
         },
         "optional": true
       },
+      "hasAnnunciator": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "ledIp": {
         "type": "objectAttribute",
         "value": {

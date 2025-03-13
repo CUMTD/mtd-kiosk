@@ -1,6 +1,5 @@
 .parent {
 	width: 100%;
-	gap: 1em;
 	/* background-color: var(--card-background-color); */
 	display: flex;
 	flex-direction: column;
@@ -11,15 +10,8 @@
 	background-color: rgb(var(--background-secondary-rgb));
 }
 
-@media (prefers-color-scheme: light) {
-	.parent > * {
-		border: 1px solid rgb(var(--card-rgb));
-	}
-}
-
 .children {
-	background-color: rgb(var(--background-rgb));
-
+	border-top: 1px solid var(--led-sign-border-color);
 	padding: 2em;
 }
 
@@ -51,4 +43,10 @@
 
 .issueCount {
 	text-align: right;
+}
+
+@media (max-width: 700px) {
+	.parent {
+		padding: 0;
+	}
 }

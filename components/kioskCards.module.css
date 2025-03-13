@@ -42,3 +42,12 @@
 	padding: 1em;
 	top: 0;
 }
+
+@media (max-width: 700px) {
+	.openAllKiosks {
+		display: none;
+	}
+	.kioskCardsHeader > label {
+		white-space: nowrap;
+	}
+}

@@ -36,12 +36,12 @@ export default function KioskCards({ readonly, defaultFocusedKioskId }: KioskCar
 			<div className={styles.kioskCardsHeader}>
 				<label className={styles.showProblemsOnly}>
 					<input type="checkbox" onClick={toggleShowProblemsOnly} value={`${showProblemsOnly}`} />
-					Show Problems Only
+					Problems Only
 				</label>
 
 				<label className={styles.showProblemsOnly}>
 					<input type="checkbox" onClick={toggleShowDevelopmentKiosks} value={`${showDevelopmentKiosks}`} />
-					Show Dev Kiosks
+					Dev Kiosks
 				</label>
 
 				<button className={styles.openAllKiosks} onClick={handleOpenAllKiosks}>
