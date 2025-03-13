@@ -1,6 +1,6 @@
 import { CgDisplaySpacing } from 'react-icons/cg';
 import { FaGear } from 'react-icons/fa6';
-import { LuLayout } from 'react-icons/lu';
+import { LuLayoutTemplate } from 'react-icons/lu';
 import type { StructureResolver } from 'sanity/structure';
 
 const structure: StructureResolver = (S, _context) => {
@@ -57,10 +57,10 @@ const structure: StructureResolver = (S, _context) => {
 				),
 			S.listItem()
 				.title('Layout Classes')
-				.icon(LuLayout)
+				.icon(LuLayoutTemplate)
 				.schemaType('layoutClass')
 				.child(S.documentTypeList('layoutClass').title('Layout Classes'))
-				.icon(LuLayout),
+				.icon(LuLayoutTemplate),
 			S.listItem().title('Icon Messages').schemaType('iconMessage').child(
 				S.documentTypeList('iconMessage').title('Messages')
 				// .defaultOrdering([{ field: 'iconMessage', direction: 'asc' }])
