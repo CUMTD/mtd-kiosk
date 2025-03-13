@@ -53,3 +53,9 @@
 .frame {
 	border: 2px solid var(--led-sign-border-color);
 }
+
+@media (max-width: 700px) {
+	.failed {
+		width: 100%;
+	}
+}

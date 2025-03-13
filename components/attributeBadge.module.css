@@ -11,3 +11,9 @@
 	align-items: center;
 	color: rgb(var(--foreground-rgb));
 }
+
+@media (max-width: 700px) {
+	.badgeContainer > span {
+		display: none;
+	}
+}

@@ -21,9 +21,7 @@ interface Props {
 export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
 	const kiosk = await fetchKioskById(id);
 
-	return {
-		title: kiosk.displayName + ' Kiosk Details'
-	};
+	return { title: kiosk.displayName + ' Kiosk Details' };
 }
 
 // get [id] from the URL
@@ -54,13 +52,31 @@ function IssuePageStructure({ kiosk, issues, openIssues, closedIssues, healthSta
 	return (
 		<>
 			<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
+			<div className={styles.children}>
+				<div className={styles.issuesHeader}>
+					<h2>
+						{issues.length == 0 ? 'No' : issues.length} {issues.length == 1 ? 'Issue' : 'Issues'}
+					</h2>
+
+					<NewIssueRoot kioskId={kiosk._id}>
+						<NewIssueForm kioskId={kiosk._id} />
+					</NewIssueRoot>
+					<span style={{ flex: 1 }} />
+					{issues.length > 0 && (
+						<span className={styles.issueCount}>
+							{openIssues} Open, {closedIssues} Closed
+						</span>
+					)}
+				</div>
+
+				{issues.length > 0 && <IssuesList kioskId={kiosk._id} />}
+			</div>
+
 			{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
 				<div className={styles.children}>
 					<h2 style={{ paddingBottom: '1em' }}>
 						<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<span>
-								<LedSignIcon /> LED Sign{' '}
-							</span>
+							<span>LED Sign</span>
 							<code style={{ fontWeight: 'regular' }}>{kiosk.ledIp}</code>
 						</span>
 					</h2>
@@ -72,26 +88,6 @@ function IssuePageStructure({ kiosk, issues, openIssues, closedIssues, healthSta
 			)}
 			<div className={styles.children}>
 				<AdsPreview kioskId={kiosk._id} />
-			</div>
-
-			<div className={styles.children}>
-				<div>
-					<div className={styles.issuesHeader}>
-						<h2>{issues.length == 0 ? 'No' : issues.length} Issues</h2>
-
-						<NewIssueRoot kioskId={kiosk._id}>
-							<NewIssueForm kioskId={kiosk._id} />
-						</NewIssueRoot>
-						<span style={{ flex: 1 }} />
-						{issues.length > 0 && (
-							<span className={styles.issueCount}>
-								{openIssues} Open, {closedIssues} Closed
-							</span>
-						)}
-					</div>
-
-					<IssuesList kioskId={kiosk._id} />
-				</div>
 			</div>
 		</>
 	);

@@ -260,6 +260,7 @@ export type Kiosk = {
 	location?: Geopoint;
 	isHorizontal?: boolean;
 	hasLed?: boolean;
+	hasAnnunciator?: boolean;
 	ledIp?: string;
 	useCentralizedService?: boolean;
 };

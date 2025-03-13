@@ -15,6 +15,7 @@ import LedSignIcon from './ledSignIcon';
 import { FaCircleExclamation, FaMagnifyingGlass } from 'react-icons/fa6';
 import { LuExternalLink } from 'react-icons/lu';
 import { RiListCheck3 } from 'react-icons/ri';
+import AnnunciatorIcon from './annunciatorIcon';
 
 interface KioskCardProps {
 	kioskId: string;
@@ -30,7 +31,7 @@ export default function KioskCard({ kioskId, index, clickable, focused }: KioskC
 	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
 
 	const {
-		kiosk: { _id: id, displayName, iStop, hasLed, slug },
+		kiosk: { _id: id, displayName, iStop, hasLed, hasAnnunciator, slug },
 		health: {
 			overallHealth,
 			openTicketCount,
@@ -60,11 +61,7 @@ export default function KioskCard({ kioskId, index, clickable, focused }: KioskC
 		});
 	}, [overallHealth]);
 
-	const issuesButtonClasses = clsx({
-		[inter.className]: true,
-		[styles.button]: true,
-		[styles.openTicketCount]: openTicketCount > 0
-	});
+	const issuesButtonClasses = clsx({ [inter.className]: true, [styles.button]: true });
 
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -78,32 +75,29 @@ export default function KioskCard({ kioskId, index, clickable, focused }: KioskC
 			onBlur={() => clickable && setFocusedKiosk(null)}
 		>
 			<div className={styles.kioskCardContainer}>
-				<div className={styles.kioskName}>
-					<h2>{displayName}</h2>
+				{/* {(iStop || hasLed || hasAnnunciator) && ( */}
+				<h2>{displayName}</h2>
+				<div className={styles.kioskIcons}>
 					{iStop && <IStopIcon />}
 					{hasLed && <LedSignIcon />}
+					{hasAnnunciator && <AnnunciatorIcon />}
 				</div>
+				{/* )} */}
 
 				<div className={styles.buttonContainer}>
 					<Link href={`/dashboard/issues/${id}`} className={issuesButtonClasses}>
-						{openTicketCount > 0 ? (
-							<>
-								<FaCircleExclamation />
-								&nbsp;{openTicketCount} open {openTicketCount === 1 ? 'issue' : 'issues'} <GoChevronRight />
-							</>
-						) : (
-							<>
-								<RiListCheck3 />
-								&nbsp;Details
-							</>
-						)}
+						{openTicketCount > 0 ? <span className={styles.openTicketCount}>{openTicketCount}</span> : <RiListCheck3 />}
+						&nbsp;
+						<span>&nbsp;Details</span>
+						&nbsp;
+						<GoChevronRight />
 					</Link>
 					{slug?.current && <LaunchKioskButton slug={slug.current} />}
 				</div>
 			</div>
 			{
 				<div className={styles.badges}>
-					<KioskStatusBadge kioskObject={KioskObject.Button} status={button} align="right" />
+					{hasAnnunciator && <KioskStatusBadge kioskObject={KioskObject.Button} status={button} align="right" />}
 					{hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={led} align="right" />}
 					<KioskStatusBadge kioskObject={KioskObject.LCD} status={lcd} align="right" />
 				</div>
@@ -120,7 +114,7 @@ export function LaunchKioskButton({ slug }: LaunchKioskButtonProps) {
 	return (
 		<Link href={`/kiosks/${slug}/`} target="_blank" className={styles.button}>
 			<LuExternalLink />
-			&nbsp;Launch
+			<span>&nbsp;Launch</span>
 		</Link>
 	);
 }

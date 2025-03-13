@@ -45,9 +45,8 @@
 .dialog {
 	z-index: 1001;
 	padding: 2em;
-	border-radius: var(--border-radius);
-	border: none;
-	border-top: 1.25px dashed rgb(var(--card-border-rgb));
+	/* border-radius: var(--border-radius); */
+	border: 1px solid rgb(var(--card-border-rgb));
 	/* border-width: 1px; */
 	/* center */
 	position: fixed;

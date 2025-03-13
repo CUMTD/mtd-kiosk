@@ -1,12 +1,5 @@
-.issueBody {
-	display: flex;
-	flex-direction: column;
-	margin: 0 auto;
-	width: 100%;
-	padding: 20px;
-}
-
 .issueDescription {
+	padding-top: 1rem;
 	line-height: 1.5;
 }
 
@@ -87,7 +80,7 @@
 .issueHeader {
 	display: flex;
 	/* background-color: rgb(48, 48, 48); */
-	border-bottom: 1px solid rgb(var(--card-rgb));
+	/* border-bottom: 1px solid rgb(var(--card-rgb)); */
 	align-items: center;
 	gap: 1ch;
 	flex-direction: row;
@@ -101,6 +94,7 @@
 .icon {
 	width: fit-content;
 	padding-right: 10px;
+	margin-bottom: auto;
 	/* border-right: 1px solid rgb(var(--card-rgb)); */
 }
 .newBadge {
@@ -111,11 +105,10 @@
 
 .issueInfo {
 	display: flex;
-	flex-wrap: wrap;
+	/* flex-wrap: wrap; */
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;
-	padding-right: 2ch;
 	align-items: center;
 }
 
@@ -124,20 +117,26 @@
 	flex-direction: row;
 	align-items: center;
 	gap: 1ch;
-	width: max-content;
+	width: 15ch;
 	padding: 0.2ch 0.7ch;
+	height: 2em;
 }
 .issueActions {
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
-	gap: 1ch;
+	gap: 5px;
 	justify-content: right;
+	margin-bottom: auto;
 }
 
-.closedIssue {
+.closedIssue > .issueHeader > .issueInfo > *:not(.issueActions) {
 	opacity: 50%;
+}
+
+.issueContainer > .issueHeader > .issueInfo > *:not(.issueActions) {
+	transition: all 0.2s ease-in-out;
 }
 
 .saveDiscardContainer {

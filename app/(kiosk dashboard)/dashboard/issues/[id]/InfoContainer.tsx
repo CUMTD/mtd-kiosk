@@ -1,3 +1,4 @@
+import AnnunciatorIcon from '../../../../../components/annunciatorIcon';
 import AttributeBadge from '../../../../../components/attributeBadge';
 import IStopIcon from '../../../../../components/iStopIcon';
 import KioskStatusBadge from '../../../../../components/kioskStatusBadge';
@@ -17,7 +18,7 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 	return (
 		<div className={styles.infoContainer}>
 			<div className={styles.content}>
-				<code style={{ fontSize: '200%' }} className={styles.stopId}>
+				<code className={styles.stopId}>
 					{kiosk.stopId} / {kiosk._id}
 				</code>
 				<h1 className={styles.kioskName}>
@@ -26,13 +27,14 @@ export default async function InfoContainer({ kiosk, healthStatus }: InfoContain
 				<div className={styles.attributesIcons}>
 					{kiosk.iStop && <AttributeBadge icon={<IStopIcon />} text={'iStop'} />}
 					{kiosk.hasLed && <AttributeBadge icon={<LedSignIcon />} text={'LED Sign'} />}
+					{kiosk.hasAnnunciator && <AttributeBadge icon={<AnnunciatorIcon />} text={'Annunciator'} />}
 				</div>
 				<div className={styles.healthBadges}>
 					{healthStatus && (
 						<AttributeBadge
 							icon={
 								<div className={styles.badgeContainer}>
-									<KioskStatusBadge kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />
+									{kiosk.hasAnnunciator && <KioskStatusBadge kioskObject={KioskObject.Button} status={healthStatus?.healthStatuses.button} align="left" />}
 									{kiosk.hasLed && <KioskStatusBadge kioskObject={KioskObject.LED} status={healthStatus?.healthStatuses.led} align="left" />}
 									<KioskStatusBadge kioskObject={KioskObject.LCD} status={healthStatus?.healthStatuses.lcd} align="left" />
 								</div>

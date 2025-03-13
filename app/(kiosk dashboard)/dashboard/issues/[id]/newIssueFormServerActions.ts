@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createKioskTicket } from '../../../../../helpers/httpMethods';
+import { form } from 'sanity/structure';
 
 type CreateNewIssueFormState = {
 	status: 'unset' | 'error' | 'success';
@@ -11,7 +12,7 @@ type CreateNewIssueFormState = {
 export async function createNewIssueFormAction(_formState: CreateNewIssueFormState, formData: FormData): Promise<CreateNewIssueFormState> {
 	const ticket = {
 		kioskId: formData.get('kioskId') as string,
-		openedBy: 'System', // or derive this value from session or other context
+		openedBy: formData.get('openedBy') as string,
 		description: formData.get('description') as string,
 		title: formData.get('title') as string
 	};

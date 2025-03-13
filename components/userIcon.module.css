@@ -4,3 +4,9 @@
 	aspect-ratio: 1;
 	background-color: gray;
 }
+
+@media (max-width: 700px) {
+	.avatarContainer {
+		display: none;
+	}
+}

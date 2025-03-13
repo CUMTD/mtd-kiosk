@@ -24,7 +24,8 @@
 	font-weight: bold;
 }
 .stopId {
-	opacity: 50%;
+	opacity: 70%;
+	font-size: 130%;
 }
 .badgeContainer {
 	display: flex;

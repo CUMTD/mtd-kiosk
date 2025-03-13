@@ -1,7 +1,7 @@
 'use client';
 import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import { GoX } from 'react-icons/go';
 import SubmitButton from '../../../../../components/submitButton';
 import styles from './newIssueForm.module.css';
@@ -23,10 +23,16 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 	// errorMessage will contain the error message if status is 'error'
 	// { status: 'unset' } is the initial state, just like with useState
 	const [{ status, errorMessage }, action] = useFormState(createNewIssueFormAction, { status: 'unset' });
+	const { pending } = useFormStatus();
+
+	const titleRef = useRef<HTMLInputElement>(null);
+	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
 	useEffect(() => {
 		// close dialog if status is 'success'
 		if (status === 'success') {
+			titleRef.current!.value = '';
+			descriptionRef.current!.value = '';
 			dialogRef.current?.close();
 		}
 	}, [status]);
@@ -39,19 +45,19 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 			<dialog className={styles.dialog} ref={dialogRef}>
 				<div className={styles.dialogHeader}>
 					<h2 className={styles.headerText}>Create new issue</h2>
-					<button className={styles.closeButton} onClick={() => dialogRef.current?.close()}>
+					<button className={styles.closeButton} onClick={() => dialogRef.current?.close()} disabled={pending}>
 						<GoX style={{ fontSize: '200%' }} />
 					</button>
 				</div>
 				<form className={styles.newIssueForm} action={action}>
 					<label className={styles.label}>
 						Title
-						<input autoComplete="off" className={styles.title} required name="title" type="text"></input>
+						<input autoComplete="off" ref={titleRef} className={styles.title} required name="title" type="text"></input>
 					</label>
 
 					<label className={styles.label}>
 						Description
-						<textarea className={styles.description} name="description" rows={4} cols={50}></textarea>
+						<textarea ref={descriptionRef} className={styles.description} name="description" rows={4} cols={50}></textarea>
 					</label>
 
 					{errorMessage && <p className={styles.message}>{errorMessage}</p>}

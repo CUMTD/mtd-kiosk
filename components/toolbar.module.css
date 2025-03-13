@@ -27,11 +27,12 @@
 	display: flex;
 	flex-direction: column;
 	text-align: right;
-	gap: 0.5ch;
 }
 
 .signOut {
-	text-transform: uppercase;
+	/* color: red; */
+	font-weight: bold;
+	/* text-transform: uppercase; */
 	letter-spacing: 1px;
 	font-size: 0.8rem;
 	font-weight: 500;
@@ -88,6 +89,20 @@
 @media (prefers-color-scheme: light) {
 	.logo {
 		--logo-mtd: #0071ce;
+	}
+}
+@media (max-width: 700px) {
+	.logo {
+		display: none;
+	}
+	.toolbar {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr;
+
+		grid-template-areas: 'links user';
+	}
+	.links {
+		justify-content: left;
 	}
 }
 

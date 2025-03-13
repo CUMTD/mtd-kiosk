@@ -13,6 +13,8 @@ import { deleteTicketComment, updateTicket, updateTicketComment } from '../../..
 import KioskTicket, { TicketNote, TicketStatusType } from '../../../../../types/kioskTicket';
 import styles from './Issue.module.css';
 import { NewCommentForm } from './NewCommentForm';
+import { FaCommentAlt } from 'react-icons/fa';
+import { FaComment } from 'react-icons/fa6';
 
 export interface IssueProps {
 	issue: KioskTicket;
@@ -26,10 +28,7 @@ export function Issue({ issue }: IssueProps) {
 	const currentDate = new Date();
 	const [issueOpen, setIssueOpen] = useState(issue.status === TicketStatusType.OPEN);
 
-	const issueClasses = clsx({
-		[styles.issueContainer]: true,
-		[styles.closedIssue]: !issueOpen
-	});
+	const issueClasses = clsx({ [styles.issueContainer]: true, [styles.closedIssue]: !issueOpen });
 
 	const handleIssueClose = async () => {
 		const result = await updateTicket(issue.id, TicketStatusType.RESOLVED);
@@ -37,13 +36,7 @@ export function Issue({ issue }: IssueProps) {
 			console.error('Failed to close issue');
 			return;
 		}
-		var defaults = {
-			scalar: 2,
-			spread: 160,
-			particleCount: 50,
-			origin: { y: -0.1 },
-			startVelocity: -35
-		};
+		var defaults = { scalar: 2, spread: 160, particleCount: 50, origin: { y: -0.1 }, startVelocity: -35 };
 		setIssueOpen(false);
 		confetti({ ...defaults });
 		// call the close issue function
@@ -86,29 +79,32 @@ export function Issue({ issue }: IssueProps) {
 								<b>{issue.openedBy}</b> opened on {openDate.toLocaleDateString()}
 								{!issueOpen && ` and closed on ${closeDate.toLocaleDateString()}`}
 							</p>
+							{/* <div className={styles.issueBody}> */}
+							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
+							{/* </div> */}
 						</div>
 						<div className={styles.issueActions}>
 							{issueOpen ? (
 								<IssueActionButton
-									text="Mark as Closed"
+									text="Mark Closed"
 									onClick={handleIssueClose}
 									className={styles.issueActionButton}
-									reactIcon={<GoCheck fontSize={'150%'} />}
+									reactIcon={<GoCheck fontSize={'120%'} />}
 								/>
 							) : (
 								<IssueActionButton
-									text="Reopen Issue"
+									text="Reopen"
 									onClick={handleIssueReopen}
 									className={styles.issueActionButton}
-									reactIcon={<GoIssueReopened fontSize={'150%'} />}
+									reactIcon={<GoIssueReopened fontSize={'120%'} />}
 								/>
 							)}
 
 							<IssueActionButton
-								text="Add Comment"
+								text="Comment"
 								onClick={() => dialogRef.current?.showModal()}
 								className={styles.issueActionButton}
-								reactIcon={<GoPlus fontSize={'150%'} />}
+								reactIcon={<FaComment fontSize={'120%'} />}
 								disabled={!issueOpen}
 							/>
 						</div>
@@ -116,9 +112,6 @@ export function Issue({ issue }: IssueProps) {
 				</div>
 
 				{/* <h3 className={styles.issueComments}>Description</h3> */}
-				<div className={styles.issueBody}>
-					<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
-				</div>
 				{issue.notes && issue.notes.length > 0 && (
 					<div>
 						{issue.notes && issue.notes.length > 0 && <IssueCommentList comments={issue.notes} ticketStatus={issue.status} />}
@@ -232,10 +225,7 @@ function IssueComment({ comment, ticketStatus }: IssueCommentProps) {
 
 	const isModifiableByCurrentUser = session?.user?.name === comment.createdBy;
 
-	const deleteButtonClasses = clsx({
-		[styles.commentModifyButton]: true,
-		[styles.commentDeleteConfirm]: confirmDelete
-	});
+	const deleteButtonClasses = clsx({ [styles.commentModifyButton]: true, [styles.commentDeleteConfirm]: confirmDelete });
 
 	return (
 		<div key={comment.id} className={styles.comment}>
