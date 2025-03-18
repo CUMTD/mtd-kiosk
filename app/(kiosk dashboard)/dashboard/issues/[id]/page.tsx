@@ -12,7 +12,6 @@ import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
 import { Kiosk } from '../../../../../sanity.types';
 import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
-import LedSignIcon from '../../../../../components/ledSignIcon';
 
 interface Props {
 	params: { id: string };

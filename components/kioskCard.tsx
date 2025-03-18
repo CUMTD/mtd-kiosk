@@ -12,7 +12,6 @@ import IStopIcon from './iStopIcon';
 import styles from './kioskCard.module.css';
 import KioskStatusBadge from './kioskStatusBadge';
 import LedSignIcon from './ledSignIcon';
-import { FaCircleExclamation, FaMagnifyingGlass } from 'react-icons/fa6';
 import { LuExternalLink } from 'react-icons/lu';
 import { RiListCheck3 } from 'react-icons/ri';
 import AnnunciatorIcon from './annunciatorIcon';

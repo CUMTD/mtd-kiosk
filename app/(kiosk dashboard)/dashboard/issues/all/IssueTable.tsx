@@ -4,7 +4,7 @@ import KioskTicket, { TicketStatusType } from '../../../../../types/kioskTicket'
 import styles from './IssueTable.module.css';
 import { FaComment } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
-import { IssueSecondarySortTypes, IssueSortTypes } from '../../../../../types/issueListTypes/issueSortTypes';
+import { IssueSortTypes } from '../../../../../types/issueListTypes/issueSortTypes';
 
 import { useRouter } from 'next/navigation';
 import AttributeBadge from '../../../../../components/attributeBadge';
@@ -16,7 +16,6 @@ interface IssueTableProps {
 
 export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.STATUS);
-	const [currentSecondarySort, setCurrentSecondarySort] = useState<IssueSecondarySortTypes>(IssueSecondarySortTypes.DESCENDING);
 	const [issuesList, setIssues] = useState<KioskTicket[]>(issues.sort((a, b) => a.status - b.status));
 
 	useEffect(() => {
@@ -38,7 +37,7 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 		}
 
 		setIssues(sortedList);
-	}, [issues, currentSort, currentSecondarySort]);
+	}, [issues, currentSort, kioskNames]);
 
 	const sortTypes = Object.values(IssueSortTypes).filter((t) => typeof t === 'string');
 

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
-import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoIssueTrackedBy, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
+import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoTrash } from 'react-icons/go';
 import LoadingAnimation from '../../../../../components/loadingAnimation';
 import UserIcon from '../../../../../components/userIcon';
 import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../../helpers/httpMethods';
