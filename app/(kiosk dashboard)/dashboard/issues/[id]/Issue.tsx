@@ -86,6 +86,9 @@ export function Issue({ issue, listView }: IssueProps) {
 							{/* <div className={styles.issueBody}> */}
 							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
 							{/* </div> */}
+							{/* <div className={styles.issueBody}> */}
+							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
+							{/* </div> */}
 						</div>
 						{!listView && (
 							<div className={styles.issueActions}>

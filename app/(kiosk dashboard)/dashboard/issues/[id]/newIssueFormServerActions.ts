@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createKioskTicket } from '../../../../../helpers/httpMethods';
+import { form } from 'sanity/structure';
 
 type CreateNewIssueFormState = {
 	status: 'unset' | 'error' | 'success';
