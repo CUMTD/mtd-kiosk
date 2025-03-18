@@ -1,0 +1,5 @@
+.main {
+	grid-area: content / content / content / cards;
+	padding: 1rem;
+	overflow: scroll;
+}

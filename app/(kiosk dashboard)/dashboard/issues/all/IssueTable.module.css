@@ -1,0 +1,126 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1ch;
+	justify-content: space-between;
+}
+
+.ticketCounts {
+	display: flex;
+	flex-direction: row;
+	gap: 1em;
+}
+.openIssueCount,
+.closedIssueCount {
+	color: white;
+	padding: 0.1em 0.4em;
+	border-radius: var(--border-radius);
+}
+.openIssueCount {
+	background-color: green;
+}
+
+.closedIssueCount {
+	background-color: purple;
+}
+
+.issueDescription {
+	opacity: 70%;
+	font-size: 80%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 75ch;
+	white-space: nowrap;
+}
+
+.titleAndDesc {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	width: 100%;
+	align-items: center;
+	gap: 0.5ch;
+}
+
+.sortContainer {
+	display: flex;
+	align-items: center;
+	gap: 0.5ch;
+}
+
+.sortDropdown {
+	min-width: 20ch;
+}
+
+.sortOption,
+.sortDropdown {
+	text-transform: capitalize;
+	font-size: unset;
+}
+
+.issueTable {
+	/* border: 1px solid rgb(var(--card-border-rgb)); */
+	/* padding: 0.5em; */
+	border-collapse: collapse;
+	/* border: 1px solid rgb(var(--card-rgb)); */
+}
+
+.tbody > *:nth-child(even) {
+	background-color: rgb(var(--background-secondary-rgb));
+}
+
+.issueRow > * {
+	padding: 0.5em;
+	white-space: nowrap;
+}
+
+.issueRow {
+	text-align: left;
+}
+
+.thead:first-child {
+	position: sticky;
+	top: 0;
+	background-color: rgb(var(--background-rgb));
+	border-bottom: 3px solid rgb(var(--card-border-rgb));
+	z-index: 1000;
+	outline: 1px solid rgb(var(--background-rgb));
+}
+
+.issueRow:first-child > * {
+	/* border: 1px solid rgb
+	(var(--card-rgb)); */
+}
+
+.issueStatus {
+	display: flex;
+	align-items: center;
+	gap: 0.5ch;
+
+	color: white;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 90%;
+	letter-spacing: 0.1ch;
+	border-radius: var(--border-radius);
+	padding: 0.2em 0.5em;
+	text-align: center;
+	min-width: 10ch;
+}
+
+.tbody > tr:hover {
+	cursor: pointer;
+	filter: brightness(150%);
+	outline: 1px solid rgb(var(--card-border-rgb));
+}
+
+.commentCount {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	width: 5ch;
+	justify-content: space-between;
+	/* background-color: rgb(var(--background-rgb)); */
+	/* border-radius: var(--border-radius); */
+}

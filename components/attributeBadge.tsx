@@ -10,9 +10,7 @@ export default function AttributeBadge({ icon, text }: AttributeBadgeProps) {
 	return (
 		<div className={styles.badgeContainer}>
 			{icon}
-			<span>
-				<b>{text}</b>
-			</span>
+			<span>{text}</span>
 		</div>
 	);
 }

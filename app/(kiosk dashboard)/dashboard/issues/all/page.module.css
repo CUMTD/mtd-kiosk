@@ -1,0 +1,10 @@
+.issueList {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: 1em;
+	margin-right: auto;
+	margin-left: auto;
+	/* grid-area: content / cards; */
+	max-width: 160ch;
+}

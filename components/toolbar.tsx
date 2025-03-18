@@ -10,6 +10,7 @@ import LedSignIcon from './ledSignIcon';
 import MTDLogo from './mtdLogo';
 import styles from './toolbar.module.css';
 import UserIcon from './userIcon';
+import { GoIssueTracks } from 'react-icons/go';
 
 export default function Toolbar() {
 	const { data: session } = useSession({ required: true });
@@ -24,15 +25,18 @@ export default function Toolbar() {
 			</Link>
 
 			<div className={styles.links}>
-				<Link href="/dashboard/led" passHref>
+				<Link href="/dashboard/issues/all" title="All Issues">
+					<AttributeBadge icon={<GoIssueTracks />} text="All Issues" />
+				</Link>
+				<Link href="/dashboard/led" title="LED Superview">
 					<AttributeBadge icon={<LedSignIcon alt="" title="" />} text="LED Superview" />
 				</Link>
 
-				<Link href="/studio/structure/advertisements" passHref>
+				<Link href="/studio/structure/advertisements" title="Manage Ads">
 					<AttributeBadge icon={<RiAdvertisementFill />} text="Manage Ads" />
 				</Link>
 
-				<Link href="/studio" passHref>
+				<Link href="/studio" title="Sanity Studio">
 					<AttributeBadge icon={<SiSanity />} text="Sanity Studio" />
 				</Link>
 			</div>

@@ -9,6 +9,7 @@ import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/Grouped
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
+import { headers } from 'next/headers';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -17,18 +18,12 @@ const X_API_KEY = process.env.KIOSK_API_KEY ?? throwError('KIOSK_API_KEY is not 
 
 const defaultCache = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 600 } };
 
-const defaultHeaders = {
-	'X-ApiKey': X_API_KEY,
-	'Content-Type': 'application/json'
-};
+const defaultHeaders = { 'X-ApiKey': X_API_KEY, 'Content-Type': 'application/json' };
 
 export async function getHealthStatus(kioskId: string): Promise<ServerHealthStatuses | null> {
 	const uri = `${KIOSK_HEALTH_ENDPOINT}/kiosks/${kioskId}/health`;
 	try {
-		const response = await fetch(uri, {
-			headers: defaultHeaders,
-			cache: 'no-cache'
-		});
+		const response = await fetch(uri, { headers: defaultHeaders, cache: 'no-cache' });
 		const healthStatus = (await response.json()) as ServerHealthStatuses;
 		return healthStatus;
 	} catch (error) {
@@ -39,10 +34,7 @@ export async function getHealthStatus(kioskId: string): Promise<ServerHealthStat
 
 export async function getHealthStatuses(): Promise<ServerHealthStatuses[] | null> {
 	try {
-		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health`, {
-			headers: defaultHeaders,
-			cache: 'no-cache'
-		});
+		const response = await fetch(`${KIOSK_HEALTH_ENDPOINT}/kiosks/health`, { headers: defaultHeaders, cache: 'no-cache' });
 
 		const healthStatus = (await response.json()) as ServerHealthStatuses[];
 		return healthStatus;
@@ -91,7 +83,6 @@ export async function fetchKioskBySlug(slug: string): Promise<KioskWithClassName
 }
 
 export async function fetchKioskIconMessagesByKioskId(kioskId: string): Promise<IconMessageWithImages[]> {
-	// console.log(kioskId);
 	const query = `*[_type == 'iconMessage' && (
   displayOnAllKiosks ||
   references($kioskId) ||
@@ -101,15 +92,7 @@ references(*[_type == "kioskBundle" && references($kioskId)]._id))] {
   "darkModeImageUrl": darkModeSvg.asset->url
 }
 `;
-	const iconMessages = await client.fetch(
-		query,
-		{ kioskId },
-		{
-			next: {
-				revalidate: 3600
-			}
-		}
-	);
+	const iconMessages = await client.fetch(query, { kioskId }, { next: { revalidate: 3600 } });
 
 	return iconMessages;
 }
@@ -143,15 +126,22 @@ export async function fetchKioskLayoutClassesByKioskId(kioskId: string): Promise
 	return layoutClasses;
 }
 
+export async function fetchAllTickets(): Promise<KioskTicket[]> {
+	const uri = `${API_ENDPOINT}/tickets?includeClosed=true`;
+	try {
+		const response = await fetch(uri, { headers: defaultHeaders });
+
+		return (await response.json()) as KioskTicket[];
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+}
+
 export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 	const uri = `${API_ENDPOINT}/kiosks/${id}/tickets`;
 	try {
-		const response = await fetch(uri, {
-			next: {
-				tags: ['tickets']
-			},
-			headers: defaultHeaders
-		});
+		const response = await fetch(uri, { next: { tags: ['tickets'] }, headers: defaultHeaders });
 		return (await response.json()) as KioskTicket[];
 	} catch (error) {
 		console.error(error);
@@ -163,11 +153,7 @@ export async function fetchKioskTickets(id: string): Promise<KioskTicket[]> {
 export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolean> {
 	const uri = `${API_ENDPOINT}/tickets`;
 	try {
-		const response = await fetch(uri, {
-			method: 'POST',
-			headers: defaultHeaders,
-			body: JSON.stringify(ticket)
-		});
+		const response = await fetch(uri, { method: 'POST', headers: defaultHeaders, body: JSON.stringify(ticket) });
 		if (response.status === 201) {
 			revalidateTag('tickets');
 			return true;
@@ -199,10 +185,7 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 }
 
 export async function deleteTicketComment(ticketNoteId: string): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, {
-		method: 'DELETE',
-		headers: defaultHeaders
-	});
+	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, { method: 'DELETE', headers: defaultHeaders });
 	if (response.ok) {
 		revalidateTag('tickets');
 		return true;
@@ -213,11 +196,7 @@ export async function deleteTicketComment(ticketNoteId: string): Promise<boolean
 
 export async function updateTicketComment(ticketNoteId: string, markdownBody: string): Promise<boolean> {
 	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
-	const response = await fetch(uri, {
-		method: 'PATCH',
-		headers: defaultHeaders,
-		body: JSON.stringify({ markdownBody })
-	});
+	const response = await fetch(uri, { method: 'PATCH', headers: defaultHeaders, body: JSON.stringify({ markdownBody }) });
 	if (response.ok) {
 		revalidateTag('tickets');
 		return true;
@@ -227,10 +206,7 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 }
 
 export async function updateTicket(ticketId: string, status: TicketStatusType): Promise<boolean> {
-	const response = await fetch(`${API_ENDPOINT}/tickets/${ticketId}/status?newStatus=${status}`, {
-		method: 'PATCH',
-		headers: defaultHeaders
-	});
+	const response = await fetch(`${API_ENDPOINT}/tickets/${ticketId}/status?newStatus=${status}`, { method: 'PATCH', headers: defaultHeaders });
 	if (response.status === 200) {
 		revalidateTag('tickets');
 		return true;
@@ -246,9 +222,7 @@ export async function fetchLEDPreview(ledIp: string): Promise<string | null> {
 			method: 'GET',
 			headers: defaultHeaders,
 			cache: 'no-cache',
-			next: {
-				tags: ['ledPreview']
-			}
+			next: { tags: ['ledPreview'] }
 			// signal: AbortSignal.timeout(9000)
 		});
 		if (!response.ok) {
@@ -277,9 +251,7 @@ export async function getDepartures(primaryStopId: string, additionalStopIds: st
 		}
 		params.append('max', '50');
 
-		const response = await fetch(`${API_ENDPOINT}/departures/${primaryStopId}/lcd?${params.toString()}`, {
-			headers: defaultHeaders
-		});
+		const response = await fetch(`${API_ENDPOINT}/departures/${primaryStopId}/lcd?${params.toString()}`, { headers: defaultHeaders });
 
 		const data = (await response.json())['groupedDepartures'] as GroupedRoute[];
 		return data;
@@ -291,9 +263,7 @@ export async function getDepartures(primaryStopId: string, additionalStopIds: st
 
 export async function getGeneralMessage(stopId: string): Promise<GeneralMessage | null> {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/general-messaging/lcd?stopId=${stopId}`, {
-			headers: defaultHeaders
-		});
+		const response = await fetch(`${API_ENDPOINT}/general-messaging/lcd?stopId=${stopId}`, { headers: defaultHeaders });
 
 		if (response.status == 204) {
 			return null;
@@ -310,10 +280,7 @@ export async function getGeneralMessage(stopId: string): Promise<GeneralMessage 
 
 export async function getDarkModeStatus(): Promise<boolean> {
 	try {
-		const response = await fetch(`${API_ENDPOINT}/time/dark-mode`, {
-			headers: defaultHeaders,
-			cache: 'no-cache'
-		});
+		const response = await fetch(`${API_ENDPOINT}/time/dark-mode`, { headers: defaultHeaders, cache: 'no-cache' });
 
 		// returns true if dark mode is enabled
 		const result = (await response.json()) as DarkModeStatusResponse;
