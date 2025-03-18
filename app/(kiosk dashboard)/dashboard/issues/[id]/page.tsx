@@ -12,7 +12,6 @@ import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
 import { Kiosk } from '../../../../../sanity.types';
 import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
-import LedSignIcon from '../../../../../components/ledSignIcon';
 
 interface Props {
 	params: { id: string };
@@ -21,7 +20,7 @@ interface Props {
 export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
 	const kiosk = await fetchKioskById(id);
 
-	return { title: kiosk.displayName + ' Kiosk Details' };
+	return { title: kiosk.displayName };
 }
 
 // get [id] from the URL

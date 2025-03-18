@@ -6,21 +6,22 @@ import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
-import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoPlus, GoTrash } from 'react-icons/go';
+import { GoCheck, GoIssueClosed, GoIssueOpened, GoIssueReopened, GoPencil, GoTrash } from 'react-icons/go';
 import LoadingAnimation from '../../../../../components/loadingAnimation';
 import UserIcon from '../../../../../components/userIcon';
 import { deleteTicketComment, updateTicket, updateTicketComment } from '../../../../../helpers/httpMethods';
 import KioskTicket, { TicketNote, TicketStatusType } from '../../../../../types/kioskTicket';
 import styles from './Issue.module.css';
 import { NewCommentForm } from './NewCommentForm';
-import { FaCommentAlt } from 'react-icons/fa';
 import { FaComment } from 'react-icons/fa6';
+import Link from 'next/link';
 
 export interface IssueProps {
 	issue: KioskTicket;
+	listView?: boolean;
 }
 
-export function Issue({ issue }: IssueProps) {
+export function Issue({ issue, listView }: IssueProps) {
 	const openDate = new Date(issue.openDate);
 	// closeDate can be null if the issue is still open
 	const closeDate: Date | null = new Date(issue.closeDate || Date.now());
@@ -59,7 +60,7 @@ export function Issue({ issue }: IssueProps) {
 		<>
 			<NewCommentForm issueId={issue.id} dialogRef={dialogRef} />
 
-			<div className={issueClasses}>
+			<div className={issueClasses} id={issue.id}>
 				<div className={styles.issueHeader}>
 					<div className={styles.icon}>
 						{!issueOpen ? (
@@ -71,7 +72,10 @@ export function Issue({ issue }: IssueProps) {
 					<div className={styles.issueInfo}>
 						<div>
 							<h3 className={styles.title}>
-								{issue.title} {issueOpen && currentDate.getTime() - openDate.getTime() < 3 * 24 * 60 * 60 * 1000 && <sup className={styles.newBadge}>New</sup>}
+								<Link href={listView ? `./dashboard/issues/${issue.kioskId}` : ''}>
+									{issue.title}
+									{issueOpen && currentDate.getTime() - openDate.getTime() < 3 * 24 * 60 * 60 * 1000 && <sup className={styles.newBadge}>New</sup>}
+								</Link>
 							</h3>
 							{/* add a new badge if its less than 3 days old */}
 
@@ -82,32 +86,37 @@ export function Issue({ issue }: IssueProps) {
 							{/* <div className={styles.issueBody}> */}
 							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
 							{/* </div> */}
+							{/* <div className={styles.issueBody}> */}
+							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
+							{/* </div> */}
 						</div>
-						<div className={styles.issueActions}>
-							{issueOpen ? (
-								<IssueActionButton
-									text="Mark Closed"
-									onClick={handleIssueClose}
-									className={styles.issueActionButton}
-									reactIcon={<GoCheck fontSize={'120%'} />}
-								/>
-							) : (
-								<IssueActionButton
-									text="Reopen"
-									onClick={handleIssueReopen}
-									className={styles.issueActionButton}
-									reactIcon={<GoIssueReopened fontSize={'120%'} />}
-								/>
-							)}
+						{!listView && (
+							<div className={styles.issueActions}>
+								{issueOpen ? (
+									<IssueActionButton
+										text="Mark Closed"
+										onClick={handleIssueClose}
+										className={styles.issueActionButton}
+										reactIcon={<GoCheck fontSize={'120%'} />}
+									/>
+								) : (
+									<IssueActionButton
+										text="Reopen"
+										onClick={handleIssueReopen}
+										className={styles.issueActionButton}
+										reactIcon={<GoIssueReopened fontSize={'120%'} />}
+									/>
+								)}
 
-							<IssueActionButton
-								text="Comment"
-								onClick={() => dialogRef.current?.showModal()}
-								className={styles.issueActionButton}
-								reactIcon={<FaComment fontSize={'120%'} />}
-								disabled={!issueOpen}
-							/>
-						</div>
+								<IssueActionButton
+									text="Comment"
+									onClick={() => dialogRef.current?.showModal()}
+									className={styles.issueActionButton}
+									reactIcon={<FaComment fontSize={'120%'} />}
+									disabled={!issueOpen}
+								/>
+							</div>
+						)}
 					</div>
 				</div>
 
