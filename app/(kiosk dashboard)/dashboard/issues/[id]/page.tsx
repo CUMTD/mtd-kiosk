@@ -21,7 +21,7 @@ interface Props {
 export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
 	const kiosk = await fetchKioskById(id);
 
-	return { title: kiosk.displayName + ' Kiosk Details' };
+	return { title: kiosk.displayName };
 }
 
 // get [id] from the URL
