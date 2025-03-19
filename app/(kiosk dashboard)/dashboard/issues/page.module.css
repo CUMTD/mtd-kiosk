@@ -1,7 +1,7 @@
 .page {
 	grid-area: content / content / content / cards;
-	/* padding: 1rem; */
-	margin-top: 1em;
+	padding: 0 1rem;
+	margin: 1em 1em 0 1em;
 	overflow: scroll;
 	justify-self: center;
 }
@@ -13,6 +13,5 @@
 	gap: 1em;
 	margin-right: auto;
 	margin-left: auto;
-	/* grid-area: content / cards; */
-	/* max-width: 120ch; */
+	margin-bottom: 2em;
 }

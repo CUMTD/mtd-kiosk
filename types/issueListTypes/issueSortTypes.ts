@@ -1,9 +1,8 @@
 export enum IssueSortTypes {
-	STATUS,
+	KIOSK,
 	TECHNICIAN,
 	RECENTLY_OPENED,
-	RECENTLY_CLOSED,
-	KIOSK
+	RECENTLY_CLOSED
 }
 
 export enum IssueSecondarySortTypes {
