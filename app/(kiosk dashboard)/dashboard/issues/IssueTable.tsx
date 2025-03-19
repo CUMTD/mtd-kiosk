@@ -15,13 +15,14 @@ interface IssueTableProps {
 }
 
 export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
-	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.STATUS);
-	const [issuesList, setIssues] = useState<KioskTicket[]>(issues.sort((a, b) => a.status - b.status));
+	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.KIOSK);
+	const [issuesList, setIssues] = useState<KioskTicket[]>(issues.sort((a, b) => kioskNames[a.kioskId].localeCompare(kioskNames[b.kioskId])));
+	const [showClosedIssues, setShowClosedIssues] = useState(true);
 
 	useEffect(() => {
 		let sortedList = [...issues];
-		if (currentSort === IssueSortTypes.STATUS) {
-			sortedList.sort((a, b) => a.status - b.status);
+		if (!showClosedIssues) {
+			sortedList = sortedList.filter((t) => t.status === TicketStatusType.OPEN);
 		}
 		if (currentSort === IssueSortTypes.TECHNICIAN) {
 			sortedList.sort((a, b) => a.openedBy.localeCompare(b.openedBy));
@@ -37,7 +38,7 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 		}
 
 		setIssues(sortedList);
-	}, [issues, currentSort, kioskNames]);
+	}, [issues, currentSort, kioskNames, showClosedIssues]);
 
 	const sortTypes = Object.values(IssueSortTypes).filter((t) => typeof t === 'string');
 
@@ -53,18 +54,23 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 						text="Closed"
 					/>
 				</div>
-
-				<div className={styles.sortContainer}>
-					Sort by
-					<select className={styles.sortDropdown} value={currentSort} onChange={(e) => setCurrentSort(parseInt(e.target.value) as unknown as IssueSortTypes)}>
-						{sortTypes.map((t, idx) => {
-							return (
-								<option value={idx} key={idx} className={styles.sortOption}>
-									{prettyPrintEnum(t)}
-								</option>
-							);
-						})}
-					</select>
+				<div className={styles.filterAndSort}>
+					<div className={styles.sortContainer}>
+						Sort by
+						<select className={styles.sortDropdown} value={currentSort} onChange={(e) => setCurrentSort(parseInt(e.target.value) as unknown as IssueSortTypes)}>
+							{sortTypes.map((t, idx) => {
+								return (
+									<option value={idx} key={idx} className={styles.sortOption}>
+										{prettyPrintEnum(t)}
+									</option>
+								);
+							})}
+						</select>
+					</div>
+					<label className={styles.showClosed}>
+						<input type="checkbox" checked={showClosedIssues} onChange={() => setShowClosedIssues(!showClosedIssues)} />
+						Show Closed
+					</label>
 				</div>
 			</div>
 			<table className={styles.issueTable}>
@@ -99,14 +105,14 @@ export function IssueRow({ issue, displayName }: IssueRowProps) {
 		<tr className={styles.issueRow} onClick={() => router.push(`/dashboard/issues/${issue.kioskId}#${issue.id}`)}>
 			{/* <Link href={`/dashboard/issues/${issue.kioskId}#${issue.id}`}> */}
 			<td className={styles.td}>{IssueStatusIcon(issue.status)}</td>
-			<td className={styles.td}>{displayName}</td>
+			<td className={`${styles.td} ${styles.kioskNameCell}`}>{displayName}</td>
 
 			<td className={`${styles.td} ${styles.titleAndDesc}`}>
 				{issue.title} <span className={styles.issueDescription}>{issue.description}</span>
 			</td>
 			<td className={styles.td}>{issue.openedBy}</td>
 			<td className={styles.td}>{new Date(issue.openDate).toLocaleDateString()}</td>
-			<td className={styles.td}>{issue.closeDate ? new Date(issue.closeDate).toLocaleDateString() : ''} </td>
+			<td className={`${styles.td} ${styles.closedDateCell}`}>{issue.closeDate ? new Date(issue.closeDate).toLocaleDateString() : ''} </td>
 			<td className={`${styles.td} ${styles.commentCount}`}>
 				{issue.notes.length} <FaComment />
 			</td>
