@@ -1,13 +1,14 @@
-import { fetchAllTickets } from '../../../../../helpers/httpMethods';
+import { fetchAllTickets } from '../../../../helpers/httpMethods';
 import styles from './page.module.css';
 import IssueTable from './IssueTable';
-import { client } from '../../../../../sanity/lib/client';
-import { Kiosk } from '../../../../../sanity.types';
+import { client } from '../../../../sanity/lib/client';
+import { Kiosk } from '../../../../sanity.types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
 	title: 'All Issues'
 };
+
 export default async function AllIssues() {
 	var allIssues = await fetchAllTickets();
 	const allKiosks = (await client.fetch(`*[_type == "kiosk"] {_id, displayName}`)) as Pick<Kiosk, '_id' | 'displayName'>[];
@@ -31,8 +32,10 @@ export default async function AllIssues() {
 	// });
 
 	return (
-		<div className={styles.issueList}>
-			<IssueTable kioskNames={kioskIdToDisplayName} issues={allIssues} />
-		</div>
+		<main className={styles.page}>
+			<div className={styles.issueList}>
+				<IssueTable kioskNames={kioskIdToDisplayName} issues={allIssues} />
+			</div>
+		</main>
 	);
 }

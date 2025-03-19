@@ -29,7 +29,6 @@ export default async function Layout({
 
 	return (
 		<div className={bodyClass}>
-			{/* <p>hey</p> */}
 			<SessionWrapper>
 				<Header />
 				{children}

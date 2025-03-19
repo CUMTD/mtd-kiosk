@@ -1,13 +1,13 @@
 'use client';
 import { GoIssueClosed, GoIssueOpened } from 'react-icons/go';
-import KioskTicket, { TicketStatusType } from '../../../../../types/kioskTicket';
+import KioskTicket, { TicketStatusType } from '../../../../types/kioskTicket';
 import styles from './IssueTable.module.css';
 import { FaComment } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
-import { IssueSortTypes } from '../../../../../types/issueListTypes/issueSortTypes';
+import { IssueSortTypes } from '../../../../types/issueListTypes/issueSortTypes';
 
 import { useRouter } from 'next/navigation';
-import AttributeBadge from '../../../../../components/attributeBadge';
+import AttributeBadge from '../../../../components/attributeBadge';
 
 interface IssueTableProps {
 	issues: KioskTicket[];

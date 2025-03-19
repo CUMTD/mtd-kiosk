@@ -25,7 +25,7 @@ export default function Toolbar() {
 			</Link>
 
 			<div className={styles.links}>
-				<Link href="/dashboard/issues/all" title="All Issues">
+				<Link href="/dashboard/issues" title="All Issues">
 					<AttributeBadge icon={<GoIssueTracks />} text="All Issues" />
 				</Link>
 				<Link href="/dashboard/led" title="LED Superview">
