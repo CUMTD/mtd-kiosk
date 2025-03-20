@@ -83,12 +83,7 @@ export function Issue({ issue, listView }: IssueProps) {
 								<b>{issue.openedBy}</b> opened on {openDate.toLocaleDateString()}
 								{!issueOpen && ` and closed on ${closeDate.toLocaleDateString()}`}
 							</p>
-							{/* <div className={styles.issueBody}> */}
 							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
-							{/* </div> */}
-							{/* <div className={styles.issueBody}> */}
-							<p className={styles.issueDescription}>{issue.description ? issue.description : <i>No description provided.</i>}</p>
-							{/* </div> */}
 						</div>
 						{!listView && (
 							<div className={styles.issueActions}>
