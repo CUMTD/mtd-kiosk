@@ -129,7 +129,7 @@ export async function fetchKioskLayoutClassesByKioskId(kioskId: string): Promise
 export async function fetchAllTickets(): Promise<KioskTicket[]> {
 	const uri = `${API_ENDPOINT}/tickets?includeClosed=true`;
 	try {
-		const response = await fetch(uri, { headers: defaultHeaders });
+		const response = await fetch(uri, { headers: defaultHeaders, cache: 'no-cache' });
 
 		return (await response.json()) as KioskTicket[];
 	} catch (error) {
