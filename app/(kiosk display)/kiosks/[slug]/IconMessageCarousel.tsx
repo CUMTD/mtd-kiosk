@@ -21,7 +21,7 @@ export default function IconMessageCarousel() {
 		}, pageInterval);
 
 		return () => clearInterval(interval);
-	}, [setCurrentIconMessageIndex, currentIconMessageIndex, iconMessages.length]);
+	}, [setCurrentIconMessageIndex, currentIconMessageIndex, iconMessages?.length]);
 
 	if (blockRealtime || currentDepartures.length === 0) {
 		return null;
