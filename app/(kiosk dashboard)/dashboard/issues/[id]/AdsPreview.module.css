@@ -1,27 +1,34 @@
-.adsSection {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 1em;
-	padding-bottom: 1em;
-	/* justify-content: space-between; */
-}
-
-.proTip {
-	opacity: 0.8;
-	gap: 0.5ch;
-	display: flex;
-	align-items: center;
-}
-
 .adContainer {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	flex-wrap: wrap;
+	display: grid;
+	/* grid-template-columns: 1fr 1fr 1fr 1fr; */
+	width: 100%;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+	position: relative;
+}
+
+/* .adContainer::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	height: 100%;
+	background-image: linear-gradient(to top, rgb(0, 0, 0) 37%, rgba(0, 0, 0, 0) 64%);
+	z-index: 1;
+	left: 0;
+	right: 0;
+} */
+
+.image {
+	width: 100%;
+	height: auto;
+	padding: 3px;
 }
 
 .adLink {
 	overflow: hidden;
-	height: 160px;
+}
+
+.image,
+.adLink {
+	aspect-ratio: 225/100;
 }

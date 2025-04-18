@@ -9,7 +9,7 @@ import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/Grouped
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
-import { headers } from 'next/headers';
+import { Temperature } from '../types/Temperature';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -281,12 +281,23 @@ export async function getGeneralMessage(stopId: string): Promise<GeneralMessage 
 export async function getDarkModeStatus(): Promise<boolean> {
 	try {
 		const response = await fetch(`${API_ENDPOINT}/time/dark-mode`, { headers: defaultHeaders, cache: 'no-cache' });
-
 		// returns true if dark mode is enabled
 		const result = (await response.json()) as DarkModeStatusResponse;
 		return result.useDarkMode;
 	} catch (error) {
 		console.error(error);
 		return true;
+	}
+}
+
+export async function awaitGetTemperatureHistory(kioskId: string): Promise<Temperature[]> {
+	try {
+		const response = await fetch(`${API_ENDPOINT}/temperature/${kioskId}/recent`, { headers: defaultHeaders, cache: 'no-cache' });
+		const data = (await response.json()) as Temperature[];
+		//sleep
+		return data;
+	} catch (error) {
+		console.error(error);
+		return [];
 	}
 }

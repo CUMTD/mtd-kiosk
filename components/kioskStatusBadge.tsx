@@ -6,10 +6,11 @@ import styles from './kioskStatusBadge.module.css';
 interface KioskStatusBadgeProps {
 	kioskObject: KioskObject;
 	status?: HealthStatus;
+	statusOnly?: boolean;
 	align: 'left' | 'right';
 }
 
-export default function KioskStatusBadge({ kioskObject, status = HealthStatus.UNKNOWN, align }: KioskStatusBadgeProps) {
+export default function KioskStatusBadge({ kioskObject, status = HealthStatus.UNKNOWN, align, statusOnly }: KioskStatusBadgeProps) {
 	const indicatorLightClasses = clsx(styles.indicatorLight, {
 		[styles.healthy]: status === HealthStatus.HEALTHY,
 		[styles.warning]: status === HealthStatus.WARNING,
@@ -25,7 +26,7 @@ export default function KioskStatusBadge({ kioskObject, status = HealthStatus.UN
 	return (
 		<div className={containerClasses}>
 			{align === 'left' && <span className={indicatorLightClasses}></span>}
-			{KioskObject[kioskObject]} {status === undefined ? 'unknown' : HealthStatus[status].toLocaleLowerCase()}
+			{!statusOnly && KioskObject[kioskObject]} {status === undefined ? 'unknown' : HealthStatus[status].toLocaleLowerCase()}
 			{align === 'right' && <span className={indicatorLightClasses}></span>}
 		</div>
 	);

@@ -6,7 +6,7 @@
 	height: min-content;
 	display: flex;
 	flex-direction: row;
-	width: 100%;
+	/* width: 100%; */
 	flex-wrap: wrap;
 	/* border-radius: var(--border-radius); */
 	/* space in between */
@@ -19,22 +19,13 @@
 	gap: 1ch;
 }
 
-.healthBadges {
-	margin-top: 1em;
-	font-weight: bold;
-}
 .stopId {
 	opacity: 70%;
 	font-size: 130%;
 }
-.badgeContainer {
-	display: flex;
-	gap: 0.5em;
-	flex-direction: column;
-}
 
 .kioskName {
-	font-size: 300%;
+	font-size: 200%;
 	/* font-size: 300%; */
 	/* margin-bottom: 0.5em; */
 }

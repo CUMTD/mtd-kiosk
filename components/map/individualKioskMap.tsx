@@ -6,7 +6,6 @@ import throwError from '../../helpers/throwError';
 import useMapId from '../../hooks/useMapId';
 import { Kiosk } from '../../sanity.types';
 import { HealthStatus } from '../../types/HealthStatus';
-import styles from './kioskMap.module.css';
 import mapStyle from './kioskMap.styles';
 import KioskMapIcon from './kioskMapIcon';
 import { RecoilRoot } from 'recoil';
@@ -26,22 +25,22 @@ export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMap
 	return (
 		<RecoilRoot>
 			<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
-				<div className={styles.individualKioskMap}>
-					<Map
-						defaultCenter={locationCoords}
-						defaultZoom={15}
-						gestureHandling={'greedy'}
-						mapId={mapId}
-						zoomControl={false}
-						disableDefaultUI={true}
-						styles={mapStyle}
-						maxZoom={15}
-					>
-						<AdvancedMarker position={locationCoords} key={_id}>
-							<KioskMapIcon id={_id} health={health} openIssuesCount={0} />
-						</AdvancedMarker>
-					</Map>
-				</div>
+				<Map
+					style={{ height: '100%', width: '100%' }}
+					defaultCenter={locationCoords}
+					defaultZoom={15}
+					gestureHandling={'greedy'}
+					mapId={mapId}
+					// zoomControl={true}
+					disableDefaultUI={true}
+					styles={mapStyle}
+					// mapTypeControl={true}
+					// maxZoom={15}
+				>
+					<AdvancedMarker position={locationCoords} key={_id}>
+						<KioskMapIcon id={_id} health={health} openIssuesCount={0} />
+					</AdvancedMarker>
+				</Map>
 			</APIProvider>
 		</RecoilRoot>
 	);

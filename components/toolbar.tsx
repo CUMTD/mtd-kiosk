@@ -3,7 +3,6 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { RiAdvertisementFill } from 'react-icons/ri';
-import { SiSanity } from 'react-icons/si';
 
 import AttributeBadge from './attributeBadge';
 import LedSignIcon from './ledSignIcon';
@@ -34,10 +33,6 @@ export default function Toolbar() {
 
 				<Link href="/studio/structure/advertisements" title="Manage Ads">
 					<AttributeBadge icon={<RiAdvertisementFill />} text="Manage Ads" />
-				</Link>
-
-				<Link href="/studio" title="Sanity Studio">
-					<AttributeBadge icon={<SiSanity />} text="Sanity Studio" />
 				</Link>
 			</div>
 

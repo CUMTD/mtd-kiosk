@@ -21,7 +21,11 @@ export default async function LedPreview({ kioskId, ledIp, clickable }: LedPrevi
 	}
 
 	if (!ledPreviewImg) {
-		return <LedPreviewPlaceholder failed />;
+		return (
+			<div className={styles.previewContainer}>
+				<LedPreviewPlaceholder failed />
+			</div>
+		);
 	}
 
 	if (clickable) {
@@ -33,6 +37,10 @@ export default async function LedPreview({ kioskId, ledIp, clickable }: LedPrevi
 			</div>
 		);
 	} else {
-		return <LedPreviewClient initialImage={ledPreviewImg} ledIp={ledIp} />;
+		return (
+			<div className={styles.previewContainer}>
+				<LedPreviewClient initialImage={ledPreviewImg} ledIp={ledIp} />
+			</div>
+		);
 	}
 }
