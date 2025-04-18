@@ -1,9 +1,8 @@
 'use client';
 
-import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
+import { AdvancedMarker, APIProvider, ColorScheme, Map } from '@vis.gl/react-google-maps';
 import { useMemo } from 'react';
 import throwError from '../../helpers/throwError';
-import useMapId from '../../hooks/useMapId';
 import { Kiosk } from '../../sanity.types';
 import { HealthStatus } from '../../types/HealthStatus';
 import styles from './kioskMap.module.css';
@@ -12,6 +11,7 @@ import KioskMapIcon from './kioskMapIcon';
 import { RecoilRoot } from 'recoil';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
+const GOOGLE_MAPS_MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID');
 
 interface IndividualKioskMapProps {
 	kiosk: Kiosk;
@@ -21,7 +21,6 @@ interface IndividualKioskMapProps {
 export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMapProps) {
 	const { _id, location } = kiosk;
 	const locationCoords = useMemo(() => ({ lat: location?.lat ?? 0, lng: location?.lng ?? 0 }), [location]);
-	const mapId = useMapId();
 
 	return (
 		<RecoilRoot>
@@ -31,11 +30,12 @@ export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMap
 						defaultCenter={locationCoords}
 						defaultZoom={15}
 						gestureHandling={'greedy'}
-						mapId={mapId}
+						colorScheme={ColorScheme.FOLLOW_SYSTEM}
 						zoomControl={false}
 						disableDefaultUI={true}
 						styles={mapStyle}
 						maxZoom={15}
+						mapId={GOOGLE_MAPS_MAP_ID}
 					>
 						<AdvancedMarker position={locationCoords} key={_id}>
 							<KioskMapIcon id={_id} health={health} openIssuesCount={0} />
