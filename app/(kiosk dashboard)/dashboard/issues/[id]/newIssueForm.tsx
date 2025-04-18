@@ -6,13 +6,17 @@ import { GoX } from 'react-icons/go';
 import SubmitButton from '../../../../../components/submitButton';
 import styles from './newIssueForm.module.css';
 import { createNewIssueFormAction } from './newIssueFormServerActions';
+import InfoCard from '../InfoCard';
+import IssuesList from './issuesList';
+import KioskTicket from '../../../../../types/kioskTicket';
 
 interface NewIssueFormProps {
 	kioskId: string;
+	issues: KioskTicket[];
 }
 
 // TODO: Update other forms to work this way.
-export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
+export default function NewIssueForm({ kioskId, issues }: NewIssueFormProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
 	const { data: session } = useSession({ required: true });
@@ -37,11 +41,16 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 		}
 	}, [status]);
 
-	return (
+	const newIssueButton = (
 		<>
 			<button className={styles.button} onClick={() => dialogRef.current?.showModal()}>
 				New Issue
 			</button>
+		</>
+	);
+
+	return (
+		<>
 			<dialog className={styles.dialog} ref={dialogRef}>
 				<div className={styles.dialogHeader}>
 					<h2 className={styles.headerText}>Create new issue</h2>
@@ -69,6 +78,9 @@ export default function NewIssueForm({ kioskId }: NewIssueFormProps) {
 					<SubmitButton label="Create Issue" loading="Creating Issue..." />
 				</form>
 			</dialog>
+			<InfoCard title="Issues" button={newIssueButton} tall>
+				<IssuesList issues={issues} />
+			</InfoCard>
 		</>
 	);
 }

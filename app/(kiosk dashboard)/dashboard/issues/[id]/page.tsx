@@ -1,17 +1,18 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../../helpers/httpMethods';
-import KioskTicket, { TicketStatusType } from '../../../../../types/kioskTicket';
-import LedPreview from '../../led/ledPreview';
-import LedPreviewPlaceholder from '../../led/ledPreviewPlaceholder';
+import KioskTicket from '../../../../../types/kioskTicket';
 import AdsPreview from './AdsPreview';
 import InfoContainer from './InfoContainer';
-import IssuesList from './issuesList';
 import NewIssueForm from './newIssueForm';
 import NewIssueRoot from './newIssueRoot';
 import styles from './page.module.css';
 import { Kiosk } from '../../../../../sanity.types';
 import { ServerHealthStatuses } from '../../../../../types/serverHealthStatuses';
+import TemperatureData from './TemperatureData';
+import InfoCard from '../InfoCard';
+import { HealthStatus } from '../../../../../types/HealthStatus';
+import IndividualKioskMap from '../../../../../components/map/individualKioskMap';
 
 interface Props {
 	params: { id: string };
@@ -28,13 +29,11 @@ export default async function IssuePage({ params: { id } }: Readonly<Props>) {
 	const kiosk = await fetchKioskById(id);
 	const issues = await fetchKioskTickets(id);
 
-	const openIssues = issues.filter((issue) => issue.status == TicketStatusType.OPEN).length;
-	const closedIssues = issues.filter((issue) => issue.status == TicketStatusType.RESOLVED).length;
 	const healthStatus = await getHealthStatus(id);
 
 	return (
 		<section className={styles.parent}>
-			<IssuePageStructure kiosk={kiosk} issues={issues} openIssues={openIssues} closedIssues={closedIssues} healthStatus={healthStatus} />
+			<IssuePageStructure kiosk={kiosk} issues={issues} healthStatus={healthStatus} />
 		</section>
 	);
 }
@@ -42,51 +41,29 @@ export default async function IssuePage({ params: { id } }: Readonly<Props>) {
 interface IssuePageStructureProps {
 	kiosk: Kiosk;
 	issues: KioskTicket[];
-	openIssues: number;
-	closedIssues: number;
+
 	healthStatus: ServerHealthStatuses | null;
 }
 
-function IssuePageStructure({ kiosk, issues, openIssues, closedIssues, healthStatus }: IssuePageStructureProps) {
+function IssuePageStructure({ kiosk, issues, healthStatus }: IssuePageStructureProps) {
 	return (
 		<>
-			<InfoContainer kiosk={kiosk} healthStatus={healthStatus} />
-			<div className={styles.children}>
-				<div className={styles.issuesHeader}>
-					<h2>
-						{issues.length == 0 ? 'No' : issues.length} {issues.length == 1 ? 'Issue' : 'Issues'}
-					</h2>
-
-					<NewIssueRoot kioskId={kiosk._id}>
-						<NewIssueForm kioskId={kiosk._id} />
-					</NewIssueRoot>
-					<span style={{ flex: 1 }} />
-					{issues.length > 0 && (
-						<span className={styles.issueCount}>
-							{openIssues} Open, {closedIssues} Closed
-						</span>
-					)}
-				</div>
-
-				{issues.length > 0 && <IssuesList kioskId={kiosk._id} />}
-			</div>
-
-			{kiosk.hasLed && (kiosk.ledIp?.length ?? 0) > 0 && (
-				<div className={styles.children}>
-					<h2 style={{ paddingBottom: '1em' }}>
-						<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<span>LED Sign</span>
-							<code style={{ fontWeight: 'regular' }}>{kiosk.ledIp}</code>
-						</span>
-					</h2>
-
-					<Suspense fallback={<LedPreviewPlaceholder />}>
-						<LedPreview kioskId={kiosk._id} ledIp={kiosk.ledIp!} clickable={false} />
+			<InfoContainer kiosk={kiosk} />
+			<div className={styles.infoCards}>
+				<NewIssueRoot kioskId={kiosk._id}>
+					<NewIssueForm kioskId={kiosk._id} issues={issues} />
+				</NewIssueRoot>
+				<InfoCard title="Map">
+					<IndividualKioskMap kiosk={kiosk} health={healthStatus?.overallHealth ?? HealthStatus.UNKNOWN} />
+				</InfoCard>
+				<InfoCard title="Conditions" verticalCenter>
+					<Suspense fallback={<p>Loading</p>}>
+						<TemperatureData kioskId={kiosk._id} />
 					</Suspense>
-				</div>
-			)}
-			<div className={styles.children}>
-				<AdsPreview kioskId={kiosk._id} />
+				</InfoCard>
+				<InfoCard title="Advertisements" wide>
+					<AdsPreview kioskId={kiosk._id} />
+				</InfoCard>
 			</div>
 		</>
 	);

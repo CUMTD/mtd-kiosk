@@ -10,7 +10,7 @@
 }
 
 /* mobile media selector */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 	.layoutContainer {
 		--layout-grid: 'header' 'content' 'cards';
 		grid-template-rows: auto;
@@ -19,3 +19,9 @@
 		overflow-y: unset;
 	}
 }
+
+/* @media (max-width: 1600px) {
+	.layoutContainer {
+		grid-template-columns: 1fr minmax(20rem, 35rem) !important;
+	}
+} */

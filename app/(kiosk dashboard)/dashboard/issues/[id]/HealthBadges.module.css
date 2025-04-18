@@ -1,0 +1,10 @@
+.badgeContainer {
+	display: flex;
+	gap: 0.5em;
+	flex-direction: column;
+}
+
+.healthBadges {
+	margin-top: 1em;
+	font-weight: bold;
+}

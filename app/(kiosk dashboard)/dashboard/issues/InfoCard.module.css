@@ -1,0 +1,50 @@
+.infoCard {
+	border-radius: 10px;
+	background-color: rgb(var(--background-rgb));
+	padding: 1.5em;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: stretch;
+	align-items: stretch;
+}
+
+.tall {
+	grid-row: span 2;
+}
+
+.wide {
+	grid-column: span 2;
+}
+
+.verticalCenter {
+	align-content: center;
+}
+.tallContent {
+	height: unset !important;
+}
+
+.content {
+	height: 350px;
+	overflow: auto;
+	flex: 1 1 auto;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1em;
+	background-color: rgb(var(--background-rgb));
+}
+
+.subtitle {
+	font-weight: normal;
+	opacity: 0.8;
+}
+
+@media (max-width: 1500px) {
+	.wide {
+		grid-column: span 1;
+	}
+}
