@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { connectionErrorState } from '../../../../state/kioskState';
+import { connectionErrorState, generalMessageState } from '../../../../state/kioskState';
 import CurrentDepartures from './currentDepartures';
 import GeneralMessage from './generalMessage';
 import IconMessageCarousel from './IconMessageCarousel';
@@ -9,6 +9,7 @@ import KioskOfflineBanner from './KioskOfflineBanner';
 
 export default function KioskDepartureList() {
 	const connectionError = useRecoilValue(connectionErrorState);
+	const generalMessage = useRecoilValue(generalMessageState);
 
 	if (connectionError) {
 		return <KioskOfflineBanner />;
@@ -19,7 +20,7 @@ export default function KioskDepartureList() {
 			<GeneralMessage />
 			<CurrentDepartures />
 			<IconMessageCarousel />
-			<PageIndicator />
+			{!generalMessage?.blockRealtime && <PageIndicator />}
 		</div>
 	);
 }
