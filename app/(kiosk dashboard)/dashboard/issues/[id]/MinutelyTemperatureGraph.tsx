@@ -1,17 +1,17 @@
 'use client';
-import { Temperature } from '../../../../../types/Temperature';
+import { TemperatureMinutely } from '../../../../../types/TemperatureMinutely';
 import { LineChart, Line, YAxis, XAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import styles from './TemperatureData.module.css';
 import { Inter } from 'next/font/google';
 
 interface TemperatureGraphProps {
-	data: Temperature[];
+	data: TemperatureMinutely[];
 }
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function TemperatureGraph({ data }: TemperatureGraphProps) {
+export default function MinutelyTemperatureGraph({ data }: TemperatureGraphProps) {
 	const renderDateTick = (date: number) => {
 		return new Date(date).toLocaleDateString([], { month: 'numeric', day: 'numeric', year: 'numeric' });
 	};
@@ -28,7 +28,7 @@ export default function TemperatureGraph({ data }: TemperatureGraphProps) {
 						stroke="rgb(var(--foreground-rgb))"
 						dot={false}
 						activeDot
-						strokeWidth={3}
+						strokeWidth={2}
 						unit={'°F'}
 						connectNulls={false}
 					/>
@@ -40,7 +40,7 @@ export default function TemperatureGraph({ data }: TemperatureGraphProps) {
 						stroke="lightblue"
 						dot={false}
 						activeDot
-						strokeWidth={3}
+						strokeWidth={2}
 						unit={'%'}
 						connectNulls={false}
 					/>
@@ -58,7 +58,7 @@ export default function TemperatureGraph({ data }: TemperatureGraphProps) {
 					/>
 					<YAxis />
 					<Tooltip content={<CustomTooltip />} />
-					<Legend verticalAlign="top" />
+					<Legend verticalAlign="bottom" />
 				</LineChart>
 			</ResponsiveContainer>
 		</div>
@@ -67,12 +67,12 @@ export default function TemperatureGraph({ data }: TemperatureGraphProps) {
 
 function CustomTooltip({ active, payload, label }: any) {
 	var date = new Date(label);
-	if (active && payload && payload.length) {
+	if (active && payload && payload.length >= 2) {
 		return (
-			<div>
-				<p>
+			<div className={styles.tooltip}>
+				<h4>
 					{date.toLocaleDateString()} {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-				</p>
+				</h4>
 				<p>{`Temperature: ${payload[0].value}°F`}</p>
 				<p>{`Relative Humidity: ${payload[1].value}%`}</p>
 			</div>

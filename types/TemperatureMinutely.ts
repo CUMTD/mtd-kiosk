@@ -1,4 +1,4 @@
-export type Temperature = {
+export type TemperatureMinutely = {
 	kioskId: string;
 	timestamp: string;
 	tempFahrenheit: number;
