@@ -9,7 +9,8 @@ import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/Grouped
 import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTicket';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
-import { Temperature } from '../types/Temperature';
+import { TemperatureMinutely } from '../types/TemperatureMinutely';
+import { TemperatureDaily } from '../types/TemperatureDaily';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -290,10 +291,21 @@ export async function getDarkModeStatus(): Promise<boolean> {
 	}
 }
 
-export async function awaitGetTemperatureHistory(kioskId: string): Promise<Temperature[]> {
+export async function GetMinutelyTemperatureHistory(kioskId: string): Promise<TemperatureMinutely[]> {
 	try {
 		const response = await fetch(`${API_ENDPOINT}/temperature/${kioskId}/recent`, { headers: defaultHeaders, cache: 'no-cache' });
-		const data = (await response.json()) as Temperature[];
+		const data = (await response.json()) as TemperatureMinutely[];
+		return data;
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+}
+
+export async function GetDailyTemperatureHistory(kioskId: string): Promise<TemperatureDaily[]> {
+	try {
+		const response = await fetch(`${API_ENDPOINT}/temperature/${kioskId}/daily`, { headers: defaultHeaders, cache: 'no-cache' });
+		const data = (await response.json()) as TemperatureDaily[];
 		//sleep
 		return data;
 	} catch (error) {

@@ -56,11 +56,7 @@ function IssuePageStructure({ kiosk, issues, healthStatus }: IssuePageStructureP
 				<InfoCard title="Map">
 					<IndividualKioskMap kiosk={kiosk} health={healthStatus?.overallHealth ?? HealthStatus.UNKNOWN} />
 				</InfoCard>
-				<InfoCard title="Conditions" verticalCenter>
-					<Suspense fallback={<p>Loading</p>}>
-						<TemperatureData kioskId={kiosk._id} />
-					</Suspense>
-				</InfoCard>
+				<TemperatureData kioskId={kiosk._id} />
 				<InfoCard title="Advertisements" wide>
 					<AdsPreview kioskId={kiosk._id} />
 				</InfoCard>
