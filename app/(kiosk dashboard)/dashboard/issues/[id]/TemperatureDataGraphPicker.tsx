@@ -17,7 +17,7 @@ interface TemperatureGraphDataPickerProps {
 export default function TemperatureGraphDataPicker({ minuteData, dailyData }: TemperatureGraphDataPickerProps) {
 	const [dateTypeState, setDataTypeState] = useState<'minute' | 'daily'>('minute');
 
-	if (!minuteData || !dailyData || minuteData.length == 0 || dailyData.length == 0) {
+	if (!minuteData && !dailyData) {
 		return <InfoCard title="Conditions">No data.</InfoCard>;
 	}
 
@@ -54,12 +54,16 @@ export default function TemperatureGraphDataPicker({ minuteData, dailyData }: Te
 	return (
 		<InfoCard title="Conditions" button={control}>
 			<div className={styles.graphBox}>
-				<div style={{ opacity: dateTypeState == 'minute' ? '1' : '0', zIndex: dateTypeState == 'minute' ? '1' : '0' }} className={styles.graph}>
-					<MinutelyTemperatureGraph data={minuteData} />
-				</div>
-				<div style={{ opacity: dateTypeState == 'daily' ? '1' : '0', zIndex: dateTypeState == 'daily' ? '1' : '0' }} className={styles.graph}>
-					<DailyTemperatureGraph data={dailyData} />
-				</div>
+				{minuteData && (
+					<div style={{ opacity: dateTypeState == 'minute' ? '1' : '0', zIndex: dateTypeState == 'minute' ? '1' : '0' }} className={styles.graph}>
+						<MinutelyTemperatureGraph data={minuteData} />
+					</div>
+				)}
+				{dailyData && (
+					<div style={{ opacity: dateTypeState == 'daily' ? '1' : '0', zIndex: dateTypeState == 'daily' ? '1' : '0' }} className={styles.graph}>
+						<DailyTemperatureGraph data={dailyData} />
+					</div>
+				)}
 			</div>
 		</InfoCard>
 	);
