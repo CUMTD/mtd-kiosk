@@ -27,8 +27,8 @@ export async function createNewIssueFormAction(_formState: CreateNewIssueFormSta
 		};
 	}
 
-	// revalidate the /issue/{kioskId} page for the kiosk
-	revalidatePath(`/issue/${ticket.kioskId}`);
+        // revalidate the /dashboard/issues/{kioskId} page for the kiosk
+        revalidatePath(`/dashboard/issues/${ticket.kioskId}`);
 
 	return {
 		status: 'success'
