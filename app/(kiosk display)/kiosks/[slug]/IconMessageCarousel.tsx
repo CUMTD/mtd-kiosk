@@ -23,7 +23,7 @@ export default function IconMessageCarousel() {
 		return () => clearInterval(interval);
 	}, [setCurrentIconMessageIndex, currentIconMessageIndex, iconMessages?.length]);
 
-	if (blockRealtime || currentDepartures.length === 0) {
+	if (blockRealtime || currentDepartures.length === 0 || iconMessages.length === 0) {
 		return null;
 	}
 

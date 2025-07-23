@@ -137,7 +137,7 @@ const advertisement = defineType({
 	orderings: [
 		{
 			name: 'status',
-			title: 'Order By Status',
+			title: 'Status',
 			by: [
 				{ field: 'status', direction: 'asc' } // Sort by status first
 			]
