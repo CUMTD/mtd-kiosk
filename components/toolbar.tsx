@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { RiAdvertisementFill } from 'react-icons/ri';
 
@@ -42,9 +42,9 @@ export default function Toolbar() {
 						<p>
 							<b>{session?.user?.name}</b>
 						</p>
-						<Link className={styles.signOut} href="/api/auth/signout">
+						<button className={styles.signOut} onClick={() => signOut()}>
 							Sign Out
-						</Link>
+						</button>
 					</div>
 					<UserIcon />
 				</div>
