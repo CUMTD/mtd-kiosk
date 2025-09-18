@@ -21,8 +21,9 @@ function safeCompare(a?: string | undefined | null, b?: string | undefined | nul
 export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.KIOSK);
 
-	const [issuesList, setIssues] = useState<KioskTicket[]>(() => issues.sort((a, b) => safeCompare(kioskNames[a.kioskId], kioskNames[b.kioskId])));
-
+	const [issuesList, setIssues] = useState<KioskTicket[]>(
+		issues.sort((a, b) => (kioskNames[a.kioskId] || `Deleted Kiosk (${a.kioskId})`).localeCompare(kioskNames[b.kioskId] || `Deleted Kiosk (${b.kioskId})`))
+	);
 	const [showClosedIssues, setShowClosedIssues] = useState(true);
 
 	useEffect(() => {
@@ -45,7 +46,10 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 		}
 
 		if (currentSort === IssueSortTypes.KIOSK) {
-			sortedList.sort((a, b) => safeCompare(kioskNames[a.kioskId], kioskNames[b.kioskId]));
+
+			sortedList.sort((a, b) =>
+				(kioskNames[a.kioskId] || `Deleted Kiosk (${a.kioskId})`).localeCompare(kioskNames[b.kioskId] || `Deleted Kiosk (${b.kioskId})`)
+			);
 		}
 
 		setIssues(sortedList);
@@ -98,7 +102,7 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 				</thead>
 				<tbody className={styles.tbody}>
 					{issuesList.map((issue) => {
-						return <IssueRow key={issue.id} issue={issue} displayName={kioskNames[issue.kioskId] ?? ''} />;
+						return <IssueRow key={issue.id} issue={issue} displayName={kioskNames[issue.kioskId] || `Deleted Kiosk (${issue.kioskId})`} />;
 					})}
 				</tbody>
 			</table>
