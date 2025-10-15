@@ -10,7 +10,7 @@ import KioskTicket, { KioskTicketForm, TicketStatusType } from '../types/kioskTi
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
 import { TemperatureMinutely } from '../types/TemperatureMinutely';
-import { TemperatureDaily } from '../types/TemperatureDaily';
+import { AllTemperatureDaily, TemperatureDaily } from '../types/TemperatureDaily';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
@@ -53,7 +53,7 @@ export async function fetchKioskLocations(): Promise<Kiosk[]> {
 }
 
 export async function fetchKioskList(): Promise<Kiosk[]> {
-	const query = `*[_type == 'kiosk']`;
+	const query = `*[_type == 'kiosk' && !(_id in path('drafts.**'))]`;
 	const kiosks = await client.fetch(query, {}, defaultCache);
 
 	return kiosks;
@@ -306,7 +306,19 @@ export async function GetDailyTemperatureHistory(kioskId: string): Promise<Tempe
 	try {
 		const response = await fetch(`${API_ENDPOINT}/temperature/${kioskId}/daily`, { headers: defaultHeaders, cache: 'no-cache' });
 		const data = (await response.json()) as TemperatureDaily[];
-		//sleep
+		return data;
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+}
+
+export async function GetAllDailyTemperatureHistory(): Promise<AllTemperatureDaily[][]> {
+	try {
+		const response = await fetch(`${API_ENDPOINT}/temperature/daily`, { headers: defaultHeaders, cache: 'no-cache' });
+		console.log(response.url);
+		console.log(response.status);
+		const data = (await response.json()) as AllTemperatureDaily[][];
 		return data;
 	} catch (error) {
 		console.error(error);
