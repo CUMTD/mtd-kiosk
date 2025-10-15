@@ -20,7 +20,6 @@ function safeCompare(a?: string | undefined | null, b?: string | undefined | nul
 
 export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.KIOSK);
-
 	const [issuesList, setIssues] = useState<KioskTicket[]>(
 		issues.sort((a, b) => (kioskNames[a.kioskId] || `Deleted Kiosk (${a.kioskId})`).localeCompare(kioskNames[b.kioskId] || `Deleted Kiosk (${b.kioskId})`))
 	);
@@ -46,7 +45,6 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 		}
 
 		if (currentSort === IssueSortTypes.KIOSK) {
-
 			sortedList.sort((a, b) =>
 				(kioskNames[a.kioskId] || `Deleted Kiosk (${a.kioskId})`).localeCompare(kioskNames[b.kioskId] || `Deleted Kiosk (${b.kioskId})`)
 			);

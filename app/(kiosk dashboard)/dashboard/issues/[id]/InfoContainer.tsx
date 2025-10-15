@@ -31,10 +31,11 @@ export default async function InfoContainer({ kiosk }: InfoContainerProps) {
 					{kiosk.hasAnnunciator && <AttributeBadge icon={<AnnunciatorIcon />} text={'Annunciator'} />}
 				</div>
 			</div>
-
-			<Suspense fallback={<LedPreviewPlaceholder />}>
-				<LedPreview kioskId={kiosk._id} ledIp={kiosk.ledIp!} clickable={false} />
-			</Suspense>
+			{kiosk.hasLed && (
+				<Suspense fallback={<LedPreviewPlaceholder />}>
+					<LedPreview kioskId={kiosk._id} ledIp={kiosk.ledIp!} clickable={false} />
+				</Suspense>
+			)}
 			<HealthBadges kiosk={kiosk} />
 		</div>
 	);
