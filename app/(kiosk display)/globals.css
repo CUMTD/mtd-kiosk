@@ -20,6 +20,7 @@
 	--departure-direction-font-size: 35px;
 	--departure-first-font-size: 59px;
 	--messaging-font-size: 43px;
+	--messaging-font-size-large: 100px;
 	--departure-second-font-size: 32px;
 
 	--departure-line-height: 107px;
@@ -31,7 +32,7 @@
 	--departure-line-color: rgb(208, 208, 208);
 	--departure-hopper-background-color: rgb(225, 225, 225);
 
-	--messaging-background-color: #cfcfcf;
+	--messaging-background-color: #e6e6e6;
 
 	--header-background: #242424;
 	--header-color: #fff;

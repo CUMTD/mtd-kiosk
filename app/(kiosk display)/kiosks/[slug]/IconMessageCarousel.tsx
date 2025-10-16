@@ -2,7 +2,13 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import throwError from '../../../../helpers/throwError';
-import { blockRealtimeSelector, currentIconMessageIndexState, currentPageDeparturesSelector, iconMessagesSelector } from '../../../../state/kioskState';
+import {
+	blockRealtimeSelector,
+	currentIconMessageIndexState,
+	currentPageDeparturesSelector,
+	iconMessagesSelector,
+	showPagerSelector
+} from '../../../../state/kioskState';
 import IconMessage from './IconMessage';
 import styles from './IconMessageCarousel.module.css';
 
@@ -13,6 +19,7 @@ export default function IconMessageCarousel() {
 	const [currentIconMessageIndex, setCurrentIconMessageIndex] = useRecoilState(currentIconMessageIndexState);
 	const currentDepartures = useRecoilValue(currentPageDeparturesSelector);
 	const blockRealtime = useRecoilValue(blockRealtimeSelector);
+	const pageIndicatorVisible = useRecoilValue(showPagerSelector);
 
 	// cycle through icon messages on a timer
 	useEffect(() => {
@@ -27,7 +34,7 @@ export default function IconMessageCarousel() {
 		return null;
 	}
 
-	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel);
+	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel, { [styles.pager]: pageIndicatorVisible });
 
 	return (
 		<div className={iconMessageCarouselClasses}>

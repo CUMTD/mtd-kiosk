@@ -15,7 +15,10 @@
 	font-family: interstate-condensed, sans-serif;
 	border-bottom: 5px solid var(--departure-line-color);
 }
-
+.due > span {
+	animation: flash 1s infinite ease-in-out;
+	text-transform: capitalize;
+}
 .soonDark {
 	color: var(--soon-departure-dark-mode-color);
 }
@@ -68,11 +71,16 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: flex;
+	align-items: center;
+	gap: 15px;
 }
 
 .acrossStreetIcon {
 	font-size: 0.8em;
-	opacity: 0.75;
+	padding: 0 3px;
+	border-radius: 4px;
+	border: 2px solid var(--route-number-border-color);
 }
 
 .direction {
@@ -182,5 +190,18 @@
 	}
 	100% {
 		background-position: -200% 0;
+	}
+}
+
+@keyframes flash {
+	/* opacity flash */
+	0% {
+		opacity: 100%;
+	}
+	50% {
+		opacity: 60%;
+	}
+	100% {
+		opacity: 100%;
 	}
 }

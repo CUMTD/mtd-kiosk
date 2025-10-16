@@ -38,10 +38,15 @@ export default function DepartureItem({
 				{number}
 			</div>
 			<div className={routeInfoClasses}>
-				<span className={styles.headsign}>
-					{name} {isAcrossStreet && <FaPersonWalkingDashedLineArrowRight className={styles.acrossStreetIcon} />}
-				</span>
-				<br />
+				<div className={styles.headsign}>
+					{name}
+					{isAcrossStreet && (
+						<FaPersonWalkingDashedLineArrowRight
+							style={{ backgroundColor: backgroundHexColor, color: foregroundHexColor }}
+							className={styles.acrossStreetIcon}
+						/>
+					)}
+				</div>
 				<span className={directionClasses}>{direction}</span>
 			</div>
 			<div className={departureTimesClasses}>

@@ -13,9 +13,16 @@ interface DepartureItemTimeProps {
 export default function DepartureItemTime({ departureTime: { time, isHopper, isRealTime, modifier } }: DepartureItemTimeProps) {
 	const timeAsInt = parseInt(time.split(' ')[0]);
 	const isDarkMode = useRecoilValue(darkModeState);
-	const isSoon = isRealTime && (time == 'DUE' || (!isNaN(timeAsInt) && timeAsInt < 5));
+	const isDue = time == 'DUE';
+	const isSoon = isRealTime && (isDue || (!isNaN(timeAsInt) && timeAsInt < 5));
 
-	const timeClasses = clsx('departure-time', styles.time, { [styles.soonDark]: isDarkMode && isSoon }, { [styles.soonLight]: !isDarkMode && isSoon });
+	const timeClasses = clsx(
+		'departure-time',
+		styles.time,
+		{ [styles.due]: isDue },
+		{ [styles.soonDark]: isDarkMode && isSoon },
+		{ [styles.soonLight]: !isDarkMode && isSoon }
+	);
 	const departureTimeClasses = clsx('departureTime', styles.departureTime);
 	const timeSubtitleClasses = clsx('timeSubtitle', styles.timeSubtitle);
 	const realtimeIconClasses = clsx('realtimeIcon', styles.realtimeIcon);

@@ -1,7 +1,7 @@
 .kioskDeparturesContainer {
 	grid-area: departures;
 	overflow: hidden;
-
+	position: relative;
 	display: flex;
 	flex-direction: column;
 }
@@ -12,7 +12,7 @@
 	/* gap: 5px; */
 }
 
-.noDepartures,
+/* .noDepartures, */
 .generalMessage,
 .realtimeBlockingGeneralMessage {
 	font-size: var(--messaging-font-size);
@@ -40,8 +40,22 @@
 	animation: scroll 10s linear infinite;
 }
 
+.noDeparturesIcon {
+	height: 1.5em !important;
+	color: var(--soon-departure-color);
+}
+
 .noDepartures {
+	margin-top: 1em;
+	font-size: var(--messaging-font-size-large);
+	font-weight: 600;
+	padding: 70px;
+	color: var(--departure-text-color);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	text-align: center;
+	gap: 30px;
 }
 
 .marquee {
