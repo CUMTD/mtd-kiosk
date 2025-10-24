@@ -8,6 +8,8 @@
 
 	margin-top: auto;
 	margin-bottom: 1em;
+	position: absolute;
+	bottom: 0;
 }
 
 .pageIndicatorDot {
@@ -15,6 +17,7 @@
 	height: 15px;
 	border-radius: 50%;
 	background-color: var(--departure-hopper-background-color);
+	border: 1px solid rgb(104, 104, 104);
 }
 
 .activePageIndicatorDot {

@@ -1,6 +1,13 @@
 .iconMessageCarousel {
 	display: grid;
-	place-content: center;
+	place-content: end;
+	justify-content: center;
 	grid-template-areas: 'message';
 	background-color: var(--icon-message-background);
+	height: 100%;
+	padding-bottom: 1.7em;
+}
+
+.pager {
+	padding-bottom: 2.5em;
 }

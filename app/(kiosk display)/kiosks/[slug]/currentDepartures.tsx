@@ -3,6 +3,8 @@ import { blockRealtimeSelector, currentPageDeparturesSelector } from '../../../.
 import DepartureItem from './DepartureItem';
 import styles from './KioskDepartures.module.css';
 
+import { TbClockX } from 'react-icons/tb';
+
 export default function CurrentDepartures() {
 	const currentPageDepartures = useRecoilValue(currentPageDeparturesSelector);
 	const blockRealtime = useRecoilValue(blockRealtimeSelector);
@@ -12,7 +14,12 @@ export default function CurrentDepartures() {
 	}
 
 	if (!currentPageDepartures || currentPageDepartures.length == 0) {
-		return <div className={styles.noDepartures}>No departures in the next hour.</div>;
+		return (
+			<div className={styles.noDepartures}>
+				<TbClockX size={'1.5em'} className={styles.noDeparturesIcon} />
+				<p>No departures scheduled for the next hour.</p>
+			</div>
+		);
 	}
 
 	return (
