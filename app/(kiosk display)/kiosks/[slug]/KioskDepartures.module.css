@@ -49,7 +49,7 @@
 	margin-top: 1em;
 	font-size: var(--messaging-font-size-large);
 	font-weight: 600;
-	padding: 70px;
+	padding: 60px;
 	color: var(--departure-text-color);
 	display: flex;
 	flex-direction: column;

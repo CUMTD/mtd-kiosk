@@ -40,6 +40,7 @@
 	--icon-message-background: #f1f1f1;
 
 	--soon-departure-color: #b30000;
+	--blue: #0021b3;
 }
 
 .darkMode {
@@ -62,6 +63,7 @@
 
 	--icon-message-background: #242424;
 	--soon-departure-color: #fc7272;
+	--blue: #0021b3;
 }
 
 .horizontal {

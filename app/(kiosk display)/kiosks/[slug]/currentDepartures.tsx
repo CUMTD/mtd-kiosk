@@ -2,7 +2,8 @@ import { useRecoilValue } from 'recoil';
 import { blockRealtimeSelector, currentPageDeparturesSelector } from '../../../../state/kioskState';
 import DepartureItem from './DepartureItem';
 import styles from './KioskDepartures.module.css';
-import { BsXOctagonFill } from 'react-icons/bs';
+
+import { TbClockX } from 'react-icons/tb';
 
 export default function CurrentDepartures() {
 	const currentPageDepartures = useRecoilValue(currentPageDeparturesSelector);
@@ -15,8 +16,8 @@ export default function CurrentDepartures() {
 	if (!currentPageDepartures || currentPageDepartures.length == 0) {
 		return (
 			<div className={styles.noDepartures}>
-				<BsXOctagonFill size={'1.5em'} className={styles.noDeparturesIcon} />
-				<p>No departures for the next hour.</p>
+				<TbClockX size={'1.5em'} className={styles.noDeparturesIcon} />
+				<p>No departures scheduled for the next hour.</p>
 			</div>
 		);
 	}
