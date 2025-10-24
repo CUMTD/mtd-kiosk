@@ -11,8 +11,11 @@ import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
 import { TemperatureMinutely } from '../types/TemperatureMinutely';
 import { AllTemperatureDaily, TemperatureDaily } from '../types/TemperatureDaily';
+import FreeBikeStatus from '../types/gbfsTypes/FreeBikeStatus';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
+const GBFS_FREE_BIKE_STATUS_ENDPOINT =
+	process.env.NEXT_PUBLIC_GBFS_FREE_BIKE_STATUS_ENDPOINT ?? throwError('NEXT_PUBLIC_GBFS_FREE_BIKE_STATUS_ENDPOINT is not defined');
 const KIOSK_HEALTH_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT not set');
 
 const X_API_KEY = process.env.KIOSK_API_KEY ?? throwError('KIOSK_API_KEY is not defined');
@@ -323,5 +326,17 @@ export async function GetAllDailyTemperatureHistory(): Promise<AllTemperatureDai
 	} catch (error) {
 		console.error(error);
 		return [];
+	}
+}
+
+export async function GetGbfsFreeBikeStatus(): Promise<FreeBikeStatus | null> {
+	try {
+		const response = await fetch(`${GBFS_FREE_BIKE_STATUS_ENDPOINT}`, { headers: defaultHeaders, cache: 'no-cache' });
+		const data = (await response.json()) as FreeBikeStatus;
+
+		return data;
+	} catch (error) {
+		console.error(error);
+		return null;
 	}
 }
