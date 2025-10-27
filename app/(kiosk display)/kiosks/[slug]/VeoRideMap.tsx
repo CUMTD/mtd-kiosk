@@ -10,6 +10,7 @@ import GbfsUpdater from './VeoRideGBFSUpdater';
 import styles from './VeoRideMap.module.css';
 import clsx from 'clsx';
 import { FaBicycle } from 'react-icons/fa6';
+import CompassRose from './VeoRideMapCompassRose';
 
 export default function VeoRideMap() {
 	const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ?? throwError('NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is not defined');
@@ -20,7 +21,7 @@ export default function VeoRideMap() {
 
 	return (
 		<div className={styles.veoContainer}>
-			<div className={styles.banner}>Map</div>
+			{/* <div className={styles.banner}>Map</div> */}
 			<GbfsUpdater />
 			{kiosk.location && (
 				<Map
@@ -31,6 +32,7 @@ export default function VeoRideMap() {
 						latitude: kiosk.location?.lat,
 						zoom: 17
 					}}
+					bearing={0}
 					reuseMaps={true}
 					interactive={false}
 					style={{ gridArea: 'veo-map', position: 'relative', width: '100%', height: '100%' }}
@@ -40,6 +42,7 @@ export default function VeoRideMap() {
 						<b style={{ fontSize: '90%', letterSpacing: '1px', backgroundColor: 'maroon', padding: '3px 5px', borderRadius: '5px' }}>NEW!</b> Nearby mobility
 						alternatives and points of interest
 					</div> */}
+					<CompassRose heading={mapRef.current?.getBearing()} />
 					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <VeoBikes freeBikeStatus={freeBikes} mapRef={mapRef.current} />}
 					{kiosk.location?.lng && kiosk.location?.lat && (
 						<Marker latitude={kiosk.location?.lat} longitude={kiosk.location?.lng} scale={2} style={{ zIndex: 200 }} color="red" />
@@ -57,7 +60,7 @@ interface VeoBikesProps {
 }
 
 function VeoBikes({ freeBikeStatus, mapRef }: VeoBikesProps) {
-	// Filter bikes to those within current map bounds; if bounds not available, render none
+	// filter bikes to those within current map bounds; if bounds not available, render none
 	const bounds = mapRef.getBounds();
 	if (!bounds) return null;
 	const visibleBikes = freeBikeStatus.data.bikes.filter((bike) => !bike.is_reserved && !bike.is_disabled && bounds.contains([bike.lon, bike.lat]));
@@ -77,6 +80,7 @@ interface VeoBikeMarkerProps {
 function VeoBikeMarker({ bike }: VeoBikeMarkerProps) {
 	const markerClasses = clsx({ [styles.marker]: true, [styles.ebike]: bike.vehicle_type_id });
 
+	// need to pull in a separate gbfs subfeed if we want this
 	const bikeType = bike.vehicle_type_id;
 
 	return (

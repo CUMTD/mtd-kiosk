@@ -66,18 +66,18 @@
 
 .legend {
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	top: 0;
+	left: 0;
 	color: white;
 	border-radius: 5px;
 	padding: 5px 10px;
 	font-size: 20px;
-	margin: var(--departure-x-pad);
+	margin: calc(var(--departure-x-pad) / 2);
 	background-color: rgba(0, 0, 0, 0.76);
 	/* border: 1px solid; */
 }
 
 .sampleMarker {
-	font-size: 0.7em;
+	font-size: 0.6em;
 	margin-right: 7px;
 }
