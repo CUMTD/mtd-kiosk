@@ -8,6 +8,7 @@ import KioskDataUpdater from './KioskDataUpdater';
 import KioskDepartureList from './KioskDepartureList';
 import styles from './KioskDisplay.module.css';
 import KioskHeader from './KioskHeader';
+import VeoRideMap from './VeoRideMap';
 
 export function KioskDisplay() {
 	const { isHorizontal } = useRecoilValue(kioskState);
@@ -26,6 +27,7 @@ export function KioskDisplay() {
 			<div className={classes}>
 				<KioskHeader />
 				<KioskDepartureList />
+				<VeoRideMap />
 
 				{!isHorizontal && <KioskAdsCarousel />}
 			</div>

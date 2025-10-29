@@ -3,6 +3,9 @@
 	--width: 1080px;
 	--height: 1920px;
 	--header-height: 200px;
+	--sub-header-height: 200px;
+	--sub-header-font-size: 30px;
+
 	--ad-height: 480px;
 	--ad-width: 1080px;
 	--viewport-border-radius: 10px;
@@ -75,4 +78,10 @@ body {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+}
+
+.mapboxgl-ctrl,
+.mapboxgl-ctrl-attrib,
+.mapboxgl-ctrl-logo {
+	display: none !important;
 }

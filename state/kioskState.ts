@@ -3,6 +3,7 @@ import { AdsWithImageUrl } from '../helpers/httpMethods';
 import { Kiosk } from '../sanity.types';
 import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
+import FreeBikeStatus from '../types/gbfsTypes/FreeBikeStatus';
 
 export const departuresPerPageSelector = selector<number>({
 	key: 'departuresPerPageSelector',
@@ -27,6 +28,8 @@ export const advertisementsState = atom<AdsWithImageUrl[]>({ key: 'advertisement
 export const departureState = atom<GroupedRoute[]>({ key: 'departureState', default: [] });
 
 export const generalMessageState = atom<GeneralMessage | null>({ key: 'generalMessageState', default: null });
+
+export const gbfsBikeStatus = atom<FreeBikeStatus | null>({ key: 'gbfsBikeStatus', default: null });
 
 export const blockRealtimeSelector = selector<boolean>({
 	key: 'blockRealtimeSelector',

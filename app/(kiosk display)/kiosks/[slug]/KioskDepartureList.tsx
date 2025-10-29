@@ -6,6 +6,7 @@ import IconMessageCarousel from './IconMessageCarousel';
 import styles from './KioskDepartures.module.css';
 import PageIndicator from './pageIndicator';
 import KioskOffline from './KioskOfflineBanner';
+import VeoRideMap from './VeoRideMap';
 
 export default function KioskDepartureList() {
 	const connectionError = useRecoilValue(connectionErrorState);
