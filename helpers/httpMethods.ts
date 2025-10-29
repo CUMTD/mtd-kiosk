@@ -11,6 +11,7 @@ import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 import throwError from './throwError';
 import { TemperatureMinutely } from '../types/TemperatureMinutely';
 import { AllTemperatureDaily, TemperatureDaily } from '../types/TemperatureDaily';
+import { darkModeFlag, generalMessageBlockingFlag, generalMessageRegularFlag, noDeparturesFlag } from '../flags';
 import FreeBikeStatus from '../types/gbfsTypes/FreeBikeStatus';
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT ?? throwError('NEXT_PUBLIC_KIOSK_HEALTH_ENDPOINT is not defined');
@@ -243,6 +244,11 @@ export async function fetchLEDPreview(ledIp: string): Promise<string | null> {
 }
 
 export async function getDepartures(primaryStopId: string, additionalStopIds: string[], kioskId?: string): Promise<GroupedRoute[] | null> {
+	const flag = await noDeparturesFlag();
+	if (flag) {
+		return [];
+	}
+
 	try {
 		const params = new URLSearchParams();
 
@@ -266,6 +272,17 @@ export async function getDepartures(primaryStopId: string, additionalStopIds: st
 }
 
 export async function getGeneralMessage(stopId: string): Promise<GeneralMessage | null> {
+	const regularFlag = await generalMessageRegularFlag();
+	const blockingFlag = await generalMessageBlockingFlag();
+
+	if (regularFlag || blockingFlag) {
+		const generalMessage: GeneralMessage = {
+			text: 'This is a regular general message.',
+			blockRealtime: blockingFlag
+		};
+		return generalMessage;
+	}
+
 	try {
 		const response = await fetch(`${API_ENDPOINT}/general-messaging/lcd?stopId=${stopId}`, { headers: defaultHeaders });
 
@@ -283,6 +300,10 @@ export async function getGeneralMessage(stopId: string): Promise<GeneralMessage 
 }
 
 export async function getDarkModeStatus(): Promise<boolean> {
+	const flag = await darkModeFlag();
+	if (flag) {
+		return true;
+	}
 	try {
 		const response = await fetch(`${API_ENDPOINT}/time/dark-mode`, { headers: defaultHeaders, cache: 'no-cache' });
 		// returns true if dark mode is enabled

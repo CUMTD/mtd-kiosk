@@ -31,7 +31,8 @@
 .generalMessage {
 	text-wrap: nowrap;
 	overflow: hidden;
-	/* position: absolute; */
+	display: flex;
+	align-items: center;
 }
 
 .generalMessage span {
