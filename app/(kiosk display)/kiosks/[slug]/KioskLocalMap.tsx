@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState, departureState, gbfsBikeStatus, kioskState } from '../../../../state/kioskState';
 import FreeBikeStatus, { Bike } from '../../../../types/gbfsTypes/FreeBikeStatus';
 import GbfsUpdater from './VeoRideGBFSUpdater';
-import styles from './VeoRideMap.module.css';
+import styles from './KioskLocalMap.module.css';
 import clsx from 'clsx';
 import { FaBicycle } from 'react-icons/fa6';
 import CompassRose from './KioskLocalMapCompassRose';
