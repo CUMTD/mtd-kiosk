@@ -6,14 +6,11 @@
 	grid-template-areas: 'message';
 	background-color: var(--icon-message-background);
 	height: 100%;
+	padding: var(--departure-x-pad);
 	/* padding-bottom: 1.7em; */
 }
 
 /* for when there's no map */
 .doubleRow {
 	grid-row: span 2;
-}
-
-.pager {
-	padding-bottom: 2.5em;
 }

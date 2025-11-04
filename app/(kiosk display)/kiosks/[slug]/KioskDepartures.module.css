@@ -11,7 +11,7 @@
 
 	display: grid;
 	grid-template-areas: 'messaging' 'departures' 'icon-messages' 'map';
-	grid-template-rows: minmax(0, min-content) max-content min-content minmax(0, 100%);
+	grid-template-rows: min-content max-content min-content minmax(0, 100%);
 }
 
 .kioskDepartures {

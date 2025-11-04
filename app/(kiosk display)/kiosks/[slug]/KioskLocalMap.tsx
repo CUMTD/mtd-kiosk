@@ -11,9 +11,21 @@ import styles from './KioskLocalMap.module.css';
 import clsx from 'clsx';
 import { FaBicycle } from 'react-icons/fa6';
 import CompassRose from './KioskLocalMapCompassRose';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const DEPARTURES_TO_HIDE_MAP_THRESHOLD = 7;
+
+// Custom hook to calculate visible bikes within map bounds
+function useVisibleBikes(freeBikeStatus: FreeBikeStatus | null, mapRef: MapRef | null) {
+	return useMemo(() => {
+		if (!freeBikeStatus || !mapRef) return [];
+
+		const bounds = mapRef.getBounds();
+		if (!bounds) return [];
+
+		return freeBikeStatus.data.bikes.filter((bike) => !bike.is_reserved && !bike.is_disabled && bounds.contains([bike.lon, bike.lat]));
+	}, [freeBikeStatus, mapRef]);
+}
 
 export default function KioskLocalMap() {
 	const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ?? throwError('NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is not defined');
@@ -23,6 +35,9 @@ export default function KioskLocalMap() {
 	const mapRef = React.useRef<MapRef | null>(null);
 	const containerRef = React.useRef<HTMLDivElement | null>(null);
 	const darkMode = useRecoilValue(darkModeState);
+
+	// Calculate visible bikes once using our custom hook
+	const visibleBikes = useVisibleBikes(freeBikes, mapRef.current);
 
 	// monitor container size changes and resize map when needed
 	useEffect(() => {
@@ -66,11 +81,11 @@ export default function KioskLocalMap() {
 						alternatives and points of interest
 					</div> */}
 					<CompassRose heading={mapRef.current?.getBearing()} />
-					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <VeoBikes freeBikeStatus={freeBikes} mapRef={mapRef.current} />}
+					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <VeoBikes visibleBikes={visibleBikes} />}
 					{kiosk.location?.lng && kiosk.location?.lat && (
 						<Marker latitude={kiosk.location?.lat} longitude={kiosk.location?.lng} scale={2} style={{ zIndex: 200 }} color="red" />
 					)}
-					<IconLegend />
+					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <ConditionalIconLegend visibleBikes={visibleBikes} />}
 				</Map>
 			)}
 		</div>
@@ -78,16 +93,10 @@ export default function KioskLocalMap() {
 }
 
 interface VeoBikesProps {
-	freeBikeStatus: FreeBikeStatus;
-	mapRef: MapRef;
+	visibleBikes: Bike[];
 }
 
-function VeoBikes({ freeBikeStatus, mapRef }: VeoBikesProps) {
-	// filter bikes to those within current map bounds; if bounds not available, render none
-	const bounds = mapRef.getBounds();
-	if (!bounds) return null;
-	const visibleBikes = freeBikeStatus.data.bikes.filter((bike) => !bike.is_reserved && !bike.is_disabled && bounds.contains([bike.lon, bike.lat]));
-
+function VeoBikes({ visibleBikes }: VeoBikesProps) {
 	return (
 		<>
 			{visibleBikes.map((bike) => (
@@ -111,7 +120,14 @@ function VeoBikeMarker({ bike }: VeoBikeMarkerProps) {
 	);
 }
 
-function IconLegend() {
+interface ConditionalIconLegendProps {
+	visibleBikes: Bike[];
+}
+
+function ConditionalIconLegend({ visibleBikes }: ConditionalIconLegendProps) {
+	// only show legend if there are visible bikes
+	if (visibleBikes.length === 0) return null;
+
 	return (
 		<div className={styles.legend}>
 			<table>

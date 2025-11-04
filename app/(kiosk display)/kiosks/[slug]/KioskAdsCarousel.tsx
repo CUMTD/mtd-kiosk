@@ -26,7 +26,5 @@ export default function KioskAdsCarousel() {
 
 		return () => clearInterval(interval);
 	}, [advertisements]);
-	return (
-		<footer className={styles.footer}>{ad && <span>{ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</span>}</footer>
-	);
+	return <footer className={styles.footer}>{ad && ad.imageUrl && <Image src={ad.imageUrl} alt={ad.name || ''} width={1080} height={480} />}</footer>;
 }
