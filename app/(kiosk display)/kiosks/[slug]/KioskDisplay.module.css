@@ -3,12 +3,11 @@
 	display: grid;
 	grid-template-columns: 1fr;
 	/* grid-template-rows: min-content min-content 1fr min-content min-content; */
-	grid-template-rows: min-content min-content max-content 1fr min-content;
+	grid-template-rows: min-content min-content 1fr min-content;
 	grid-template-areas:
 		'header'
 		'message'
-		'departures'
-		'map'
+		'rider-information'
 		'ads';
 	transform-origin: top left;
 	transform: scale(var(--scale));

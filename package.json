@@ -73,6 +73,7 @@
 		"build:next": "next build",
 		"build:sanity": "sanity build",
 		"build:all": "npm run build:next && npm run build:sanity",
+		"typegen": "npx sanity schema extract && npx sanity typegen generate",
 		"dev": "next dev",
 		"lint": "next lint",
 		"prepare": "husky",

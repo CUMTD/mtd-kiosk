@@ -21,6 +21,8 @@ export const departuresPerPageSelector = selector<number>({
 	}
 });
 
+export const showMapState = atom<boolean>({ key: 'showMapState', default: false });
+
 export const kioskState = atom<Kiosk>({ key: 'loadedKioskState', default: { _id: '', _type: 'kiosk', _createdAt: '', _updatedAt: '', _rev: '' } });
 
 export const advertisementsState = atom<AdsWithImageUrl[]>({ key: 'advertisementsState', default: [] });

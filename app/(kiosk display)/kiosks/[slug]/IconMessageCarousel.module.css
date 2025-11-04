@@ -1,11 +1,17 @@
 .iconMessageCarousel {
+	grid-area: icon-messages;
 	display: grid;
 	place-content: end;
 	justify-content: center;
 	grid-template-areas: 'message';
 	background-color: var(--icon-message-background);
 	height: 100%;
-	padding-bottom: 1.7em;
+	/* padding-bottom: 1.7em; */
+}
+
+/* for when there's no map */
+.doubleRow {
+	grid-row: span 2;
 }
 
 .pager {

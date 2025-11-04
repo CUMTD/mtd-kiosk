@@ -4,23 +4,46 @@ import Map, { Marker, MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import throwError from '../../../../helpers/throwError';
 import { useRecoilValue } from 'recoil';
-import { darkModeState, gbfsBikeStatus, kioskState } from '../../../../state/kioskState';
+import { darkModeState, departureState, gbfsBikeStatus, kioskState } from '../../../../state/kioskState';
 import FreeBikeStatus, { Bike } from '../../../../types/gbfsTypes/FreeBikeStatus';
 import GbfsUpdater from './VeoRideGBFSUpdater';
 import styles from './VeoRideMap.module.css';
 import clsx from 'clsx';
 import { FaBicycle } from 'react-icons/fa6';
-import CompassRose from './VeoRideMapCompassRose';
+import CompassRose from './KioskLocalMapCompassRose';
+import { useEffect } from 'react';
 
-export default function VeoRideMap() {
+const DEPARTURES_TO_HIDE_MAP_THRESHOLD = 7;
+
+export default function KioskLocalMap() {
 	const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ?? throwError('NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is not defined');
+	const totalDepartures = useRecoilValue(departureState);
 	const kiosk = useRecoilValue(kioskState);
 	const freeBikes = useRecoilValue(gbfsBikeStatus);
 	const mapRef = React.useRef<MapRef | null>(null);
+	const containerRef = React.useRef<HTMLDivElement | null>(null);
 	const darkMode = useRecoilValue(darkModeState);
 
+	// monitor container size changes and resize map when needed
+	useEffect(() => {
+		if (!containerRef.current) return;
+
+		const resizeObserver = new ResizeObserver(() => {
+			// small delay to ensure the DOM has settled after layout changes
+			setTimeout(() => {
+				mapRef.current?.resize();
+			}, 50);
+		});
+
+		resizeObserver.observe(containerRef.current);
+
+		return () => {
+			resizeObserver.disconnect();
+		};
+	}, []);
+
 	return (
-		<div className={styles.veoContainer}>
+		<div ref={containerRef} className={styles.veoContainer} style={{ display: totalDepartures.length > DEPARTURES_TO_HIDE_MAP_THRESHOLD ? 'none' : 'block' }}>
 			{/* <div className={styles.banner}>Map</div> */}
 			<GbfsUpdater />
 			{kiosk.location && (
@@ -79,9 +102,6 @@ interface VeoBikeMarkerProps {
 }
 function VeoBikeMarker({ bike }: VeoBikeMarkerProps) {
 	const markerClasses = clsx({ [styles.marker]: true, [styles.ebike]: bike.vehicle_type_id });
-
-	// need to pull in a separate gbfs subfeed if we want this
-	const bikeType = bike.vehicle_type_id;
 
 	return (
 		<Marker key={bike.bike_id} longitude={bike.lon} latitude={bike.lat} anchor="center" className={markerClasses}>

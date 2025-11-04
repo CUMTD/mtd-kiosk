@@ -7,6 +7,7 @@ import {
 	currentIconMessageIndexState,
 	currentPageDeparturesSelector,
 	iconMessagesSelector,
+	showMapState,
 	showPagerSelector
 } from '../../../../state/kioskState';
 import IconMessage from './IconMessage';
@@ -20,6 +21,7 @@ export default function IconMessageCarousel() {
 	const currentDepartures = useRecoilValue(currentPageDeparturesSelector);
 	const blockRealtime = useRecoilValue(blockRealtimeSelector);
 	const pageIndicatorVisible = useRecoilValue(showPagerSelector);
+	const showMap = useRecoilValue(showMapState);
 
 	// cycle through icon messages on a timer
 	useEffect(() => {
@@ -34,7 +36,10 @@ export default function IconMessageCarousel() {
 		return null;
 	}
 
-	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel, { [styles.pager]: pageIndicatorVisible });
+	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel, {
+		[styles.pager]: pageIndicatorVisible,
+		[styles.doubleRow]: !showMap
+	});
 
 	return (
 		<div className={iconMessageCarouselClasses}>
