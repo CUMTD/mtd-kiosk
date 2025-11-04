@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from './VeoRideMapCompassRose.module.css';
+import styles from './KioskLocalMapCompassRose.module.css';
 
 interface CompassRoseProps {
 	heading: number | undefined;
