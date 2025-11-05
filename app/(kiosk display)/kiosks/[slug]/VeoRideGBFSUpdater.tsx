@@ -6,10 +6,12 @@ import { GetGbfsFreeBikeStatus } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { gbfsBikeStatus } from '../../../../state/kioskState';
 
-const GBFS_MESSAGE_UPDATE_INTERVAL = parseInt(process.env.NEXT_PUBLIC_GBFS_MESSAGE_UPDATE_INTERVAL ?? '');
+const GBFS_MESSAGE_UPDATE_INTERVAL = parseInt(
+	process.env.NEXT_PUBLIC_GBFS_MESSAGE_UPDATE_INTERVAL ?? throwError('NEXT_PUBLIC_GBFS_MESSAGE_UPDATE_INTERVAL is not defined')
+);
 
-if (!GBFS_MESSAGE_UPDATE_INTERVAL || isNaN(GBFS_MESSAGE_UPDATE_INTERVAL)) {
-	throwError('NEXT_PUBLIC_GBFS_MESSAGE_UPDATE_INTERVAL is not defined');
+if (isNaN(GBFS_MESSAGE_UPDATE_INTERVAL)) {
+	throwError('NEXT_PUBLIC_GBFS_MESSAGE_UPDATE_INTERVAL is NaN');
 }
 
 // static component that updates GBFS atom
