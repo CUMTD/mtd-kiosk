@@ -16,15 +16,23 @@
 .generalMessage,
 .realtimeBlockingGeneralMessage {
 	font-size: var(--messaging-font-size);
-	padding: var(--departure-x-pad);
 	background-color: var(--messaging-background-color);
 	color: black;
-}
-
-.generalMessage,
-.realtimeBlockingGeneralMessage {
+	min-height: var(--departure-item-height);
 	color: white;
 	background-color: maroon;
+	vertical-align: middle;
+	display: flex;
+}
+
+.realtimeBlockingGeneralMessage {
+	padding: var(--departure-x-pad);
+}
+
+.generalMessage > span,
+.realtimeBlockingGeneralMessage > span {
+	height: fit-content;
+	align-self: center;
 }
 
 /* scroll */
