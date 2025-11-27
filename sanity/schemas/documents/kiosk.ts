@@ -146,6 +146,13 @@ const kiosk = defineType({
 			type: 'boolean',
 			group: 'development',
 			initialValue: false
+		}),
+		defineField({
+			name: 'showKioskMap',
+			title: 'Show Map on Kiosk',
+			type: 'boolean',
+			group: 'general',
+			initialValue: false
 		})
 	]
 });

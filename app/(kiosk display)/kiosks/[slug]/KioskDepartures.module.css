@@ -1,14 +1,23 @@
-.kioskDeparturesContainer {
+/* .kioskDeparturesContainer {
 	grid-area: departures;
-	overflow: hidden;
 	position: relative;
 	display: flex;
 	flex-direction: column;
+} */
+
+.riderInformationContainer {
+	grid-area: rider-information;
+	overflow: hidden;
+
+	display: grid;
+	grid-template-areas: 'messaging' 'departures' 'icon-messages' 'map';
+	grid-template-rows: min-content max-content min-content minmax(0, 100%);
 }
 
 .kioskDepartures {
 	display: flex;
 	flex-direction: column;
+	grid-area: departures;
 	/* gap: 5px; */
 }
 
@@ -39,7 +48,9 @@
 .generalMessage {
 	text-wrap: nowrap;
 	overflow: hidden;
-	/* position: absolute; */
+	display: flex;
+	align-items: center;
+	grid-area: messaging;
 }
 
 .generalMessage span {
@@ -54,7 +65,7 @@
 }
 
 .noDepartures {
-	margin-top: 1em;
+	/* margin-top: 1em; */
 	font-size: var(--messaging-font-size-large);
 	font-weight: 600;
 	padding: 60px;

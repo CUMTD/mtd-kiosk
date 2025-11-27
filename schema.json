@@ -1410,6 +1410,13 @@
           "type": "boolean"
         },
         "optional": true
+      },
+      "showKioskMap": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
       }
     }
   },

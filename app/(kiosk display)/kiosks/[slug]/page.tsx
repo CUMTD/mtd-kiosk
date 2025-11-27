@@ -26,10 +26,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const mainClass = layoutClass[0]?.className ?? '';
 	const customCss = layoutClass[0]?.customCss?.code ?? '';
 
+	const hideCursor = process.env.NODE_ENV === 'production';
 	return (
 		<>
 			{customCss && <style dangerouslySetInnerHTML={{ __html: customCss }} />}
-			<main className={mainClass}>
+			<main className={mainClass} style={{ cursor: hideCursor ? 'none' : undefined }}>
 				<KioskDisplayRoot kiosk={kiosk} departures={departures} ads={ads} iconMessages={iconMessages}>
 					<KioskDisplay />
 				</KioskDisplayRoot>
