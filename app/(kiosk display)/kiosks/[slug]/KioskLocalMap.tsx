@@ -1,0 +1,147 @@
+import * as React from 'react';
+import Map, { Marker, MapRef } from 'react-map-gl/mapbox';
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+import throwError from '../../../../helpers/throwError';
+import { useRecoilValue } from 'recoil';
+import { darkModeState, departureState, gbfsBikeStatus, kioskState } from '../../../../state/kioskState';
+import FreeBikeStatus, { Bike } from '../../../../types/gbfsTypes/FreeBikeStatus';
+import GbfsUpdater from './VeoRideGBFSUpdater';
+import styles from './KioskLocalMap.module.css';
+import clsx from 'clsx';
+import { FaBicycle } from 'react-icons/fa6';
+import CompassRose from './KioskLocalMapCompassRose';
+import { useEffect, useMemo } from 'react';
+
+const DEPARTURES_TO_HIDE_MAP_THRESHOLD = 7;
+
+// Custom hook to calculate visible bikes within map bounds
+function useVisibleBikes(freeBikeStatus: FreeBikeStatus | null, mapRef: MapRef | null) {
+	return useMemo(() => {
+		if (!freeBikeStatus || !mapRef) return [];
+
+		const bounds = mapRef.getBounds();
+		if (!bounds) return [];
+
+		return freeBikeStatus.data.bikes.filter((bike) => !bike.is_reserved && !bike.is_disabled && bounds.contains([bike.lon, bike.lat]));
+	}, [freeBikeStatus, mapRef]);
+}
+
+export default function KioskLocalMap() {
+	const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ?? throwError('NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is not defined');
+	const totalDepartures = useRecoilValue(departureState);
+	const kiosk = useRecoilValue(kioskState);
+	const freeBikes = useRecoilValue(gbfsBikeStatus);
+	const mapRef = React.useRef<MapRef | null>(null);
+	const containerRef = React.useRef<HTMLDivElement | null>(null);
+	const darkMode = useRecoilValue(darkModeState);
+
+	// Calculate visible bikes once using our custom hook
+	const visibleBikes = useVisibleBikes(freeBikes, mapRef.current);
+
+	// monitor container size changes and resize map when needed
+	useEffect(() => {
+		if (!containerRef.current) return;
+
+		const resizeObserver = new ResizeObserver(() => {
+			// small delay to ensure the DOM has settled after layout changes
+			setTimeout(() => {
+				mapRef.current?.resize();
+			}, 50);
+		});
+
+		resizeObserver.observe(containerRef.current);
+
+		return () => {
+			resizeObserver.disconnect();
+		};
+	}, []);
+
+	return (
+		<div ref={containerRef} className={styles.veoContainer} style={{ display: totalDepartures.length > DEPARTURES_TO_HIDE_MAP_THRESHOLD ? 'none' : 'block' }}>
+			{/* <div className={styles.banner}>Map</div> */}
+			<GbfsUpdater />
+			{kiosk.location && (
+				<Map
+					ref={mapRef}
+					mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
+					initialViewState={{
+						longitude: kiosk.location?.lng,
+						latitude: kiosk.location?.lat,
+						zoom: 17
+					}}
+					bearing={0}
+					reuseMaps={true}
+					interactive={false}
+					style={{ gridArea: 'veo-map', position: 'relative', width: '100%', height: '100%' }}
+					mapStyle={darkMode ? 'mapbox://styles/matthewnovelli/cmh58jq4r00pz01s5awphd2ig' : 'mapbox://styles/mapbox/streets-v12'}
+				>
+					{/* <div className={styles.callout}>
+						<b style={{ fontSize: '90%', letterSpacing: '1px', backgroundColor: 'maroon', padding: '3px 5px', borderRadius: '5px' }}>NEW!</b> Nearby mobility
+						alternatives and points of interest
+					</div> */}
+					<CompassRose heading={mapRef.current?.getBearing()} />
+					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <VeoBikes visibleBikes={visibleBikes} />}
+					{kiosk.location?.lng && kiosk.location?.lat && (
+						<Marker latitude={kiosk.location?.lat} longitude={kiosk.location?.lng} scale={2} style={{ zIndex: 200 }} color="red" />
+					)}
+					{freeBikes && kiosk.location?.lng && kiosk.location?.lat && mapRef.current && <ConditionalIconLegend visibleBikes={visibleBikes} />}
+				</Map>
+			)}
+		</div>
+	);
+}
+
+interface VeoBikesProps {
+	visibleBikes: Bike[];
+}
+
+function VeoBikes({ visibleBikes }: VeoBikesProps) {
+	return (
+		<>
+			{visibleBikes.map((bike) => (
+				<VeoBikeMarker bike={bike} key={bike.bike_id} />
+			))}
+		</>
+	);
+}
+
+interface VeoBikeMarkerProps {
+	bike: Bike;
+}
+function VeoBikeMarker({ bike }: VeoBikeMarkerProps) {
+	const markerClasses = clsx({ [styles.marker]: true, [styles.ebike]: bike.vehicle_type_id });
+
+	return (
+		<Marker key={bike.bike_id} longitude={bike.lon} latitude={bike.lat} anchor="center" className={markerClasses}>
+			{/* {bike. <BsLightningChargeFill size={'1em'} /> */}
+			<FaBicycle size={'2em'} />
+		</Marker>
+	);
+}
+
+interface ConditionalIconLegendProps {
+	visibleBikes: Bike[];
+}
+
+function ConditionalIconLegend({ visibleBikes }: ConditionalIconLegendProps) {
+	// only show legend if there are visible bikes
+	if (visibleBikes.length === 0) return null;
+
+	return (
+		<div className={styles.legend}>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<div className={styles.sampleMarker}>
+								<FaBicycle size={'2em'} />
+							</div>
+						</td>
+						<td>Requires payment through &quot;Veo&quot; app</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+}
