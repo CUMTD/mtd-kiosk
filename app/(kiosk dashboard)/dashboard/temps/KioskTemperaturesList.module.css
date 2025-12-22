@@ -5,7 +5,8 @@
 	width: 100%;
 }
 
-.loading, .error {
+.loading,
+.error {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -26,8 +27,13 @@
 }
 
 @keyframes pulse {
-	0%, 100% { opacity: 0.7; }
-	50% { opacity: 1; }
+	0%,
+	100% {
+		opacity: 0.7;
+	}
+	50% {
+		opacity: 1;
+	}
 }
 
 .graph {
@@ -35,7 +41,7 @@
 }
 
 .tooltip {
-	color: white;
+	/* color: white; */
 	background-color: rgba(0, 0, 0, 0.804);
 	padding: 0.5em;
 }
