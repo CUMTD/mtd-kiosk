@@ -138,7 +138,7 @@ function ConditionalIconLegend({ visibleBikes }: ConditionalIconLegendProps) {
 								<FaBicycle size={'2em'} />
 							</div>
 						</td>
-						<td>Requires payment through &quot;Veo&quot; app</td>
+						<td>Veo Micromobility</td>
 					</tr>
 				</tbody>
 			</table>
