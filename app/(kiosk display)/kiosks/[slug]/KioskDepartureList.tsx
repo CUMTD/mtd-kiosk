@@ -20,7 +20,7 @@ export default function KioskDepartureList() {
 			<GeneralMessage />
 			<CurrentDepartures />
 			<IconMessageCarousel />
-			{true && <KioskLocalMap />}
+			{showMap && <KioskLocalMap />}
 		</div>
 	);
 }
