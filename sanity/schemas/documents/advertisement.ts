@@ -13,6 +13,15 @@ function formatDate(date: Date) {
 	return date.toLocaleDateString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric' });
 }
 
+function parseDate(dateString: string | null | undefined) {
+	if (!dateString) {
+		return null;
+	}
+
+	const parsedDate = new Date(dateString);
+	return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
 const advertisement = defineType({
 	name: 'advertisement',
 	title: 'Advertisement',
@@ -28,12 +37,14 @@ const advertisement = defineType({
 		},
 		prepare(selection) {
 			const { title, startDateString, endDateString, media, status } = selection;
-			const startDate = new Date(startDateString);
-			const endDate = endDateString ? new Date(endDateString) : null;
-			const dateRange = `${formatDate(startDate)} – ${endDate ? formatDate(endDate) : '∞'}`;
+			const startDate = parseDate(startDateString);
+			const endDate = parseDate(endDateString);
+			const dateRange = startDate ? `${formatDate(startDate)} – ${endDate ? formatDate(endDate) : '∞'}` : 'no dates set';
 
 			let subtitle = '';
-			if (status == 1) {
+			if (!startDate) {
+				subtitle = '⚪ No dates set';
+			} else if (status == 1) {
 				subtitle = `🟡 Upcoming, runs: ${dateRange}`;
 			} else if (status == 2) {
 				subtitle = `❌ Expired, ran: ${dateRange}`;
