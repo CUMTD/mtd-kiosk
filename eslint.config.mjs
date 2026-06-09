@@ -2,6 +2,7 @@ import nextConfig from 'eslint-config-next';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 const eslintConfig = [
 	{ ignores: ['dist/', '.next/', 'node_modules/'] },
@@ -14,7 +15,8 @@ const eslintConfig = [
 	prettier,
 	{
 		plugins: {
-			'@typescript-eslint': tseslint.plugin
+			'@typescript-eslint': tseslint.plugin,
+			'react-hooks': reactHooks
 		},
 		languageOptions: {
 			globals: {
