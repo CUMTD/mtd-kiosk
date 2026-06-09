@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 
 const eslintConfig = [
-	{ ignores: ['dist/', '.next/', 'node_modules/'] },
+	{ ignores: ['dist/', '.next/', 'node_modules/', 'refs/'] },
 	...nextConfig,
 	{
 		rules: {
