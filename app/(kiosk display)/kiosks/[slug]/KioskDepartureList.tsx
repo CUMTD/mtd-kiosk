@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { connectionErrorState, generalMessageState } from '../../../../state/kioskState';
 import CurrentDepartures from './currentDepartures';
 import GeneralMessage from './generalMessage';
@@ -8,8 +8,8 @@ import PageIndicator from './pageIndicator';
 import KioskOffline from './KioskOfflineBanner';
 
 export default function KioskDepartureList() {
-	const connectionError = useRecoilValue(connectionErrorState);
-	const generalMessage = useRecoilValue(generalMessageState);
+	const connectionError = useAtomValue(connectionErrorState);
+	const generalMessage = useAtomValue(generalMessageState);
 
 	if (connectionError) {
 		return <KioskOffline />;

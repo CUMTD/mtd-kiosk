@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import throwError from '../../../../helpers/throwError';
 import { currentPageState, showPagerSelector, totalPagesSelector } from '../../../../state/kioskState';
 import styles from './pageIndicator.module.css';
@@ -10,9 +10,9 @@ const DEPARTURES_PAGINATION_INTERVAL = parseInt(
 );
 
 export default function PageIndicator() {
-	const showPager = useRecoilValue(showPagerSelector);
-	const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-	const totalPages = useRecoilValue(totalPagesSelector);
+	const showPager = useAtomValue(showPagerSelector);
+	const [currentPage, setCurrentPage] = useAtom(currentPageState);
+	const totalPages = useAtomValue(totalPagesSelector);
 
 	useEffect(() => {
 		// show pager will be true if block realtime is false

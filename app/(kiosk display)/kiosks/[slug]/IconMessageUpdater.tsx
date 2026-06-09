@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { fetchKioskIconMessagesByKioskId } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { allIconMessagesState, kioskState } from '../../../../state/kioskState';
@@ -9,8 +9,8 @@ const ICON_MESSAGES_FETCH_INTERVAL = parseInt(
 );
 
 export default function IconMessageUpdater() {
-	const { _id: id } = useRecoilValue(kioskState);
-	const setCurrentIconMessages = useSetRecoilState(allIconMessagesState);
+	const { _id: id } = useAtomValue(kioskState);
+	const setCurrentIconMessages = useSetAtom(allIconMessagesState);
 
 	useEffect(() => {
 		async function updateIconMessages() {

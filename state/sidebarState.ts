@@ -1,61 +1,40 @@
-import { atom, selector, selectorFamily } from 'recoil';
+import { atom } from 'jotai';
 import { Kiosk } from '../sanity.types';
 import { HealthStatus } from '../types/HealthStatus';
 import { ServerHealthStatuses } from '../types/serverHealthStatuses';
 
-export const showMapState = atom<boolean>({
-	key: 'showMapState',
-	default: true
-});
+export const showMapState = atom<boolean>(true);
 
-export const focusedKioskIdState = atom<string | null>({
-	key: 'focusedKioskIdState',
-	default: null
-});
+export const focusedKioskIdState = atom<string | null>(null);
 
-export const allKiosksState = atom<Kiosk[]>({
-	key: 'allKiosksState',
-	default: []
-});
+export const allKiosksState = atom<Kiosk[]>([]);
 
-export const kioskHealthStatusesState = atom<ServerHealthStatuses[]>({
-	key: 'kioskHealthStatusesState',
-	default: []
-});
+export const kioskHealthStatusesState = atom<ServerHealthStatuses[]>([]);
 
-export const showProblemsOnlyState = atom<boolean>({
-	key: 'showProblemsOnlyState',
-	default: false
-});
+export const showProblemsOnlyState = atom<boolean>(false);
 
-export const showDevelopmentKiosksState = atom<boolean>({
-	key: 'showDevelopmentKiosksState',
-	default: false
-});
+export const showDevelopmentKiosksState = atom<boolean>(false);
 
-export const currentlyFilteredKiosksSelector = selector<Kiosk[]>({
-	key: 'currentlyFilteredKiosksSelector',
-	get: ({ get }) => {
-		const kiosks = get(allKiosksState);
-		const showProblemsOnly = get(showProblemsOnlyState);
-		const showDevelopmentKiosks = get(showDevelopmentKiosksState);
-		const healthStatuses = get(kioskHealthStatusesState);
+export const currentlyFilteredKiosksSelector = atom<Kiosk[]>((get) => {
+	const kiosks = get(allKiosksState);
+	const showProblemsOnly = get(showProblemsOnlyState);
+	const showDevelopmentKiosks = get(showDevelopmentKiosksState);
+	const healthStatuses = get(kioskHealthStatusesState);
 
-		let returnKiosks = kiosks;
+	let returnKiosks = kiosks;
 
-		if (showProblemsOnly) {
-			returnKiosks = kiosks.filter((k) => {
-				const health = healthStatuses.find((h) => h.kioskId === k._id);
-				return health && health.overallHealth !== HealthStatus.HEALTHY;
-			});
-		}
-
-		if (!showDevelopmentKiosks) {
-			returnKiosks = returnKiosks.filter((k) => !k.displayName?.includes('development'));
-		}
-
-		return [...returnKiosks].sort((a, b) => (a.displayName ?? '')?.localeCompare(b.displayName ?? ''));
+	if (showProblemsOnly) {
+		returnKiosks = kiosks.filter((k) => {
+			const health = healthStatuses.find((h) => h.kioskId === k._id);
+			return health && health.overallHealth !== HealthStatus.HEALTHY;
+		});
 	}
+
+	if (!showDevelopmentKiosks) {
+		returnKiosks = returnKiosks.filter((k) => !k.displayName?.includes('development'));
+	}
+
+	return [...returnKiosks].sort((a, b) => (a.displayName ?? '')?.localeCompare(b.displayName ?? ''));
 });
 
 const defaultKioskHealthStatus: Omit<ServerHealthStatuses, 'kioskId'> = {
@@ -68,20 +47,16 @@ const defaultKioskHealthStatus: Omit<ServerHealthStatuses, 'kioskId'> = {
 	openTicketCount: 0
 };
 
-export const kioskSelectorFamily = selectorFamily<{ kiosk: Kiosk; health: ServerHealthStatuses }, string>({
-	key: 'kioskSelectorFamily',
-	get:
-		(kioskId: string) =>
-		({ get }) => {
-			const kiosks = get(allKiosksState);
-			const healthStatuses = get(kioskHealthStatusesState);
+export const kioskAtomFamily = (kioskId: string) =>
+	atom<{ kiosk: Kiosk; health: ServerHealthStatuses }>((get) => {
+		const kiosks = get(allKiosksState);
+		const healthStatuses = get(kioskHealthStatusesState);
 
-			const kiosk = kiosks.find(({ _id: id }) => id === kioskId);
-			const health = healthStatuses.find(({ kioskId: healthKioskId }) => healthKioskId === kioskId);
+		const kiosk = kiosks.find(({ _id: id }) => id === kioskId);
+		const health = healthStatuses.find(({ kioskId: healthKioskId }) => healthKioskId === kioskId);
 
-			return {
-				kiosk: kiosk!,
-				health: health ?? { ...defaultKioskHealthStatus, kioskId }
-			};
-		}
-});
+		return {
+			kiosk: kiosk!,
+			health: health ?? { ...defaultKioskHealthStatus, kioskId }
+		};
+	});

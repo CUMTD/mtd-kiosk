@@ -3,7 +3,7 @@
 import { useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useMemo } from 'react';
 import { Kiosk } from '../../../../sanity.types';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { focusedKioskIdState } from '../../../../state/sidebarState';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 export default function MapBoundsUpdater({ kiosks }: Props) {
 	const map = useMap();
-	const focusedKioskId = useRecoilValue(focusedKioskIdState);
+	const focusedKioskId = useAtomValue(focusedKioskIdState);
 
 	const bounds = useMemo(
 		() =>

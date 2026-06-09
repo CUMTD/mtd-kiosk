@@ -1,7 +1,8 @@
 'use client';
 
+import { Provider, useSetAtom } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import { ReactNode } from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { Kiosk } from '../../../../sanity.types';
 import { allKiosksState, kioskHealthStatusesState } from '../../../../state/sidebarState';
 import { ServerHealthStatuses } from '../../../../types/serverHealthStatuses';
@@ -13,16 +14,21 @@ interface Props {
 	children: ReactNode;
 }
 
-export default function SidebarRoot({ kiosks, healthStatuses, children }: Props) {
-	function initializeState({ set }: MutableSnapshot) {
-		set(allKiosksState, kiosks);
-		set(kioskHealthStatusesState, healthStatuses ?? []);
-	}
+function HydrateAtoms({ kiosks, healthStatuses, children }: Props) {
+	useHydrateAtoms([
+		[allKiosksState, kiosks],
+		[kioskHealthStatusesState, healthStatuses ?? []]
+	]);
+	return <>{children}</>;
+}
 
+export default function SidebarRoot({ kiosks, healthStatuses, children }: Props) {
 	return (
-		<RecoilRoot initializeState={initializeState}>
-			<KioskHealthUpdater />
-			{children}
-		</RecoilRoot>
+		<Provider>
+			<HydrateAtoms kiosks={kiosks} healthStatuses={healthStatuses}>
+				<KioskHealthUpdater />
+				{children}
+			</HydrateAtoms>
+		</Provider>
 	);
 }

@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { HealthStatus } from '../../types/HealthStatus';
 import styles from './kioskMapIcon.module.css';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { focusedKioskIdState } from '../../state/sidebarState';
 
 interface KioskMapIconProps {
@@ -14,7 +14,7 @@ interface KioskMapIconProps {
 }
 
 export default function KioskMapIcon({ id, health = HealthStatus.UNKNOWN, openIssuesCount }: KioskMapIconProps) {
-	const focusedKioskId = useRecoilValue(focusedKioskIdState);
+	const focusedKioskId = useAtomValue(focusedKioskIdState);
 	const classes = clsx(styles.icon, {
 		[styles.healthy]: health === HealthStatus.HEALTHY,
 		[styles.warning]: health === HealthStatus.WARNING,

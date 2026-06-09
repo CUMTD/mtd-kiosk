@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { fetchKioskById, fetchKioskTickets, getHealthStatus } from '../../../../../helpers/httpMethods';
 import KioskTicket from '../../../../../types/kioskTicket';
@@ -15,18 +16,22 @@ import { HealthStatus } from '../../../../../types/HealthStatus';
 import IndividualKioskMap from '../../../../../components/map/individualKioskMap';
 
 interface Props {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params: { id } }: Readonly<Props>): Promise<Metadata> {
+export async function generateMetadata({ params }: Readonly<Props>): Promise<Metadata> {
+	const { id } = await params;
 	const kiosk = await fetchKioskById(id);
+	if (!kiosk) return { title: 'Kiosk Not Found' };
 
 	return { title: kiosk.displayName };
 }
 
 // get [id] from the URL
-export default async function IssuePage({ params: { id } }: Readonly<Props>) {
+export default async function IssuePage({ params }: Readonly<Props>) {
+	const { id } = await params;
 	const kiosk = await fetchKioskById(id);
+	if (!kiosk) notFound();
 	const issues = await fetchKioskTickets(id);
 
 	const healthStatus = await getHealthStatus(id);

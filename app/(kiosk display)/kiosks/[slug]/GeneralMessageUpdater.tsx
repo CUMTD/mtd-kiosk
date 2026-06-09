@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { getGeneralMessage } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { generalMessageState, kioskState } from '../../../../state/kioskState';
@@ -14,8 +14,8 @@ if (!GENERAL_MESSAGE_UPDATE_INTERVAL || isNaN(GENERAL_MESSAGE_UPDATE_INTERVAL)) 
 
 // static component that updates departures atom
 export default function GeneralMessageUpdater() {
-	const { stopId } = useRecoilValue(kioskState);
-	const setGeneralMessage = useSetRecoilState(generalMessageState);
+	const { stopId } = useAtomValue(kioskState);
+	const setGeneralMessage = useSetAtom(generalMessageState);
 
 	useEffect(() => {
 		async function updateGeneralMessages() {

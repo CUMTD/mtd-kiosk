@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { generalMessageState } from '../../../../state/kioskState';
 import styles from './KioskDepartures.module.css';
 
@@ -7,7 +7,7 @@ export default function GeneralMessage() {
 	const scrollText = useRef<HTMLSpanElement>(null);
 	const scrollContainer = useRef<HTMLDivElement>(null);
 
-	const generalMessage = useRecoilValue(generalMessageState);
+	const generalMessage = useAtomValue(generalMessageState);
 
 	const scrollAnimationDurationSeconds = useMemo(() => {
 		if (!(generalMessage && generalMessage.text && scrollText.current && scrollContainer.current)) {

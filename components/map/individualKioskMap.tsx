@@ -6,7 +6,7 @@ import throwError from '../../helpers/throwError';
 import { Kiosk } from '../../sanity.types';
 import { HealthStatus } from '../../types/HealthStatus';
 import KioskMapIcon from './kioskMapIcon';
-import { RecoilRoot } from 'recoil';
+import { Provider } from 'jotai';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_API_KEY');
 const GOOGLE_MAPS_MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID');
@@ -21,7 +21,7 @@ export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMap
 	const locationCoords = useMemo(() => ({ lat: location?.lat ?? 0, lng: location?.lng ?? 0 }), [location]);
 
 	return (
-		<RecoilRoot>
+		<Provider>
 			<APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
 				<Map
 					defaultCenter={locationCoords}
@@ -38,6 +38,6 @@ export default function IndividualKioskMap({ kiosk, health }: IndividualKioskMap
 					</AdvancedMarker>
 				</Map>
 			</APIProvider>
-		</RecoilRoot>
+		</Provider>
 	);
 }

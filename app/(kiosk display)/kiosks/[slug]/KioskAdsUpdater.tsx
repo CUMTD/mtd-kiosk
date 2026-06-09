@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { fetchKioskAdsByKioskId } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { advertisementsState, kioskState } from '../../../../state/kioskState';
@@ -12,8 +12,8 @@ if (!AD_FETCH_INTERVAL || isNaN(AD_FETCH_INTERVAL)) {
 }
 
 export default function KioskAdsUpdater() {
-	const setAds = useSetRecoilState(advertisementsState);
-	const { _id: id } = useRecoilValue(kioskState);
+	const setAds = useSetAtom(advertisementsState);
+	const { _id: id } = useAtomValue(kioskState);
 	useEffect(() => {
 		async function updateKioskAds() {
 			const ads = await fetchKioskAdsByKioskId(id);

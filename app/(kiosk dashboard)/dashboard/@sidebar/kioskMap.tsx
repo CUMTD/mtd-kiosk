@@ -2,7 +2,7 @@
 
 import { APIProvider, ColorScheme, Map, MapMouseEvent } from '@vis.gl/react-google-maps';
 import { useCallback } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import throwError from '../../../../helpers/throwError';
 import { currentlyFilteredKiosksSelector, focusedKioskIdState } from '../../../../state/sidebarState';
 import styles from './kioskMap.module.css';
@@ -13,8 +13,8 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? throw
 const GOOGLE_MAPS_MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID ?? throwError('No NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID');
 
 export default function KioskMap() {
-	const setFocusedKioskIdState = useSetRecoilState(focusedKioskIdState);
-	const kiosks = useRecoilValue(currentlyFilteredKiosksSelector);
+	const setFocusedKioskIdState = useSetAtom(focusedKioskIdState);
+	const kiosks = useAtomValue(currentlyFilteredKiosksSelector);
 	const defaultCenter = { lat: 40.11464841024296, lng: -88.22875539000833 };
 
 	const handleMapClick = useCallback(

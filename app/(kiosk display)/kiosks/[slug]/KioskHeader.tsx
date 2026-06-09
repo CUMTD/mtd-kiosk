@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import MTDLogo from '../../../../components/mtdLogo';
 import { kioskState } from '../../../../state/kioskState';
 import styles from './KioskHeader.module.css';
 import LiveClock from './LiveClock';
 
 export default function KioskHeader() {
-	const { iStop, displayName } = useRecoilValue(kioskState);
+	const { iStop, displayName } = useAtomValue(kioskState);
 
 	const headerClasses = clsx({
 		['header']: true,

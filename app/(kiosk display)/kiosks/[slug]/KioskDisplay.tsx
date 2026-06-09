@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { darkModeState, kioskState } from '../../../../state/kioskState';
 import KioskAdsCarousel from './KioskAdsCarousel';
 import KioskDataUpdater from './KioskDataUpdater';
@@ -10,9 +10,9 @@ import styles from './KioskDisplay.module.css';
 import KioskHeader from './KioskHeader';
 
 export function KioskDisplay() {
-	const { isHorizontal } = useRecoilValue(kioskState);
+	const { isHorizontal } = useAtomValue(kioskState);
 
-	const darkMode = useRecoilValue(darkModeState);
+	const darkMode = useAtomValue(darkModeState);
 	const classes = clsx({
 		[styles.kioskDisplay]: true,
 		[styles.horizontal]: isHorizontal,

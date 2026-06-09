@@ -1,4 +1,4 @@
-import { defineField, defineType } from '@sanity/types';
+import { defineField, defineType } from 'sanity';
 import { LuLayoutTemplate } from 'react-icons/lu';
 
 const kiosk = defineType({

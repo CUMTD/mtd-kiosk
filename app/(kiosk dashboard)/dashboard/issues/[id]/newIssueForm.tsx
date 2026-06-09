@@ -1,7 +1,7 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { useEffect, useMemo, useRef } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useEffect, useMemo, useRef } from 'react';
+import { useFormStatus } from 'react-dom';
 import { GoX } from 'react-icons/go';
 import SubmitButton from '../../../../../components/submitButton';
 import styles from './newIssueForm.module.css';
@@ -26,7 +26,7 @@ export default function NewIssueForm({ kioskId, issues }: NewIssueFormProps) {
 	// status will be 'success' if the form submission was successful
 	// errorMessage will contain the error message if status is 'error'
 	// { status: 'unset' } is the initial state, just like with useState
-	const [{ status, errorMessage }, action] = useFormState(createNewIssueFormAction, { status: 'unset' });
+	const [{ status, errorMessage }, action] = useActionState(createNewIssueFormAction, { status: 'unset' });
 	const { pending } = useFormStatus();
 
 	const titleRef = useRef<HTMLInputElement>(null);

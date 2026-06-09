@@ -1,9 +1,11 @@
+import { use } from 'react';
 import SidebarLayout from '../../sidebarLayout';
 
 interface Props {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
-export default function Page({ params: { id } }: Readonly<Props>) {
+export default function Page({ params }: Readonly<Props>) {
+	const { id } = use(params);
 	return <SidebarLayout defaultFocusedKioskId={id} />;
 }

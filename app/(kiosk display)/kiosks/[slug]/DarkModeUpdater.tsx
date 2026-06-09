@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { getDarkModeStatus } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { darkModeState } from '../../../../state/kioskState';
@@ -10,7 +10,7 @@ const DARK_MODE_FETCH_INTERVAL = parseInt(
 );
 
 export default function DarkModeUpdater() {
-	const setDarkMode = useSetRecoilState(darkModeState);
+	const setDarkMode = useSetAtom(darkModeState);
 
 	useEffect(() => {
 		async function updateDarkMode() {
