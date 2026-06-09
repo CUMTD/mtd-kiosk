@@ -12,7 +12,7 @@ interface InfoCardProps {
 	verticalCenter?: boolean;
 }
 
-export default function InfoCard({ children, title, subtitle, onClick, button, wide, tall, verticalCenter }: InfoCardProps) {
+export default function InfoCard({ children, title, subtitle, onClick: _onClick, button, wide, tall, verticalCenter }: InfoCardProps) {
 	const classes = clsx({ [styles.infoCard]: true, [styles.wide]: wide, [styles.tall]: tall });
 
 	const contentClasses = clsx({ [styles.content]: true, [styles.tallContent]: tall, [styles.verticalCenter]: verticalCenter });

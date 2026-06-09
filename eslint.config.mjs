@@ -1,6 +1,7 @@
 import nextConfig from 'eslint-config-next';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-config-prettier';
+import tseslint from 'typescript-eslint';
 
 const eslintConfig = [
 	{ ignores: ['dist/', '.next/', 'node_modules/'] },
@@ -12,6 +13,9 @@ const eslintConfig = [
 	},
 	prettier,
 	{
+		plugins: {
+			'@typescript-eslint': tseslint.plugin
+		},
 		languageOptions: {
 			globals: {
 				React: 'readonly',
@@ -19,7 +23,8 @@ const eslintConfig = [
 			}
 		},
 		rules: {
-			'no-unused-vars': [
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': [
 				1,
 				{
 					args: 'after-used',

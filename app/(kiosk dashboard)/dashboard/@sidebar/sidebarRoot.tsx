@@ -1,6 +1,6 @@
 'use client';
 
-import { Provider, useSetAtom } from 'jotai';
+import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { ReactNode } from 'react';
 import { Kiosk } from '../../../../sanity.types';

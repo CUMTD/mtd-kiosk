@@ -24,9 +24,9 @@ export interface IssueProps {
 export function Issue({ issue, listView }: IssueProps) {
 	const openDate = new Date(issue.openDate);
 	// closeDate can be null if the issue is still open
-	const closeDate: Date | null = new Date(issue.closeDate || Date.now());
+	const [closeDate] = useState<Date>(() => new Date(issue.closeDate || Date.now()));
 
-	const currentDate = new Date();
+	const [currentDate] = useState(() => new Date());
 	const [issueOpen, setIssueOpen] = useState(issue.status === TicketStatusType.OPEN);
 
 	const issueClasses = clsx({ [styles.issueContainer]: true, [styles.closedIssue]: !issueOpen });
