@@ -1,4 +1,4 @@
-import { defineField, defineType } from '@sanity/types';
+import { defineField, defineType } from 'sanity';
 import { CgDisplaySpacing } from 'react-icons/cg';
 
 const kiosk = defineType({

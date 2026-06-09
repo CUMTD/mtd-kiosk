@@ -3,6 +3,8 @@
 import { revalidateTag } from 'next/cache';
 import { Advertisement, Kiosk, LayoutClass } from '../sanity.types';
 import { client } from '../sanity/lib/client';
+
+const REVALIDATE_PROFILE = { expire: 0 };
 import IconMessageWithImages from '../types/groqQueryTypes/IconMessageWithImages';
 import DarkModeStatusResponse from '../types/kioskDisplayTypes/DarkModeStatusResponse';
 import GroupedRoute, { GeneralMessage } from '../types/kioskDisplayTypes/GroupedRoute';
@@ -156,7 +158,7 @@ export async function createKioskTicket(ticket: KioskTicketForm): Promise<boolea
 	try {
 		const response = await fetch(uri, { method: 'POST', headers: defaultHeaders, body: JSON.stringify(ticket) });
 		if (response.status === 201) {
-			revalidateTag('tickets');
+			revalidateTag('tickets', REVALIDATE_PROFILE);
 			return true;
 		} else {
 			const body = await response.json();
@@ -178,7 +180,7 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 	// print body
 
 	if (response.ok) {
-		revalidateTag('tickets');
+		revalidateTag('tickets', REVALIDATE_PROFILE);
 		return true;
 	}
 	console.error('Failed to create comment');
@@ -188,7 +190,7 @@ export async function createTicketComment(ticketId: string, markdownBody: string
 export async function deleteTicketComment(ticketNoteId: string): Promise<boolean> {
 	const response = await fetch(`${API_ENDPOINT}/ticket-notes/${ticketNoteId}`, { method: 'DELETE', headers: defaultHeaders });
 	if (response.ok) {
-		revalidateTag('tickets');
+		revalidateTag('tickets', REVALIDATE_PROFILE);
 		return true;
 	}
 	console.error('Failed to delete comment');
@@ -199,7 +201,7 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 	const uri = `${API_ENDPOINT}/ticket-notes/${ticketNoteId}`;
 	const response = await fetch(uri, { method: 'PATCH', headers: defaultHeaders, body: JSON.stringify({ markdownBody }) });
 	if (response.ok) {
-		revalidateTag('tickets');
+		revalidateTag('tickets', REVALIDATE_PROFILE);
 		return true;
 	}
 	console.error('Failed to update comment');
@@ -209,7 +211,7 @@ export async function updateTicketComment(ticketNoteId: string, markdownBody: st
 export async function updateTicket(ticketId: string, status: TicketStatusType): Promise<boolean> {
 	const response = await fetch(`${API_ENDPOINT}/tickets/${ticketId}/status?newStatus=${status}`, { method: 'PATCH', headers: defaultHeaders });
 	if (response.status === 200) {
-		revalidateTag('tickets');
+		revalidateTag('tickets', REVALIDATE_PROFILE);
 		return true;
 	}
 	console.error('Failed to update ticket');

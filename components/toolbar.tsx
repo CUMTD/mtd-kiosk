@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { RiAdvertisementFill, RiThermometerLine } from 'react-icons/ri';
+import { RiAdvertisementFill } from 'react-icons/ri';
 
 import AttributeBadge from './attributeBadge';
 import LedSignIcon from './ledSignIcon';

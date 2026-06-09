@@ -6,10 +6,11 @@ import { Kiosk } from '../../../../../../sanity.types';
 import styles from './page.module.css';
 
 interface Props {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
-export default async function VirtualKioskPage({ params: { id } }: Readonly<Props>) {
+export default async function VirtualKioskPage({ params }: Readonly<Props>) {
+	const { id } = await params;
 	const kiosk = (await client.fetch(`*[_type == "kiosk" && _id == $id][0]`, { id })) as Kiosk;
 
 	return (

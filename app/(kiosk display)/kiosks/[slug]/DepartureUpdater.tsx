@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { getDepartures } from '../../../../helpers/httpMethods';
 import throwError from '../../../../helpers/throwError';
 import { connectionErrorState, departureState, kioskState } from '../../../../state/kioskState';
@@ -15,14 +15,14 @@ if (!DEPARTURES_UPDATE_INTERVAL || isNaN(DEPARTURES_UPDATE_INTERVAL)) {
 
 // static component that updates departures atom
 export default function DepartureUpdater() {
-	const { _id: id, stopId, additionalStopIds } = useRecoilValue(kioskState);
+	const { _id: id, stopId, additionalStopIds } = useAtomValue(kioskState);
 
 	// only send a heartbeat (kioskId) if the heartbeat query param is true
 	const params = useSearchParams();
 	const heartbeat = params.get('heartbeat') === 'true';
 
-	const setDepartures = useSetRecoilState(departureState);
-	const setConnectionErrorState = useSetRecoilState(connectionErrorState);
+	const setDepartures = useSetAtom(departureState);
+	const setConnectionErrorState = useSetAtom(connectionErrorState);
 
 	useEffect(() => {
 		async function updateDepartures() {

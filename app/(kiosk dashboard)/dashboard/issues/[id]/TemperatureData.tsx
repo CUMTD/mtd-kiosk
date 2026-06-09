@@ -1,6 +1,4 @@
 import { GetDailyTemperatureHistory, GetMinutelyTemperatureHistory } from '../../../../../helpers/httpMethods';
-import InfoCard from '../InfoCard';
-import DailyTemperatureGraph from './DailyTemperatureGraph';
 import TemperatureGraphDataPicker from './TemperatureDataGraphPicker';
 interface TemperatureGraphProps {
 	kioskId: string;

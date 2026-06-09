@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import styles from './DepartureItem.module.css';
 import { DepartureTime } from '../../../../types/kioskDisplayTypes/GroupedRoute';
 import RealTimeIcon from './RealTimeIcon';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { darkModeState } from '../../../../state/kioskState';
 
 interface DepartureItemTimeProps {
@@ -12,7 +12,7 @@ interface DepartureItemTimeProps {
 
 export default function DepartureItemTime({ departureTime: { time, isHopper, isRealTime, modifier } }: DepartureItemTimeProps) {
 	const timeAsInt = parseInt(time.split(' ')[0]);
-	const isDarkMode = useRecoilValue(darkModeState);
+	const isDarkMode = useAtomValue(darkModeState);
 	const isDue = time == 'DUE';
 	const isSoon = isRealTime && (isDue || (!isNaN(timeAsInt) && timeAsInt < 5));
 

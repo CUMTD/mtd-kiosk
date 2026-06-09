@@ -9,7 +9,7 @@ import styles from './newIssueForm.module.css';
 
 interface NewCommentFormProps {
 	issueId: string;
-	dialogRef: React.RefObject<HTMLDialogElement>;
+	dialogRef: React.RefObject<HTMLDialogElement | null>;
 }
 
 export function NewCommentForm({ issueId, dialogRef }: NewCommentFormProps) {
@@ -34,12 +34,10 @@ export function NewCommentForm({ issueId, dialogRef }: NewCommentFormProps) {
 						e.preventDefault();
 						setIsLoading(true);
 
-						// @ts-expect-error
 						var result = await createTicketComment(issueId, e.target.comment.value || '', session?.user?.name || 'System');
 						if (result) {
 							router.refresh();
 							//clear the form
-							// @ts-expect-error
 							e.target.comment.value = '';
 
 							dialogRef.current?.close();

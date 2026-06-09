@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { blockRealtimeSelector, currentPageDeparturesSelector } from '../../../../state/kioskState';
 import DepartureItem from './DepartureItem';
 import styles from './KioskDepartures.module.css';
@@ -6,8 +6,8 @@ import styles from './KioskDepartures.module.css';
 import { TbClockX } from 'react-icons/tb';
 
 export default function CurrentDepartures() {
-	const currentPageDepartures = useRecoilValue(currentPageDeparturesSelector);
-	const blockRealtime = useRecoilValue(blockRealtimeSelector);
+	const currentPageDepartures = useAtomValue(currentPageDeparturesSelector);
+	const blockRealtime = useAtomValue(blockRealtimeSelector);
 
 	if (blockRealtime) {
 		return null;

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import throwError from '../../../../helpers/throwError';
 import {
 	blockRealtimeSelector,
@@ -15,11 +15,11 @@ import styles from './IconMessageCarousel.module.css';
 const pageInterval = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL ?? throwError('Missing NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL'));
 
 export default function IconMessageCarousel() {
-	const iconMessages = useRecoilValue(iconMessagesSelector);
-	const [currentIconMessageIndex, setCurrentIconMessageIndex] = useRecoilState(currentIconMessageIndexState);
-	const currentDepartures = useRecoilValue(currentPageDeparturesSelector);
-	const blockRealtime = useRecoilValue(blockRealtimeSelector);
-	const pageIndicatorVisible = useRecoilValue(showPagerSelector);
+	const iconMessages = useAtomValue(iconMessagesSelector);
+	const [currentIconMessageIndex, setCurrentIconMessageIndex] = useAtom(currentIconMessageIndexState);
+	const currentDepartures = useAtomValue(currentPageDeparturesSelector);
+	const blockRealtime = useAtomValue(blockRealtimeSelector);
+	const pageIndicatorVisible = useAtomValue(showPagerSelector);
 
 	// cycle through icon messages on a timer
 	useEffect(() => {

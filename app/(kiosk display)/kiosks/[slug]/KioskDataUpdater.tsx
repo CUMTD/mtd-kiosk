@@ -1,5 +1,5 @@
 'use client';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { kioskState } from '../../../../state/kioskState';
 import DarkModeUpdater from './DarkModeUpdater';
 import DepartureUpdater from './DepartureUpdater';
@@ -8,7 +8,7 @@ import IconMessageUpdater from './IconMessageUpdater';
 import KioskAdsUpdater from './KioskAdsUpdater';
 
 export default function KioskDataUpdater() {
-	const { stopId } = useRecoilValue(kioskState);
+	const { stopId } = useAtomValue(kioskState);
 
 	if (!stopId || stopId.length === 0) {
 		console.warn('No stop ID provided');

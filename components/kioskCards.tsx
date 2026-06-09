@@ -1,6 +1,6 @@
 'use client';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { currentlyFilteredKiosksSelector, showDevelopmentKiosksState, showProblemsOnlyState } from '../state/sidebarState';
 import KioskCard from './kioskCard';
 import styles from './kioskCards.module.css';
@@ -10,9 +10,9 @@ interface KioskCardsProps {
 	defaultFocusedKioskId?: string;
 }
 export default function KioskCards({ readonly, defaultFocusedKioskId }: KioskCardsProps) {
-	const [showProblemsOnly, setShowProblemsOnly] = useRecoilState(showProblemsOnlyState);
-	const [showDevelopmentKiosks, setShowDevelopmentKiosks] = useRecoilState(showDevelopmentKiosksState);
-	const currentlyFilteredKiosks = useRecoilValue(currentlyFilteredKiosksSelector);
+	const [showProblemsOnly, setShowProblemsOnly] = useAtom(showProblemsOnlyState);
+	const [showDevelopmentKiosks, setShowDevelopmentKiosks] = useAtom(showDevelopmentKiosksState);
+	const currentlyFilteredKiosks = useAtomValue(currentlyFilteredKiosksSelector);
 
 	const toggleShowProblemsOnly = () => {
 		setShowProblemsOnly(!showProblemsOnly);

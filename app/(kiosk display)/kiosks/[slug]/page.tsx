@@ -11,8 +11,9 @@ import KioskDisplayRoot from './KioskDisplayRoot';
 
 export const revalidate = 30;
 
-export default async function Page({ params }: { params: { slug: string } }) {
-	const kiosk = await fetchKioskBySlug(params.slug);
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+	const { slug } = await params;
+	const kiosk = await fetchKioskBySlug(slug);
 	const { _id: id, stopId, additionalStopIds } = kiosk;
 	let departures: GroupedRoute[] | null = null;
 	if (stopId && stopId.length > 0) {

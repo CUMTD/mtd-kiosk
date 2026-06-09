@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef } from 'react';
 import { GoChevronRight } from 'react-icons/go';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { focusedKioskIdState, kioskSelectorFamily } from '../state/sidebarState';
+import { useAtom, useAtomValue } from 'jotai';
+import { focusedKioskIdState, kioskAtomFamily } from '../state/sidebarState';
 import { HealthStatus } from '../types/HealthStatus';
 import { KioskObject } from '../types/KioskObjects';
 import IStopIcon from './iStopIcon';
@@ -27,7 +27,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function KioskCard({ kioskId, index, clickable, focused }: KioskCardProps) {
 	const kioskCardRef = useRef<HTMLDivElement>(null);
-	const [focusedKiosk, setFocusedKiosk] = useRecoilState(focusedKioskIdState);
+	const [focusedKiosk, setFocusedKiosk] = useAtom(focusedKioskIdState);
+	const kioskAtom = useMemo(() => kioskAtomFamily(kioskId), [kioskId]);
 
 	const {
 		kiosk: { _id: id, displayName, iStop, hasLed, hasAnnunciator, slug },
@@ -36,7 +37,7 @@ export default function KioskCard({ kioskId, index, clickable, focused }: KioskC
 			openTicketCount,
 			healthStatuses: { button, lcd, led }
 		}
-	} = useRecoilValue(kioskSelectorFamily(kioskId));
+	} = useAtomValue(kioskAtom);
 
 	useEffect(() => {
 		if (focusedKiosk === id && kioskCardRef.current) {

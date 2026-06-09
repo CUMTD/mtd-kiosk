@@ -1,4 +1,4 @@
-import { defineField, defineType } from '@sanity/types';
+import { defineField, defineType } from 'sanity';
 import { FaLayerGroup } from 'react-icons/fa';
 
 export const kioskBundle = defineType({

@@ -1,7 +1,8 @@
 'use client';
 
+import { Provider } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import { ReactNode } from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { AdsWithImageUrl } from '../../../../helpers/httpMethods';
 import { Kiosk } from '../../../../sanity.types';
 import { advertisementsState, allIconMessagesState, connectionErrorState, departureState, kioskState } from '../../../../state/kioskState';
@@ -16,18 +17,23 @@ export interface KioskDisplayRootProps {
 	children: ReactNode;
 }
 
-export default function KioskDisplayRoot({ kiosk, departures, ads, iconMessages, children }: KioskDisplayRootProps) {
-	function initializeKioskState({ set }: MutableSnapshot) {
-		set(kioskState, kiosk);
-		if (departures) {
-			set(departureState, departures);
-			set(connectionErrorState, false);
-		} else {
-			set(connectionErrorState, true);
-		}
-		set(advertisementsState, ads);
-		set(allIconMessagesState, iconMessages);
-	}
+function HydrateAtoms({ kiosk, departures, ads, iconMessages, children }: KioskDisplayRootProps) {
+	useHydrateAtoms([
+		[kioskState, kiosk],
+		[departureState, departures ?? []],
+		[connectionErrorState, !departures],
+		[advertisementsState, ads],
+		[allIconMessagesState, iconMessages]
+	]);
+	return <>{children}</>;
+}
 
-	return <RecoilRoot initializeState={initializeKioskState}>{children}</RecoilRoot>;
+export default function KioskDisplayRoot({ kiosk, departures, ads, iconMessages, children }: KioskDisplayRootProps) {
+	return (
+		<Provider>
+			<HydrateAtoms kiosk={kiosk} departures={departures} ads={ads} iconMessages={iconMessages}>
+				{children}
+			</HydrateAtoms>
+		</Provider>
+	);
 }

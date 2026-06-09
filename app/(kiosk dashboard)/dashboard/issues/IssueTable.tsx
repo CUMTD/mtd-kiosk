@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FaComment } from 'react-icons/fa6';
 import { GoIssueClosed, GoIssueOpened } from 'react-icons/go';
 import { IssueSortTypes } from '../../../../types/issueListTypes/issueSortTypes';
@@ -20,12 +20,9 @@ function safeCompare(a?: string | undefined | null, b?: string | undefined | nul
 
 export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 	const [currentSort, setCurrentSort] = useState<IssueSortTypes>(IssueSortTypes.KIOSK);
-	const [issuesList, setIssues] = useState<KioskTicket[]>(
-		issues.sort((a, b) => (kioskNames[a.kioskId] || `Deleted Kiosk (${a.kioskId})`).localeCompare(kioskNames[b.kioskId] || `Deleted Kiosk (${b.kioskId})`))
-	);
 	const [showClosedIssues, setShowClosedIssues] = useState(true);
 
-	useEffect(() => {
+	const issuesList = useMemo(() => {
 		let sortedList = [...issues];
 
 		if (!showClosedIssues) {
@@ -50,7 +47,7 @@ export default function IssueTable({ issues, kioskNames }: IssueTableProps) {
 			);
 		}
 
-		setIssues(sortedList);
+		return sortedList;
 	}, [issues, currentSort, kioskNames, showClosedIssues]);
 
 	const sortTypes = Object.values(IssueSortTypes).filter((t) => typeof t === 'string');

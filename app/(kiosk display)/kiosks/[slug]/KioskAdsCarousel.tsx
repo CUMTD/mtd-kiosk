@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { advertisementsState } from '../../../../state/kioskState';
 import styles from './KioskAdsCarousel.module.css';
 import throwError from '../../../../helpers/throwError';
@@ -13,7 +13,7 @@ if (!AD_ROTATION_INTERVAL || isNaN(AD_ROTATION_INTERVAL)) {
 }
 
 export default function KioskAdsCarousel() {
-	const advertisements = useRecoilValue(advertisementsState);
+	const advertisements = useAtomValue(advertisementsState);
 
 	const [currentAd, setCurrentAd] = useState(0);
 

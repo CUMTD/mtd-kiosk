@@ -2,8 +2,9 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
-import { currentIconMessageIndexState, darkModeState, iconMessageSelectorFamily } from '../../../../state/kioskState';
+import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
+import { currentIconMessageIndexState, darkModeState, iconMessageAtomFamily } from '../../../../state/kioskState';
 import styles from './IconMessage.module.css';
 
 interface Props {
@@ -11,10 +12,11 @@ interface Props {
 }
 
 export default function IconMessage({ index }: Props) {
-	const { _id: id, darkModeImageUrl, lightModeImageUrl, message } = useRecoilValue(iconMessageSelectorFamily(index));
-	const currentIconMessageIndex = useRecoilValue(currentIconMessageIndexState);
+	const iconMessageAtom = useMemo(() => iconMessageAtomFamily(index), [index]);
+	const { _id: id, darkModeImageUrl, lightModeImageUrl, message } = useAtomValue(iconMessageAtom);
+	const currentIconMessageIndex = useAtomValue(currentIconMessageIndexState);
 	const isCurrent = index === currentIconMessageIndex;
-	const darkMode = useRecoilValue(darkModeState);
+	const darkMode = useAtomValue(darkModeState);
 
 	const className = clsx({
 		'icon-message': true,

@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 import { createKioskTicket } from '../../../../../helpers/httpMethods';
-import { form } from 'sanity/structure';
 
 type CreateNewIssueFormState = {
 	status: 'unset' | 'error' | 'success';
@@ -27,8 +26,8 @@ export async function createNewIssueFormAction(_formState: CreateNewIssueFormSta
 		};
 	}
 
-        // revalidate the /dashboard/issues/{kioskId} page for the kiosk
-        revalidatePath(`/dashboard/issues/${ticket.kioskId}`);
+	// revalidate the /dashboard/issues/{kioskId} page for the kiosk
+	revalidatePath(`/dashboard/issues/${ticket.kioskId}`);
 
 	return {
 		status: 'success'

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 type KioskTicket = {
 	id: string;
 	kioskId: string;

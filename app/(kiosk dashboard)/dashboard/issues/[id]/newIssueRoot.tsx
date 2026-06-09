@@ -1,7 +1,8 @@
 'use client';
 
+import { Provider } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import { ReactNode } from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { newIssueKioskIdState, newIssueTicketState } from '../../../../../state/newIssueState';
 
 interface Props {
@@ -9,16 +10,26 @@ interface Props {
 	children: ReactNode;
 }
 
-export default function NewIssueRoot({ kioskId, children }: Readonly<Props>) {
-	function initializeState({ set }: MutableSnapshot): void {
-		set(newIssueKioskIdState, kioskId);
-		set(newIssueTicketState, {
-			kioskId,
-			openedBy: 'System',
-			description: '',
-			title: ''
-		});
-	}
+function HydrateAtoms({ kioskId, children }: Readonly<Props>) {
+	useHydrateAtoms([
+		[newIssueKioskIdState, kioskId],
+		[
+			newIssueTicketState,
+			{
+				kioskId,
+				openedBy: 'System',
+				description: '',
+				title: ''
+			}
+		]
+	]);
+	return <>{children}</>;
+}
 
-	return <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>;
+export default function NewIssueRoot({ kioskId, children }: Readonly<Props>) {
+	return (
+		<Provider>
+			<HydrateAtoms kioskId={kioskId}>{children}</HydrateAtoms>
+		</Provider>
+	);
 }
