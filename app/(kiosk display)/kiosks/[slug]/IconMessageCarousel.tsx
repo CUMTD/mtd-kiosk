@@ -6,11 +6,13 @@ import {
 	blockRealtimeSelector,
 	currentIconMessageIndexState,
 	currentPageDeparturesSelector,
+	generalMessageState,
 	iconMessagesSelector,
-	showPagerSelector
+	showMapState
 } from '../../../../state/kioskState';
 import IconMessage from './IconMessage';
 import styles from './IconMessageCarousel.module.css';
+import PageIndicator from './pageIndicator';
 
 const pageInterval = parseInt(process.env.NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL ?? throwError('Missing NEXT_PUBLIC_ICON_MESSAGE_PAGINATION_INTERVAL'));
 
@@ -19,7 +21,8 @@ export default function IconMessageCarousel() {
 	const [currentIconMessageIndex, setCurrentIconMessageIndex] = useRecoilState(currentIconMessageIndexState);
 	const currentDepartures = useRecoilValue(currentPageDeparturesSelector);
 	const blockRealtime = useRecoilValue(blockRealtimeSelector);
-	const pageIndicatorVisible = useRecoilValue(showPagerSelector);
+	const showMap = useRecoilValue(showMapState);
+	const generalMessage = useRecoilValue(generalMessageState);
 
 	// cycle through icon messages on a timer
 	useEffect(() => {
@@ -34,13 +37,18 @@ export default function IconMessageCarousel() {
 		return null;
 	}
 
-	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel, { [styles.pager]: pageIndicatorVisible });
+	const iconMessageCarouselClasses = clsx('icon-message-carousel', styles.iconMessageCarousel, {
+		[styles.doubleRow]: !showMap
+	});
 
 	return (
-		<div className={iconMessageCarouselClasses}>
-			{iconMessages.map(({ _id: id }, index) => (
-				<IconMessage key={id} index={index} />
-			))}
-		</div>
+		<>
+			<div className={iconMessageCarouselClasses}>
+				{iconMessages.map(({ _id: id }, index) => (
+					<IconMessage key={id} index={index} />
+				))}
+				{!generalMessage?.blockRealtime && <PageIndicator />}
+			</div>
+		</>
 	);
 }

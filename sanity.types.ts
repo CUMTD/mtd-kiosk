@@ -263,6 +263,7 @@ export type Kiosk = {
 	hasAnnunciator?: boolean;
 	ledIp?: string;
 	useCentralizedService?: boolean;
+	showKioskMap?: boolean;
 };
 
 export type Geopoint = {
